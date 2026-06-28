@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BaZi Life Map</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-topnav">
+        <a class="brand" href="#guide" aria-label="BaZi Life Map">
+          <span class="brand-mark">八</span>
+          <span>
+            <strong>ชีวิต BaZi</strong>
+            <small>Personal Life Map</small>
+          </span>
+        </a>
+        <nav class="nav-list" aria-label="ลำดับการอ่าน">
+          <a href="#guide">คำแนะนำเว็บ</a>
+          <a href="#input">กรอกข้อมูล</a>
+          <a href="#identity">ตัวตน</a>
+          <a href="#personality">นิสัยและโชค</a>
+          <a href="#questions">Focused question</a>
+          <a href="#luck">วัยจร</a>
+        </nav>
+        <button class="icon-button" id="themeToggle" type="button" title="เปลี่ยนธีม" aria-label="เปลี่ยนธีม">◐</button>
+      </header>
+
+      <main class="workspace">
+        <section class="section-block guide-section" id="guide">
+          <div class="section-kicker">1 · คำแนะนำเว็บ</div>
+          <div class="guide-layout">
+            <article class="guide-copy">
+              <span class="soft-label">อ่านแบบค่อย ๆ เห็นตัวเอง</span>
+              <h1>เริ่มจากข้อมูลเกิด แล้วค่อยให้แผนที่ชีวิตเปิดออกทีละชั้น</h1>
+              <p>เว็บนี้ไม่ได้ตั้งใจฟันธงชีวิตคุณให้ตายตัวนะ เราอ่านปาจื่อเหมือนอ่านสภาพอากาศของชีวิต: ตรงไหนคือพลังหลัก ตรงไหนควรเติม ตรงไหนควรใจเย็น และวัยจรช่วงไหนกำลังชวนให้คุณโตขึ้นในแบบที่เป็นตัวเองกว่าเดิม</p>
+              <div class="guide-actions">
+                <a class="primary-link" href="#input">เริ่มกรอกข้อมูล</a>
+                <a class="secondary-link" href="#luck">ดูวัยจร</a>
+              </div>
+            </article>
+            <div class="guide-card-grid" id="siteGuide">
+              <article><strong>อ่านตามลำดับ</strong><p>เริ่มจากแกนตัวตนก่อน แล้วค่อยไปดูนิสัย คำถามเฉพาะเรื่อง และวัยจร</p></article>
+              <article><strong>ไม่ต้องรู้เวลาเกิดก็เริ่มได้</strong><p>ถ้ายังไม่แน่ใจเวลาเกิด ระบบจะอ่านจาก 3 เสาหลักก่อน และแยกเสายามไว้เป็นข้อมูลประมาณการ</p></article>
+              <article><strong>ใช้เป็นเพื่อนคิด</strong><p>คำอ่านควรช่วยให้ตัดสินใจนิ่งขึ้น ไม่ใช่ทำให้กลัวหรือรีบเปลี่ยนชีวิตแบบไม่ฟังตัวเอง</p></article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block input-section" id="input">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">2 · ช่องกรอกข้อมูลผู้ดูดวงชะตา</div>
+              <h2>ใส่ข้อมูลเกิด แล้วบันทึกผลอ่านเป็น PDF ได้เลย</h2>
+            </div>
+            <button class="primary-action save-pdf-button" id="exportBtn" type="button"><span>PDF</span>บันทึกไว้</button>
+          </div>
+
+          <form id="baziForm" class="birth-form">
+            <label>
+              อยากให้เราเรียกคุณว่าอะไร
+              <input id="clientName" type="text" value="คุณอารยา" />
+            </label>
+            <label>
+              วันเกิด
+              <input id="birthDate" type="date" value="1992-08-17" />
+            </label>
+            <label>
+              เวลาเกิดที่จำได้
+              <input id="birthTime" type="time" value="09:30" />
+            </label>
+            <label>
+              เมือง/ประเทศที่เกิด
+              <input id="birthPlace" type="text" value="Bangkok, Thailand" />
+            </label>
+            <label>
+              เพศที่ใช้ไล่วัยจร
+              <select id="gender">
+                <option value="female" selected>หญิง</option>
+                <option value="male">ชาย</option>
+              </select>
+            </label>
+            <label class="unknown-time-toggle">
+              <input id="birthTimeUnknown" type="checkbox" />
+              <span><strong>ยังไม่ทราบเวลาเกิด</strong><small>อ่านจาก 3 เสาหลักก่อน แล้วค่อยดูเสายามที่เป็นไปได้</small></span>
+            </label>
+            <div class="form-actions">
+              <button class="analyze-button" type="submit">เริ่มอ่านดวง</button>
+              <p>หลังแก้ข้อมูล กดปุ่มนี้เพื่อให้คำอ่านอัปเดตใหม่ทั้งหมด</p>
+            </div>
+          </form>
+        </section>
+
+        <section class="section-block identity-section" id="identity">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">3 · รายละเอียดข้อมูลตัวตน</div>
+              <h2>เสาหลัก ธาตุหลัก ธาตุผู้พิทักษ์ และวิธีใช้ชีวิตให้เข้าทาง</h2>
+            </div>
+            <span class="status-pill" id="birthModeLabel">อ่านจากข้อมูลเกิด</span>
+          </div>
+
+          <div class="identity-overview">
+            <article class="summary-card master-card"><span>ธาตุหลักประจำตัว</span><strong id="dayMaster">-</strong><small id="daySymbol">-</small></article>
+            <article class="summary-card guardian-card"><span>ธาตุผู้พิทักษ์</span><strong id="usefulGod">-</strong><small id="usefulReason">-</small></article>
+            <article class="summary-card rhythm-card"><span>จังหวะพลังชีวิต</span><strong id="strengthScore">-</strong><small id="strengthLevel">-</small></article>
+            <article class="summary-card chart-card"><span>ธีมหลักของดวง</span><strong id="chartType">-</strong><small>อ่านจากเสา ธาตุ และเทพสิบองค์</small></article>
+          </div>
+
+          <div class="identity-grid">
+            <article class="panel wide-panel">
+              <div class="panel-head"><span>เสาต่าง ๆ</span><h3>เสาหลักดวงชะตา</h3></div>
+              <div class="pillars" id="pillars"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><span>ธาตุต่าง ๆ</span><h3>สมดุลเบญจธาตุ</h3></div>
+              <div class="element-bars" id="elementBars"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><span>เทพ/ธาตุผู้พิทักษ์</span><h3>ใช้ประโยชน์ยังไงดี</h3></div>
+              <div class="guardian-actions" id="guardianActions"></div>
+            </article>
+            <article class="panel wide-panel">
+              <div class="panel-head"><span>คำแนะนำหลัก</span><h3>วิธีใช้ชีวิตให้เข้ากับดวงนี้</h3></div>
+              <div class="life-advice" id="lifeAdvice"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><span>สิ่งเสริมสมดุล</span><h3>สี ทิศ และเลข</h3></div>
+              <div class="auspicious-grid">
+                <div><span>สีที่ช่วยคุมบรรยากาศ</span><div class="swatches" id="colorSwatches"></div></div>
+                <div><span>ทิศสนับสนุน</span><strong id="directions">-</strong></div>
+                <div><span>เลขเสริม</span><strong id="numbers">-</strong></div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block personality-section" id="personality">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">4 · ตัวตน ลักษณะนิสัย โชค และสิ่งที่มักพบ</div>
+              <h2>อ่านนิสัยแบบเล่าเรื่อง พร้อมจุดแข็งและรูปแบบเหตุการณ์ที่มักวนมา</h2>
+            </div>
+          </div>
+          <div class="personality-layout">
+            <article class="panel reading-panel">
+              <div class="panel-head"><span>ตัวตนด้านใน</span><h3>คำอ่านหลัก</h3></div>
+              <div class="reading-copy" id="readingCopy"></div>
+              <div class="reading-actions" id="readingActions"></div>
+            </article>
+            <article class="panel trait-panel">
+              <div class="panel-head"><span>บุคลิก 8 ด้าน</span><h3>มิติที่เด่นในตัวคุณ</h3></div>
+              <div class="radar-wrap"><canvas id="personalityCanvas" width="520" height="320" aria-label="แผนภาพบุคลิก"></canvas></div>
+              <div class="trait-list" id="traitList"></div>
+            </article>
+          </div>
+          <div class="strategy-grid" id="strategyGrid"></div>
+          <div class="frequent-themes" id="frequentThemes"></div>
+        </section>
+
+        <section class="section-block question-section" id="questions">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">5 · Focused question</div>
+              <h2>เลือกเรื่องที่อยากรู้ตอนนี้</h2>
+            </div>
+            <select id="focusQuestion" aria-label="เลือกเรื่องที่อยากถาม">
+              <option value="career" selected>งาน</option>
+              <option value="wealth">การเงิน</option>
+              <option value="relationship">ความสัมพันธ์</option>
+              <option value="health">พลังชีวิตและสุขภาพ</option>
+            </select>
+          </div>
+          <div class="question-reading" id="questionReading"></div>
+        </section>
+
+        <section class="section-block luck-section" id="luck">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">6 · Decade luck timeline</div>
+              <h2>วัยจร: บทชีวิตในแต่ละช่วงวัย</h2>
+            </div>
+            <span class="status-pill" id="activeLuckLabel">วัยจร</span>
+          </div>
+          <div class="luck-layout">
+            <article class="panel timeline-panel"><div class="timeline" id="luckTimeline"></div></article>
+            <article class="panel luck-detail-panel"><div class="luck-detail" id="luckDetail"></div></article>
+          </div>
+          <article class="panel planning-panel">
+            <div class="panel-head"><span>แผนใช้วัยจร</span><h3>ต้นรอบ กลางรอบ ปลายรอบ</h3></div>
+            <div class="planning-grid" id="planningGrid"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div hidden id="popularQuestionButtons"></div>
+    <div hidden id="popularQuestionAnswer"></div>
+    <section class="print-report" id="printReport" aria-label="Printable PDF report"></section>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
