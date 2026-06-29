@@ -506,3 +506,127 @@ canvas { max-width: 100%; }
     grid-template-columns: 1fr;
   }
 }
+/* Reduced headings and story-first 10-year reading */
+.panel-plain-title {
+  margin: 0 0 14px;
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.compact-identity-grid .chart-snapshot-panel,
+.compact-identity-grid .life-advice-panel {
+  grid-column: 1 / -1;
+}
+
+.identity-mini-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.compact-auspicious {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.story-luck-layout {
+  grid-template-columns: minmax(230px, 0.72fr) minmax(0, 1.28fr);
+}
+
+.luck-story {
+  padding: 22px;
+  border: 1px solid rgba(31, 107, 85, 0.22);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(255, 248, 234, 0.94), rgba(237, 246, 243, 0.9));
+}
+
+.story-age {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: var(--accent);
+  background: rgba(31, 107, 85, 0.09);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.luck-story h3 {
+  margin: 12px 0 10px;
+  color: var(--ink);
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.25;
+}
+
+.luck-story p {
+  margin: 0;
+  line-height: 1.82;
+}
+
+.luck-story .story-lead {
+  margin-bottom: 10px;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.luck-simple-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.luck-steps,
+.luck-reflection {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-soft);
+}
+
+.luck-steps > span,
+.luck-reflection > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.luck-step-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.luck-step-list div {
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid rgba(203, 185, 156, 0.55);
+}
+
+.luck-step-list b,
+.luck-reflection strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.subtle-wisdom {
+  border-color: rgba(31, 107, 85, 0.18);
+  background: rgba(237, 246, 243, 0.65);
+}
+
+@media (max-width: 960px) {
+  .identity-mini-columns,
+  .story-luck-layout,
+  .luck-simple-grid,
+  .luck-step-list {
+    grid-template-columns: 1fr;
+  }
+}

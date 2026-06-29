@@ -96,7 +96,7 @@
           <div class="section-head">
             <div>
               <div class="section-kicker">3 · รายละเอียดข้อมูลตัวตน</div>
-              <h2>เสาหลัก ธาตุหลัก ธาตุที่ช่วยให้สมดุล และวิธีใช้ชีวิตให้เข้าทาง</h2>
+              <h2>ภาพรวมตัวตนและวิธีใช้ชีวิตให้เข้าทาง</h2>
             </div>
             <span class="status-pill" id="birthModeLabel">อ่านจากข้อมูลเกิด</span>
           </div>
@@ -108,30 +108,26 @@
             <article class="summary-card chart-card"><span>ธีมหลักของดวง</span><strong id="chartType">-</strong><small>อ่านจากเสา ธาตุ และพลัง 10 แบบของดวง</small></article>
           </div>
 
-          <div class="identity-grid">
-            <article class="panel wide-panel">
-              <div class="panel-head"><span>เสาต่าง ๆ</span><h3>เสาหลักดวงชะตา</h3></div>
-              <div class="pillars" id="pillars"></div>
-            </article>
-            <article class="panel">
-              <div class="panel-head"><span>ธาตุต่าง ๆ</span><h3>สมดุลเบญจธาตุ</h3></div>
-              <div class="element-bars" id="elementBars"></div>
-            </article>
-            <article class="panel">
-              <div class="panel-head"><span>พลังและธาตุที่ช่วยให้สมดุล</span><h3>ใช้ประโยชน์ยังไงดี</h3></div>
-              <div class="guardian-actions" id="guardianActions"></div>
-            </article>
-            <article class="panel wide-panel">
-              <div class="panel-head"><span>คำแนะนำหลัก</span><h3>วิธีใช้ชีวิตให้เข้ากับดวงนี้</h3></div>
-              <div class="life-advice" id="lifeAdvice"></div>
-            </article>
-            <article class="panel">
-              <div class="panel-head"><span>สิ่งเสริมสมดุล</span><h3>สี ทิศ และเลข</h3></div>
-              <div class="auspicious-grid">
-                <div><span>สีที่ช่วยปรับความรู้สึก</span><div class="swatches" id="colorSwatches"></div></div>
-                <div><span>ทิศสนับสนุน</span><strong id="directions">-</strong></div>
-                <div><span>เลขเสริม</span><strong id="numbers">-</strong></div>
+          <div class="identity-grid compact-identity-grid">
+            <article class="panel wide-panel chart-snapshot-panel">
+              <h3 class="panel-plain-title">เสาหลักและธาตุในดวง</h3>
+              <div class="identity-mini-columns">
+                <div class="mini-column"><div class="pillars" id="pillars"></div></div>
+                <div class="mini-column"><div class="element-bars" id="elementBars"></div></div>
               </div>
+            </article>
+            <article class="panel balance-panel">
+              <h3 class="panel-plain-title">สิ่งที่ช่วยให้ชีวิตนิ่งขึ้น</h3>
+              <div class="guardian-actions" id="guardianActions"></div>
+              <div class="auspicious-grid compact-auspicious">
+                <div><span>สีที่ช่วยปรับความรู้สึก</span><div class="swatches" id="colorSwatches"></div></div>
+                <div><span>ทิศที่ใช้แล้วรู้สึกเข้าทาง</span><strong id="directions">-</strong></div>
+                <div><span>เลขที่ใช้เป็นตัวช่วยจำ</span><strong id="numbers">-</strong></div>
+              </div>
+            </article>
+            <article class="panel wide-panel life-advice-panel">
+              <h3 class="panel-plain-title">คำแนะนำที่ใช้ได้เลย</h3>
+              <div class="life-advice" id="lifeAdvice"></div>
             </article>
           </div>
         </section>
@@ -140,17 +136,15 @@
           <div class="section-head">
             <div>
               <div class="section-kicker">4 · ตัวตน ลักษณะนิสัย โชค และสิ่งที่มักพบ</div>
-              <h2>อ่านนิสัยแบบเล่าเรื่อง พร้อมจุดแข็งและรูปแบบเหตุการณ์ที่มักวนมา</h2>
+              <h2>ตัวตน นิสัย และสิ่งที่มักเจอบ่อย</h2>
             </div>
           </div>
           <div class="personality-layout">
             <article class="panel reading-panel">
-              <div class="panel-head"><span>ตัวตนด้านใน</span><h3>คำอ่านหลัก</h3></div>
               <div class="reading-copy" id="readingCopy"></div>
               <div class="reading-actions" id="readingActions"></div>
             </article>
             <article class="panel trait-panel">
-              <div class="panel-head"><span>บุคลิก 8 ด้าน</span><h3>มิติที่เด่นในตัวคุณ</h3></div>
               <div class="radar-wrap"><canvas id="personalityCanvas" width="520" height="320" aria-label="แผนภาพบุคลิก"></canvas></div>
               <div class="trait-list" id="traitList"></div>
             </article>
@@ -176,21 +170,17 @@
         </section>
 
         <section class="section-block luck-section" id="luck">
-          <div class="section-head">
+          <div class="section-head compact-head">
             <div>
               <div class="section-kicker">6 · วัยจร 10 ปี</div>
-              <h2>วัยจร (ช่วงดวง 10 ปี): บทชีวิตในแต่ละช่วงวัย</h2>
+              <h2>เล่าเป็นช่วงชีวิต ไม่เน้นศัพท์เทคนิค</h2>
             </div>
             <span class="status-pill" id="activeLuckLabel">ช่วง 10 ปี</span>
           </div>
-          <div class="luck-layout">
+          <div class="luck-layout story-luck-layout">
             <article class="panel timeline-panel"><div class="timeline" id="luckTimeline"></div></article>
             <article class="panel luck-detail-panel"><div class="luck-detail" id="luckDetail"></div></article>
           </div>
-          <article class="panel planning-panel">
-            <div class="panel-head"><span>แผนใช้ช่วงดวง 10 ปี</span><h3>ต้นรอบ กลางรอบ ปลายรอบ</h3></div>
-            <div class="planning-grid" id="planningGrid"></div>
-          </article>
         </section>
       </main>
     </div>

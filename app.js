@@ -1393,14 +1393,17 @@ function buildDecadeFocusFromDiagnosis(activatedTenGod, branchTenGods, branchRel
 }
 
 function buildDecadeClimateFromDiagnosis(luckJiazi, master, activatedTenGod, branchTenGods, branchRelations, favorability, ageRangeLabel, ageStart, index) {
-  const hiddenSummary = branchTenGods.map((item) => `${premiumStemLabel(item.stem)} พา ${tenGodThai(item.tenGod)}`).join(", ");
   const psych = getTenGodPsychology(activatedTenGod);
   const lifeStage = getHumanAgeStage(ageStart);
   const transition = buildDecadeTransition(index, activatedTenGod, favorability);
   const example = getDecadeRealLifeExample(activatedTenGod, branchRelations, favorability, ageStart);
-  return `รอบอายุ ${ageRangeLabel} เดินเข้ามาพร้อม ${premiumPillarLabel(luckJiazi.stem, luckJiazi.branch)} ด้านบนปลุก ${tenGodThai(activatedTenGod)} ซึ่งเกี่ยวกับ ${tenGodDomain(activatedTenGod)} ส่วนฐานล่างมี ${hiddenSummary} ทำให้รอบนี้มีหลายชั้น ไม่ใช่คำอ่านรสเดียว ภาพรวมคือ ${favorability.label} เพราะได้รับอิทธิพลจาก ${premiumElementLabel(favorability.stemElement)} และ ${premiumElementLabel(favorability.branchElement)} ${lifeStage.label}: ${lifeStage.copy} ${transition} ในเชิงใจ รอบนี้แตะเรื่อง ${psych.coreDrive} และชวนให้รู้ทันเวลามันกลายเป็น ${psych.shadowPattern} ${example}`;
+  const tempo = favorability.supportScore >= 55
+    ? "ช่วงนี้มีแรงช่วยส่ง เหมาะกับการหยิบสิ่งที่ซ้อมไว้ออกมาใช้จริง"
+    : favorability.supportScore < 25
+      ? "ช่วงนี้ควรเดินแบบมีแผน ไม่ต้องรีบพิสูจน์ทุกอย่างพร้อมกัน"
+      : "ช่วงนี้เหมาะกับการลอง ปรับ และค่อย ๆ เห็นว่าทางไหนใช่กับตัวเอง";
+  return `ช่วงอายุ ${ageRangeLabel} คือ ${lifeStage.label} ${lifeStage.copy} ${tempo} ${transition} ลึก ๆ แล้วรอบนี้แตะเรื่อง ${psych.coreDrive} ถ้าใจเริ่มเหนื่อย ให้ระวังรูปแบบเดิมอย่าง ${psych.shadowPattern} ${example}`;
 }
-
 function buildDecadeEventsFromDiagnosis(activatedTenGod, branchTenGods, branchRelations, favorability) {
   const psych = getTenGodPsychology(activatedTenGod);
   const events = [
@@ -1839,19 +1842,19 @@ function getHumanAgeStage(ageStart) {
 }
 
 function buildDecadeTransition(index, activatedTenGod, favorability) {
-  const tenGodText = premiumTenGodLabel(activatedTenGod);
+  const psych = getTenGodPsychology(activatedTenGod);
+  const lifeTopic = psych.coreDrive;
   if (index === 0) {
-    return `นี่คือประตูแรกของช่วงดวง 10 ปี จึงควรอ่านเหมือนบทนำที่สอนให้รู้จัก ${tenGodText} ผ่านคนรอบตัว โรงเรียน บ้าน หรือประสบการณ์ตั้งต้นที่ค่อย ๆ วางรอยบนใจ`;
+    return `นี่คือประตูแรกของช่วงดวง 10 ปี จึงควรอ่านเหมือนบทนำที่ชีวิตใช้สอนเรื่อง ${lifeTopic} ผ่านคนรอบตัว บ้าน โรงเรียน หรือประสบการณ์ตั้งต้น`;
   }
   if (favorability.supportScore >= 55) {
-    return `เมื่อข้ามจากรอบก่อนมาถึงรอบนี้ ชีวิตเหมือนได้ลมส่งหลังมากขึ้น สิ่งที่เคยฝึกไว้จะเริ่มมีเวทีให้ใช้ โดยเฉพาะบทเรียนของ ${tenGodText}`;
+    return `เมื่อข้ามจากรอบก่อนมาถึงรอบนี้ สิ่งที่เคยฝึกไว้จะเริ่มมีเวทีให้ใช้ โดยเฉพาะเรื่อง ${lifeTopic}`;
   }
   if (favorability.supportScore < 25) {
-    return `การเปลี่ยนผ่านรอบนี้อาจรู้สึกเหมือนถูกขอให้วางวิธีเดิมลงก่อนเดินต่อ ไม่ใช่เพราะชีวิตใจร้าย แต่เพราะ ${tenGodText} กำลังชวนให้เลือกพลังอย่างประณีตกว่าเดิม`;
+    return `การเปลี่ยนผ่านรอบนี้อาจรู้สึกเหมือนชีวิตขอให้วางวิธีเดิมลงก่อนเดินต่อ แล้วเลือกใช้พลังให้ประหยัดและแม่นขึ้น`;
   }
-  return `รอบนี้ไม่ได้ตัดขาดจากรอบก่อน แต่ค่อย ๆ เปลี่ยนท่วงท่า เหมือนย้ายจากการเรียนรู้ในใจไปสู่การจัดวางชีวิตจริงผ่าน ${tenGodText}`;
+  return `รอบนี้ไม่ได้ตัดขาดจากรอบก่อน แต่ค่อย ๆ เปลี่ยนจากการเรียนรู้ในใจ ไปสู่การจัดวางชีวิตจริงผ่านเรื่อง ${lifeTopic}`;
 }
-
 function getDecadeRealLifeExample(activatedTenGod, branchRelations, favorability, ageStart) {
   if (branchRelations.some((relation) => relation.type === "clash")) {
     return "เช่น ต้องตัดสินใจย้ายทีม เปลี่ยนเมือง หรือคุยเรื่องความสัมพันธ์ที่ค้างอยู่มานาน โดยยังรักษาน้ำเสียงให้นุ่มพอที่ใจทั้งสองฝ่ายจะฟังกันได้";
@@ -1989,127 +1992,6 @@ function renderInsightStudio() {
   `;
 }
 
-function renderTimeline() {
-  const container = document.getElementById("luckTimeline");
-  if (!container || !state.luck?.length) return;
-  activeLuckIndex = Math.max(0, Math.min(activeLuckIndex, state.luck.length - 1));
-  container.innerHTML = state.luck
-    .map((item, index) => {
-      const isActive = index === activeLuckIndex;
-      const relationCue = item.branchRelations?.length ? relationText(item.branchRelations) : "จังหวะค่อนข้างนิ่ง อ่านผ่านแกนของรอบได้ชัด";
-      return `
-        <button class="timeline-item ${isActive ? "active" : ""}" type="button" data-luck-index="${index}" aria-pressed="${isActive}">
-          <span class="timeline-age">${item.ageRangeLabel}</span>
-          <strong>${item.focus}</strong>
-          <small>${item.pillar} · ${tenGodThai(item.activatedTenGod)}</small>
-          <em>${relationCue}</em>
-        </button>
-      `;
-    })
-    .join("");
-
-  container.querySelectorAll("[data-luck-index]").forEach((button) => {
-    button.addEventListener("click", () => {
-      activeLuckIndex = Number(button.dataset.luckIndex) || 0;
-      renderTimeline();
-      renderLuckDetail();
-      renderPlanning();
-      renderStrategy();
-      renderQuestionReading();
-      renderPopularQuestions();
-    });
-  });
-}
-
-function renderLuckDetail() {
-  const container = document.getElementById("luckDetail");
-  const label = document.getElementById("activeLuckLabel");
-  if (!container || !state.luck?.length) return;
-  const item = state.luck[Math.max(0, Math.min(activeLuckIndex, state.luck.length - 1))];
-  const wisdom = getLuckWisdomComponent(item);
-  const strongYears = item.chapter.strongYears.length ? item.chapter.strongYears.slice(0, 4).join(", ") : "ยังไม่มีปีที่ต้องเร่งเป็นพิเศษ";
-  const testYears = item.chapter.testYears.length ? item.chapter.testYears.slice(0, 4).join(", ") : "ยังไม่มีปีปะทะที่เด่นมาก";
-  if (label) label.textContent = `อายุ ${item.ageRangeLabel}`;
-
-  container.innerHTML = `
-    <div class="luck-hero">
-      <span class="eyebrow">${item.pillarCode} · ${item.favorability.label}</span>
-      <h3>${item.chapter.title}</h3>
-      <p>${item.climate}</p>
-    </div>
-    ${renderWisdomComponent(wisdom)}
-    <div class="luck-detail-grid">
-      <article class="luck-card">
-        <span>เรื่องที่เด่นขึ้น</span>
-        <strong>${tenGodThai(item.activatedTenGod)}</strong>
-        <p>${tenGodDomain(item.activatedTenGod)}</p>
-      </article>
-      <article class="luck-card">
-        <span>แรงกับพื้นดวง</span>
-        <strong>${item.branchRelations?.length ? "มีแรงให้ขยับ" : "เดินได้ค่อนข้างนิ่ง"}</strong>
-        <p>${relationText(item.branchRelations || [])}</p>
-      </article>
-      <article class="luck-card">
-        <span>ปีน่าเร่งผล</span>
-        <strong>${strongYears}</strong>
-        <p>ปีเหล่านี้เหมาะกับการหยิบโอกาสขึ้นมาทำจริง โดยยังรักษาจังหวะพักและขอบเขตให้ดี</p>
-      </article>
-      <article class="luck-card">
-        <span>ปีที่ควรใจเย็น</span>
-        <strong>${testYears}</strong>
-        <p>ถ้าปีเหล่านี้มีเรื่องสะดุด ให้ใช้เป็นจุดทบทวนแผน ไม่ต้องรีบตัดสินใจจากอารมณ์ช่วงสั้น</p>
-      </article>
-    </div>
-    <article class="chapter-card">
-      <span>คำถามของบทนี้</span>
-      <strong>${item.chapter.reflectiveQuestion}</strong>
-      <p>${item.chapter.narrative}</p>
-    </article>
-    <article class="chapter-card">
-      <span>สัญญาณรายปีในรอบนี้</span>
-      <ul>${item.annualLuck.map((year) => `<li>${year.summary}${year.relations.length ? ` · ${relationText(year.relations)}` : ""}</li>`).join("")}</ul>
-    </article>
-  `;
-}
-
-function renderPlanning() {
-  const container = document.getElementById("planningGrid");
-  if (!container || !state.luck?.length) return;
-  const item = state.luck[Math.max(0, Math.min(activeLuckIndex, state.luck.length - 1))];
-  const cards = [
-    {
-      label: "ช่วงต้นรอบ",
-      title: "ตั้งหลักให้ถูกสนาม",
-      copy: item.stagePlan.early,
-    },
-    {
-      label: "ช่วงกลางรอบ",
-      title: "เร่งเฉพาะสิ่งที่เริ่มชัด",
-      copy: item.stagePlan.mid,
-    },
-    {
-      label: "ช่วงปลายรอบ",
-      title: "เก็บบทเรียนก่อนข้ามบทใหม่",
-      copy: item.stagePlan.late,
-    },
-    {
-      label: "แบบฝึกส่วนตัว",
-      title: item.chapter.intensity,
-      copy: item.chapter.closing,
-    },
-  ];
-  container.innerHTML = cards
-    .map(
-      (card) => `
-        <article class="planning-card">
-          <span>${card.label}</span>
-          <strong>${card.title}</strong>
-          <p>${card.copy}</p>
-        </article>
-      `,
-    )
-    .join("");
-}
 function renderRadar() {
   const canvas = document.getElementById("personalityCanvas");
   const ctx = canvas.getContext("2d");
@@ -2326,20 +2208,18 @@ function renderPrintReport() {
           (item) => `
             <div class="print-card print-section">
               <span>อายุ ${item.ageRangeLabel}</span>
-              <strong>${item.pillar}: ${item.focus}</strong>
+              <strong>${item.chapter.title}</strong>
               <p>${item.climate}</p>
               <p><b>บทชีวิต:</b> ${item.chapter.title}</p>
               <p><b>คำถามสะท้อนใจ:</b> ${item.chapter.reflectiveQuestion}</p>
               <p><b>ปีเร่งผล:</b> ${item.chapter.strongYears.length ? item.chapter.strongYears.join(", ") : "ไม่มีปีเด่นชัด"} | <b>ปีทบทวน:</b> ${item.chapter.testYears.length ? item.chapter.testYears.join(", ") : "ไม่มีปีปะทะเด่น"}</p>
-              <p><b>สิ่งที่มักเกิดขึ้น:</b></p>
-              <ul>${item.eventThemes.map((theme) => `<li>${theme}</li>`).join("")}</ul>
+              <p><b>สิ่งที่ควรรู้:</b> ${item.chapter.narrative}</p>
               <p><b>โอกาส:</b> ${item.opportunities}</p>
               <p><b>จุดที่ควรรู้ทัน:</b> ${item.risks}</p>
               ${renderLuckWisdomPrint(item)}
               <p><b>บทเรียนด้านใน:</b> ${item.innerWork}</p>
               <p><b>คำแนะนำ:</b> ${item.advice}</p>
-              <p><b>สัญญาณรายปี:</b></p>
-              <ul>${item.annualLuck.map((year) => `<li>${year.summary}${year.relations.length ? ` · ${relationText(year.relations)}` : ""}</li>`).join("")}</ul>
+              <p><b>ปีที่น่าจับตา:</b> ${item.chapter.strongYears.concat(item.chapter.testYears).slice(0, 5).join(", ") || "ยังไม่มีปีเด่นชัด"}</p>
             </div>
           `,
         )
@@ -2400,12 +2280,12 @@ function buildPrintableReportSections(name, dominant, weakest, topTrait) {
       </ul>
     `,
     luck: `
-      <p>ช่วงดวง 10 ปีควรถูกอ่านเป็นจังหวะขึ้นลงของชีวิตมากกว่าคำทำนายตายตัว ส่วนนี้รวมทุกช่วงอายุไว้ให้คุณค่อย ๆ ย้อนอ่านและวางแผนต่อได้ ${strengthVoice.copy}</p>
-      <p>ในเชิงจิตวิทยา แต่ละรอบคือห้องเรียนของใจ รอบที่หนักไม่ได้แปลว่าแย่เสมอไป แต่อาจเป็นช่วงที่ชีวิตบังคับให้เห็นกลไกป้องกันตัวเองชัดขึ้น แล้วค่อยเลือกวิธีตอบสนองใหม่ที่เป็นผู้ใหญ่มากกว่าเดิม</p>
+      <p>ช่วงดวง 10 ปีควรถูกอ่านเป็นจังหวะขึ้นลงของชีวิตมากกว่าคำทำนายตายตัว รอบที่เลือกล่าสุดคือช่วงอายุ ${state.luck[activeLuckIndex].ageRangeLabel}: ${state.luck[activeLuckIndex].chapter.title}</p>
+      <p>${state.luck[activeLuckIndex].climate}</p>
       <ul>
-        <li>รอบที่เลือกบนหน้าเว็บล่าสุด: อายุ ${state.luck[activeLuckIndex].ageRangeLabel}</li>
-        <li>แกนของรอบ: ${state.luck[activeLuckIndex].focus}</li>
-        <li>บทเรียนหลัก: ${state.luck[activeLuckIndex].innerWork}</li>
+        <li>โอกาสที่น่าใช้: ${state.luck[activeLuckIndex].opportunities}</li>
+        <li>จุดที่ต้องใจเย็น: ${state.luck[activeLuckIndex].risks}</li>
+        <li>คำถามไว้ทบทวน: ${state.luck[activeLuckIndex].chapter.reflectiveQuestion}</li>
       </ul>
     `,
   };
@@ -2822,7 +2702,7 @@ function renderStrategy() {
     {
       className: "repeat-card",
       label: "สิ่งที่มักพบ",
-      title: item?.focus || "โจทย์เดิมในรูปแบบใหม่",
+      title: item?.chapter?.title || "โจทย์เดิมในรูปแบบใหม่",
       copy: item?.branchRelations?.length ? `ชีวิตมักพาแรงขยับเข้ามาผ่าน ${relationText(item.branchRelations)} ให้ใช้เป็นสัญญาณจัดตำแหน่งชีวิตใหม่` : "เหตุการณ์ที่วนมามักไม่ใช่เรื่องแรงมาก แต่เป็นเรื่องเล็ก ๆ ที่ขอให้คุณเลือกให้ชัดขึ้นกว่าเดิม",
       score: clampScore(item?.favorability?.supportScore || 50),
       band: item?.favorability?.label || "จังหวะกลาง",
@@ -2847,7 +2727,7 @@ function renderStrategy() {
       art: "compass",
     },
   ];
-  container.innerHTML = cards.map((card) => `
+  container.innerHTML = cards.slice(0, 4).map((card) => `
     <article class="premium-life-card ${card.className}" data-art="${card.art}">
       <div class="life-card-top"><span>${card.label}</span><b>${card.band}</b></div>
       <strong>${card.title}</strong>
@@ -2857,51 +2737,7 @@ function renderStrategy() {
   `).join("");
 }
 function renderFrequentThemes() {
-  const item = orderedCurrentLuck();
-  const dominant = getDominantElement();
-  const weakest = getWeakestElement();
-  const topTrait = getTopPersonalityTrait();
-  const topGod = orderedTopTenGods(1)[0]?.[0];
-  const godPsych = topGod ? getTenGodPsychology(topGod) : null;
-  const insights = [
-    {
-      meta: orderedDomainInsight("self"),
-      title: `${getPremiumMasterVoice().name} ที่ต้องมีพื้นที่ตัดสินใจ`,
-      copy: `เวลาเลือกงานหรือคน ให้ดูว่าพื้นที่นั้นเปิดให้ ${topTrait.label} ได้ทำงานแบบไม่ต้องฝืนธรรมชาติของตัวเองหรือเปล่า`,
-    },
-    {
-      meta: orderedDomainInsight("behavior"),
-      title: godPsych ? tenGodThai(topGod) : personalityLabel(topTrait.key),
-      copy: godPsych ? `${godPsych.coreDrive} แต่ถ้าเหนื่อยมากอาจกลายเป็น ${godPsych.shadowPattern}` : `รูปแบบเด่นคือ ${personalityMeaning(topTrait.key)} ให้ใช้แบบรู้ตัวแทนการทำอัตโนมัติ`,
-    },
-    {
-      meta: orderedDomainInsight("luck"),
-      title: item?.favorability?.label || "โอกาสจากจังหวะที่ใช่",
-      copy: item?.opportunities || `โชคเปิดเมื่อคุณจัดชีวิตให้มี ${premiumElementLabel(weakest.key)} มากขึ้น เพื่อให้พลังหลักนุ่มลงและทำงานกับคนอื่นง่ายขึ้น`,
-    },
-    {
-      meta: orderedDomainInsight("repeat"),
-      title: item?.branchRelations?.length ? "แรงขยับที่กลับมาให้จัดตำแหน่ง" : "เรื่องเล็กที่ขอให้เลือกชัดขึ้น",
-      copy: item?.branchRelations?.length ? relationText(item.branchRelations) : "มักเป็นสถานการณ์ที่ต้องเลือกระหว่างความสบายใจเดิมกับการเติบโตที่จริงกว่า เช่น งานที่ดีแต่กินพลัง หรือความสัมพันธ์ที่ต้องพูดให้ตรงขึ้น",
-    },
-    {
-      meta: orderedDomainInsight("edge"),
-      title: `ระวัง ${premiumElementLabel(dominant.key)} นำจนลืมพัก`,
-      copy: `ถ้าพลังนี้เริ่มแน่นเกินไป ให้กลับมาสร้างพื้นที่ให้ ${premiumElementLabel(weakest.key)} ผ่านกิจวัตรเล็ก ๆ ก่อนตอบสนองเรื่องใหญ่`,
-    },
-    {
-      meta: orderedDomainInsight("practice"),
-      title: getGuardianElementLabel(),
-      copy: "ใช้เป็นคำถามก่อนเริ่มวัน: วันนี้อะไรควรทำให้ชัด อะไรควรพักไว้ และอะไรควรพูดออกไปอย่างนุ่มแต่ตรง",
-    },
-  ];
-  orderedSetHtml("frequentThemes", insights.map((item) => `
-    <article class="theme-card">
-      <span>${item.meta.lens}</span>
-      <strong>${item.title}</strong>
-      <p>${item.copy}</p>
-    </article>
-  `).join(""));
+  orderedSetHtml("frequentThemes", "");
 }
 function renderQuestionReading() {
   const select = document.getElementById("focusQuestion");
@@ -2977,10 +2813,9 @@ function renderTimeline() {
     const isActive = index === activeLuckIndex;
     return `
       <button class="timeline-item ${isActive ? "active" : ""}" type="button" data-luck-index="${index}" aria-pressed="${isActive}">
-        <span class="timeline-age">ช่วง 10 ปี ${item.ageRangeLabel}</span>
-        <strong>${item.focus}</strong>
-        <small>${item.pillarCode} · ${tenGodThai(item.activatedTenGod)}</small>
-        <em>${item.favorability.label}</em>
+        <span class="timeline-age">${item.ageRangeLabel}</span>
+        <strong>${item.chapter.title}</strong>
+        <small>${item.chapter.reflectiveQuestion}</small>
       </button>
     `;
   }).join("");
@@ -3000,38 +2835,38 @@ function renderLuckDetail() {
   const item = orderedCurrentLuck();
   if (!item) return;
   const wisdom = getLuckWisdomComponent(item);
-  orderedSetText("activeLuckLabel", `ช่วง 10 ปี ${item.ageRangeLabel}`);
+  orderedSetText("activeLuckLabel", `ช่วงอายุ ${item.ageRangeLabel}`);
   orderedSetHtml("luckDetail", `
-    <div class="luck-hero">
-      <span class="section-kicker">${item.pillarCode} · เริ่มโดยประมาณ ${item.startDateLabel}</span>
+    <article class="luck-story">
+      <span class="story-age">ช่วงอายุ ${item.ageRangeLabel}</span>
       <h3>${item.chapter.title}</h3>
-      <p>${item.climate}</p>
+      <p class="story-lead">${item.climate}</p>
+      <p>${item.chapter.narrative}</p>
+    </article>
+    ${renderWisdomComponent(wisdom, "wisdom-component subtle-wisdom")}
+    <div class="luck-simple-grid">
+      <article class="luck-card"><span>โอกาสที่น่าใช้</span><strong>ทำให้จับต้องได้</strong><p>${item.opportunities}</p></article>
+      <article class="luck-card"><span>จุดที่ต้องใจเย็น</span><strong>อย่ารีบตอบจากแรงกดดัน</strong><p>${item.risks}</p></article>
     </div>
-    ${renderWisdomComponent(wisdom)}
-    <div class="luck-detail-grid">
-      <article class="luck-card"><span>บทเรียนหลัก</span><strong>${tenGodThai(item.activatedTenGod)}</strong><p>${tenGodDomain(item.activatedTenGod)}</p></article>
-      <article class="luck-card"><span>แรงกับพื้นดวง</span><strong>${item.branchRelations.length ? "มีแรงให้ขยับ" : "ค่อนข้างนิ่ง"}</strong><p>${relationText(item.branchRelations)}</p></article>
-      <article class="luck-card"><span>โอกาส</span><strong>ใช้รอบนี้ให้เป็นงานจริง</strong><p>${item.opportunities}</p></article>
-      <article class="luck-card"><span>จุดที่ควรใจเย็น</span><strong>อย่ารีบตอบจากแรงกดดัน</strong><p>${item.risks}</p></article>
-    </div>
-    <article class="luck-card"><span>คำถามของช่วง 10 ปีนี้</span><strong>${item.chapter.reflectiveQuestion}</strong><p>${item.chapter.narrative}</p></article>
+    <article class="luck-steps">
+      <span>ใช้ช่วงนี้ยังไง</span>
+      <div class="luck-step-list">
+        <div><b>ต้นช่วง</b><p>${item.stagePlan.early}</p></div>
+        <div><b>กลางช่วง</b><p>${item.stagePlan.mid}</p></div>
+        <div><b>ปลายช่วง</b><p>${item.stagePlan.late}</p></div>
+      </div>
+    </article>
+    <article class="luck-reflection">
+      <span>คำถามไว้ทบทวน</span>
+      <strong>${item.chapter.reflectiveQuestion}</strong>
+      <p>${item.chapter.closing}</p>
+    </article>
   `);
 }
 
 function renderPlanning() {
-  const item = orderedCurrentLuck();
-  if (!item) return;
-  const cards = [
-    ["ต้นช่วง 10 ปี", "ตั้งหลักให้ถูกสนาม", item.stagePlan.early],
-    ["กลางช่วง 10 ปี", "เร่งเฉพาะสิ่งที่เริ่มชัด", item.stagePlan.mid],
-    ["ปลายช่วง 10 ปี", "เก็บบทเรียนก่อนข้ามบทใหม่", item.stagePlan.late],
-    ["แบบฝึกส่วนตัว", item.chapter.intensity, item.chapter.closing],
-  ];
-  orderedSetHtml("planningGrid", cards.map(([label, title, copy]) => `
-    <article class="planning-card"><span>${label}</span><strong>${title}</strong><p>${copy}</p></article>
-  `).join(""));
+  // The 10-year plan now lives inside renderLuckDetail so the section reads as one story.
 }
-
 function renderPrintReport() {
   const name = document.getElementById("clientName")?.value || "คุณ";
   const birthDate = document.getElementById("birthDate")?.value || "-";
@@ -3050,7 +2885,7 @@ function renderPrintReport() {
     <section class="print-section"><h2>3. รายละเอียดตัวตน</h2><div class="print-grid">${renderPillarPrintCards()}</div><p>${masterVoice.essence}</p></section>
     <section class="print-section"><h2>4. นิสัย โชค และสิ่งที่มักพบ</h2><p>${document.getElementById("readingCopy")?.innerText || ""}</p><div class="print-grid">${orderedTraitEntries(4).map(([key, value]) => printCard(personalityLabel(key), describeScoreBand(value), personalityMeaning(key))).join("")}</div></section>
     <section class="print-section"><h2>5. คำถามเฉพาะเรื่อง</h2><p>${escapeHtml(focusAnswer)}</p></section>
-    <section class="print-section"><h2>6. วัยจร</h2><p>${item ? `ช่วง 10 ปีที่เลือก: ${item.ageRangeLabel} · ${item.chapter.title}` : ""}</p>${state.luck.map((luck) => `<div class="print-section"><h3>ช่วง 10 ปี ${luck.ageRangeLabel}: ${luck.focus}</h3><p>${luck.climate}</p><p>${luck.advice}</p></div>`).join("")}</section>
+    <section class="print-section"><h2>6. วัยจร 10 ปี</h2><p>${item ? `ช่วงที่เลือก: อายุ ${item.ageRangeLabel} · ${item.chapter.title}` : ""}</p><p>${item ? item.climate : ""}</p><div class="print-grid">${item ? printCard("โอกาสที่น่าใช้", "ทำให้จับต้องได้", item.opportunities) : ""}${item ? printCard("จุดที่ต้องใจเย็น", "อย่ารีบตอบจากแรงกดดัน", item.risks) : ""}${item ? printCard("คำถามไว้ทบทวน", item.chapter.reflectiveQuestion, item.chapter.closing) : ""}</div><h3>ภาพรวมช่วงอื่น</h3><ul>${state.luck.map((luck) => `<li>อายุ ${luck.ageRangeLabel}: ${luck.chapter.title}</li>`).join("")}</ul></section>
   `);
 }
 // ORDERED_INTERFACE_END
