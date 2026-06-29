@@ -2914,26 +2914,54 @@ function renderQuestionReading() {
   const matchText = relevantInDecade
     ? `วัยจรรอบนี้แตะเรื่อง${depth.field}ค่อนข้างตรง เพราะ ${tenGodThai(item.activatedTenGod)} กำลังถูกปลุกขึ้นมาในชีวิตจริง`
     : `คำถามเรื่อง${depth.field}ควรอ่านจากพื้นดวงก่อน แล้วใช้วัยจรเป็นสภาพอากาศประกอบ ไม่ต้องรีบสรุปจากช่วงเวลาอย่างเดียว`;
+    const yearLine = annualHits.length
+    ? annualHits.slice(0, 3).map((year) => `${year.year} · ${year.signal}`).join(" / ")
+    : "ยังไม่มีปีไหนเด่นจนต้องรีบตัดสินใจ ใช้วัยจรหลักเป็นเข็มทิศก่อน";
+  const insightLead = psych?.coreDrive || depth.foundation;
+  const focusKey = mainGod ? tenGodThai(mainGod) : getGuardianElementLabel();
   orderedSetHtml("questionReading", `
-    <article class="question-hero">
-      <span>${mode.label}</span>
+    <article class="question-spotlight">
+      <div class="question-spotlight-top">
+        <span class="focus-badge">${mode.label}</span>
+        <span class="focus-mini">โฟกัสเดียวก่อน แล้วค่อยลงมือให้ชัด</span>
+      </div>
       <strong>${mode.question}</strong>
       <p>${matchText}</p>
+      <div class="focus-meta-row">
+        <div><span>แกนที่ควรฟัง</span><b>${focusKey}</b></div>
+        <div><span>ปีที่น่าจับตา</span><b>${yearLine}</b></div>
+      </div>
     </article>
-    <div class="question-deep-grid">
-      <article class="question-card"><span>พื้นดวงบอกอะไร</span><strong>${topProfileGod ? tenGodThai(topProfileGod[0]) : "อ่านผ่านภาพรวม"}</strong><p>${depth.foundation}</p></article>
-      <article class="question-card"><span>วัยจรแตะตรงไหน</span><strong>${item ? item.chapter.title : "ยังไม่มีวัยจรที่เลือก"}</strong><p>${depth.decade}</p></article>
-      <article class="question-card"><span>สถานการณ์ที่อาจเจอ</span><strong>ภาพจริงในชีวิตประจำวัน</strong><p>${depth.situation}</p></article>
-      <article class="question-card"><span>ปีที่ควรจับตา</span><strong>${depth.years}</strong><p>${annualHits.length ? annualHits.slice(0, 2).map((year) => year.summary).join(" ") : "ให้วางแผนจากจังหวะยาวของวัยจร แล้วค่อยดูปีจรเป็นตัวเร่งหรือชะลอ"}</p></article>
-      <article class="question-card"><span>แผนลงมือ</span><strong>ทำให้เห็นผลเล็กก่อน</strong><p>${depth.plan}</p></article>
-      <article class="question-card"><span>มุมที่ควรระวัง</span><strong>อย่าให้ความรีบพาใจเสียศูนย์</strong><p>${depth.caution}</p></article>
+
+    <div class="focus-story-grid">
+      <article class="focus-story-card focus-primary">
+        <span>คำตอบที่ควรรู้ก่อน</span>
+        <strong>${focusKey}</strong>
+        <p>${insightLead}</p>
+      </article>
+      <article class="focus-story-card">
+        <span>วัยจรเล่าอะไร</span>
+        <strong>${item ? item.chapter.title : "อ่านจากพื้นดวงเป็นหลัก"}</strong>
+        <p>${depth.decade}</p>
+      </article>
+      <article class="focus-story-card">
+        <span>ภาพที่อาจเจอจริง</span>
+        <strong>${depth.field}</strong>
+        <p>${depth.situation}</p>
+      </article>
     </div>
-    <div class="question-synthesis">
-      <span>สรุปแบบเพื่อนผู้เชี่ยวชาญ</span>
-      <strong>${mainGod ? tenGodThai(mainGod) : getGuardianElementLabel()} คือกุญแจของคำถามนี้</strong>
-      <p>${psych?.coreDrive || "คำถามนี้ต้องอ่านจากทั้งพื้นดวงและสถานการณ์ปัจจุบัน"} ถ้าช่วงนี้รู้สึกว่ายังไม่ชัด ให้ใช้แบบฝึกนี้ก่อน: ${depth.innerWork}</p>
-      <p><b>ลองทำตอนนี้:</b> ${mode.action}</p>
-    </div>
+
+    <article class="focus-action-panel">
+      <div>
+        <span>แผน 7 วัน</span>
+        <strong>เริ่มจากก้าวเล็กที่เห็นผลได้</strong>
+        <p>${depth.plan}</p>
+      </div>
+      <div class="soft-warning">
+        <span>มุมที่ต้องใจเย็น</span>
+        <p>${depth.caution}</p>
+      </div>
+    </article>
   `);
 }
 function renderTimeline() {
