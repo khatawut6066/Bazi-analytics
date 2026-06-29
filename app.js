@@ -104,9 +104,9 @@ const premiumVoice = {
   },
   strength: {
     seeker: {
-      label: "ดวงแสวงหาการเติมเต็ม",
+      label: "ดวงแสวงหาสภาพแวดล้อมที่ใช่",
       english: "The Seeker",
-      copy: "พลังชีวิตจะเปล่งประกายสูงสุดเมื่อมีสภาพแวดล้อม ผู้คน และจังหวะที่ช่วยเติมไฟฝัน",
+      copy: "พลังชีวิตจะเปล่งประกายสูงสุดเมื่อมีสภาพแวดล้อม ผู้คน และจังหวะที่ช่วยพยุงไฟฝัน",
     },
     harmonizer: {
       label: "ดวงกระแสกลมกลืน",
@@ -294,7 +294,7 @@ const elementPsychologyKnowledge = {
     coreNeed: "ต้องการการมองเห็น การตอบสนอง และความรู้สึกว่าตัวเองยังมีชีวิตชีวา",
     stressPattern: "เมื่อไม่มีใครรับรู้หรือทุกอย่างเงียบเกินไป อาจรีบพิสูจน์ตัวเองหรือหมดไฟเร็ว",
     repairPath: "กลับมาเช็กว่าอยากถูกเห็นเพราะคุณค่าจริง หรือเพราะกำลังกลัวว่าจะไม่สำคัญ",
-    growthPractice: "เติมความอบอุ่นผ่านการพูดความรู้สึกและให้ผลงานได้ถูกมองเห็นอย่างพอดี",
+    growthPractice: "สร้างความอบอุ่นผ่านการพูดความรู้สึกและให้ผลงานได้ถูกมองเห็นอย่างพอดี",
   },
   EARTH: {
     coreNeed: "ต้องการความมั่นคง ความไว้ใจ และฐานชีวิตที่พอให้ใจวางลงได้",
@@ -1104,7 +1104,7 @@ function calculateUsefulGodFromProfile(dayContext, strengthResult, elementValues
   } else if (strength <= 45) {
     primary = strengthResult.rootScore < 8 ? dayElement : resourceElement;
     favorableElements = primary === resourceElement ? [resourceElement, dayElement] : [dayElement, resourceElement];
-    reason = `แกนดิถี ${premiumElementLabel(dayElement)} ยังต้องการแรงเติมจากฤดูกาลและราก จึงเน้น${primary === dayElement ? "รากตัวตน" : "แรงหล่อเลี้ยง"}ก่อน แล้วค่อยใช้พลังสนับสนุนร่วม`;
+    reason = `แกนดิถี ${premiumElementLabel(dayElement)} ยังต้องการแรงหล่อเลี้ยงจากฤดูกาลและราก จึงเน้น${primary === dayElement ? "รากตัวตน" : "แรงหล่อเลี้ยง"}ก่อน แล้วค่อยใช้พลังสนับสนุนร่วม`;
   } else {
     const climateNeed = strengthResult.seasonElement === resourceElement ? outputElement : sortedByNeed[0];
     primary = climateNeed;
@@ -1627,7 +1627,7 @@ function getPremiumMasterVoice() {
     image: state.master.symbol,
     tagline: state.master.essence,
     essence: `แกนของคุณเริ่มจาก ${state.master.essence} แล้วค่อยปรับตัวตามพื้นที่และผู้คนรอบข้าง`,
-    caution: "เมื่อชีวิตเข้มข้นขึ้น ให้กลับมาฟังจังหวะภายในและเลือกสิ่งที่เติมพลังมากกว่าสิ่งที่เร่งให้พิสูจน์ตัวเอง",
+    caution: "เมื่อชีวิตเข้มข้นขึ้น ให้กลับมาฟังจังหวะภายในและเลือกสิ่งที่คืนพลังมากกว่าสิ่งที่เร่งให้พิสูจน์ตัวเอง",
   };
 }
 
@@ -1985,7 +1985,7 @@ function renderInsightStudio() {
     <div class="action-card"><span>แก่นแท้ที่งดงาม</span><strong>${psych.coreNeed}</strong><p>นี่คือเสียงเงียบ ๆ ที่ใจมักตามหาอยู่เบื้องหลังการตัดสินใจสำคัญ</p></div>
     <div class="action-card"><span>เงาสะท้อนที่ควรรู้ทัน</span><strong>${premiumElementLabel(dominant.key)} นำมากเกิน</strong><p>${psych.stressPattern}</p></div>
     <div class="action-card"><span>พลังงานเปิดทางสว่าง</span><strong>${getUsefulGodLabel()}</strong><p>${psych.repairPath} แล้วให้ธาตุผู้พิทักษ์พาใจกับชีวิตกลับสู่จังหวะที่นุ่มนวลขึ้น</p></div>
-    <div class="action-card"><span>แบบฝึกใจ</span><strong>เติม ${premiumElementLabel(weakest.key)} อย่างประณีต</strong><p>${psych.growthPractice}</p></div>
+    <div class="action-card"><span>แบบฝึกใจ</span><strong>เสริม ${premiumElementLabel(weakest.key)} ผ่านสิ่งที่ทำได้จริง</strong><p>${elementSupportPractice(weakest.key)} ${psych.growthPractice}</p></div>
   `;
 }
 
@@ -2189,7 +2189,7 @@ function describeScoreBand(value) {
   if (value >= 80) return "เด่นมาก";
   if (value >= 65) return "เด่น";
   if (value >= 50) return "พอใช้เป็นฐาน";
-  return "ควรค่อย ๆ เติม";
+  return "ยังเป็นพื้นที่ฝึกใช้";
 }
 
 function getTopPersonalityTrait() {
@@ -2290,7 +2290,7 @@ function renderPrintReport() {
 
     <section class="print-section">
       <h2>ห้องอ่านชีวิตเชิงลึก</h2>
-      <p>${escapeHtml(name)} มีแกนดิถีแบบ ${masterVoice.name} (${masterVoice.title}) ภาพภายในคล้าย ${masterVoice.image} ${premiumElementLabel(dominant.key)} เป็นบรรยากาศที่ขึ้นนำและสะท้อน ${elementArchetypes[dominant.key]} ส่วน ${premiumElementLabel(weakest.key)} คือพื้นที่ที่ควรเติมอย่างอ่อนโยน เพื่อให้พลังหลักนุ่มขึ้นและยั่งยืนขึ้น</p>
+      <p>${escapeHtml(name)} มีแกนดิถีแบบ ${masterVoice.name} (${masterVoice.title}) ภาพภายในคล้าย ${masterVoice.image} ${premiumElementLabel(dominant.key)} เป็นบรรยากาศที่ขึ้นนำและสะท้อน ${elementArchetypes[dominant.key]} ส่วน ${premiumElementLabel(weakest.key)} คือพลังที่ยังเบา แปลแบบง่าย ๆ คือควรจัดกิจวัตร สภาพแวดล้อม หรือคนรอบตัวให้ช่วยพยุงด้านนี้มากขึ้น</p>
       <p>${getGuardianElementLabel()} คือพลังงานเปิดทางสว่างของดวงนี้ ใช้เป็นตัวกรองเมื่อต้องเลือกงาน ความสัมพันธ์ หรือจังหวะเปลี่ยนชีวิต โดยไม่ต้องฝืนธรรมชาติของตัวเองจนเกินพอดี</p>
     </section>
 
@@ -2299,7 +2299,7 @@ function renderPrintReport() {
       <div class="print-grid">
         ${printCard("โอกาส", `สร้างชื่อจาก ${topTrait.label}`, "ใช้ความถนัดเด่นเป็นจุดตั้งต้นของงานหรือการตัดสินใจสำคัญ")}
         ${printCard("เงาสะท้อน", `${premiumElementLabel(dominant.key)} นำมากไป`, "รู้ทันการตัดสินใจเร็ว ความคาดหวังสูง หรือการรับภาระเกินขอบเขต")}
-        ${printCard("ก้าวถัดไป", `เติม ${premiumElementLabel(weakest.key)} แบบตั้งใจ`, "จัดสภาพแวดล้อม กิจวัตร และคนร่วมงานให้ช่วยเติมธาตุที่เบา")}
+        ${printCard("ก้าวถัดไป", `เสริม ${premiumElementLabel(weakest.key)} ให้ใช้ได้จริง`, elementSupportPractice(weakest.key))}
         ${printCard("ตัวช่วยก่อนตัดสินใจ", getGuardianElementLabel(), "ใช้ธาตุผู้พิทักษ์เป็นเข็มทิศก่อนตัดสินใจเรื่องใหญ่")}
         ${activeWisdom ? printCard(activeWisdom.label, activeWisdom.title, activeWisdom.text) : ""}
       </div>
@@ -2360,7 +2360,7 @@ function buildPrintableReportSections(name, dominant, weakest, topTrait) {
       <ul>
         <li>สภาพอากาศหลักของดวง: ${premiumElementLabel(dominant.key)} ทำให้ชีวิตมักพูดผ่านเรื่อง ${elementArchetypes[dominant.key]}</li>
         <li>ด้านที่เปล่งประกาย: ${topTrait.label} คือภาษาหลักที่ควรใช้สร้างงานและสื่อสารคุณค่า</li>
-        <li>บทเรียนที่ควรเติมอย่างอ่อนโยน: ${premiumElementLabel(weakest.key)} เพื่อให้พลังหลักนุ่มขึ้น ลึกขึ้น และยั่งยืนขึ้น</li>
+        <li>ด้านที่ควรวางระบบช่วยพยุง: ${premiumElementLabel(weakest.key)} ผ่านกิจวัตร สภาพแวดล้อม และคนที่ช่วยให้ใจทำงานได้สมดุลขึ้น</li>
       </ul>
     `,
     career: `
@@ -2391,8 +2391,8 @@ function buildPrintableReportSections(name, dominant, weakest, topTrait) {
       </ul>
     `,
     health: `
-      <p>การดูแลสุขภาพไม่ต้องรอให้เหนื่อยมากแล้วค่อยแก้ ลองมองเป็นการถนอมไฟข้างในแบบวันต่อวัน ${premiumElementLabel(dominant.key)} ต้องมีทางระบาย ส่วน ${premiumElementLabel(weakest.key)} ต้องถูกเติมผ่านกิจวัตรที่ทำซ้ำได้จริง</p>
-      <p>ร่างกายของดวงนี้มักส่งสัญญาณเมื่อใจแบกนานเกินไป แบบฝึกใจที่ควรทำซ้ำคือ ${psych.growthPractice} เพราะเป็นวิธีเติมส่วนที่เบาโดยไม่ต้องเปลี่ยนชีวิตแบบรุนแรง</p>
+      <p>การดูแลสุขภาพไม่ต้องรอให้เหนื่อยมากแล้วค่อยแก้ ลองมองเป็นการถนอมไฟข้างในแบบวันต่อวัน ${premiumElementLabel(dominant.key)} ต้องมีทางระบาย ส่วน ${premiumElementLabel(weakest.key)} ควรถูกดูแลผ่านกิจวัตรที่ทำซ้ำได้จริง เช่น เวลาพัก วิธีทำงาน หรือพื้นที่ที่ทำให้ใจไม่ตึงเกินไป</p>
+      <p>ร่างกายของดวงนี้มักส่งสัญญาณเมื่อใจแบกนานเกินไป แบบฝึกใจที่ควรทำซ้ำคือ ${psych.growthPractice} เพราะเป็นวิธีพยุงจุดที่เบาโดยไม่ต้องเปลี่ยนชีวิตแบบรุนแรง</p>
       <ul>
         <li>ดูแลหลัก: การนอน ความเครียด การยืดเหยียด และช่วงเวลาปลอดหน้าจอ</li>
         <li>สัญญาณเตือน: ใจเร็ว คิดวน หงุดหงิดง่าย หรือหมดแรงหลังตัดสินใจเยอะ</li>
@@ -2489,7 +2489,7 @@ function personalityMeaning(key) {
 }
 
 function getStrengthLevel() {
-  if (state.strength < 40) return "กำลังต้องเติมแรง";
+  if (state.strength < 40) return "กำลังต้องมีแรงพยุง";
   if (state.strength < 60) return "สมดุล";
   if (state.strength < 80) return "แรงกำลังดี";
   return "แรงเต็มถัง";
@@ -2574,9 +2574,14 @@ function orderedGuardianAdvice(elementKey) {
       copy: "เหมาะกับการพัก ฟังข้อมูล อ่านภาพรวม และไม่รีบตอบทุกอย่างทันที เช่น จดสิ่งที่รู้สึกก่อนประชุม หรือเว้นเวลาหนึ่งคืนก่อนตัดสินใจเรื่องใหญ่",
     },
   };
-  return advice[elementKey] || { title: "ใช้พลังนี้เป็นเข็มทิศ", copy: "ค่อย ๆ สังเกตว่าพลังนี้ทำให้ใจนิ่งขึ้นตรงไหน แล้วออกแบบชีวิตประจำวันให้รองรับจังหวะนั้น" };
+  return advice[elementKey] || { title: "ใช้พลังนี้เป็นเข็มทิศ", copy: "สังเกตว่าพลังนี้ทำให้ใจนิ่งขึ้นตรงไหน แล้วออกแบบกิจวัตรและสภาพแวดล้อมให้รองรับจังหวะนั้น" };
 }
 
+
+function elementSupportPractice(elementKey) {
+  const advice = orderedGuardianAdvice(elementKey);
+  return `ในเว็บนี้หมายถึงการจัดชีวิตให้มีพลังของ ${premiumElementLabel(elementKey)} มากขึ้นผ่านสิ่งที่จับต้องได้ เช่น ${advice.copy.replace("เหมาะกับการ", "")}`;
+}
 function orderedDomainInsight(key) {
   const insights = {
     self: {
@@ -2738,7 +2743,7 @@ function renderLifeAdvice() {
   orderedSetHtml("lifeAdvice", `
     <article><span>แกนที่ควรใช้บ่อย</span><strong>${masterVoice.tagline}</strong><p>${masterVoice.essence}</p></article>
     <article><span>เวลารู้สึกสะดุด</span><strong>กลับมาดู ${premiumElementLabel(dominant.key, true)} ที่นำมากเกิน</strong><p>${psych.stressPattern} ลองพักหนึ่งจังหวะ แล้วค่อยตอบจากใจที่นิ่งขึ้น</p></article>
-    <article><span>แบบฝึกที่ช่วยบาลานซ์</span><strong>เติม ${premiumElementLabel(weakest.key, true)} แบบเล็กแต่สม่ำเสมอ</strong><p>${psych.growthPractice}</p></article>
+    <article><span>แบบฝึกที่ช่วยบาลานซ์</span><strong>เสริม ${premiumElementLabel(weakest.key, true)} ผ่านกิจวัตรเล็ก ๆ</strong><p>${elementSupportPractice(weakest.key)} ${psych.growthPractice}</p></article>
   `);
 }
 
@@ -2757,7 +2762,7 @@ function renderInsightStudio() {
     <p>เทพสิบองค์ที่เด่นในพื้นดวงตอนนี้คือ ${topGods || "ยังไม่มีตัวไหนนำชัดมาก"} ถ้าใช้ดี มันจะกลายเป็นภาษาที่ช่วยให้คุณสร้างงาน เลือกคน และวางจังหวะชีวิตได้ตรงตัวขึ้น</p>
   `);
   orderedSetHtml("readingActions", `
-    <article class="action-card"><span>สิ่งที่ใจต้องการ</span><strong>${psych.coreNeed}</strong><p>เวลาต้องตัดสินใจ ลองถามก่อนว่าเรื่องนี้เติมสิ่งนี้ให้ใจไหม</p></article>
+    <article class="action-card"><span>สิ่งที่ใจต้องการ</span><strong>${psych.coreNeed}</strong><p>เวลาต้องตัดสินใจ ลองถามก่อนว่าเรื่องนี้ช่วยให้ใจได้สิ่งนี้จริงไหม</p></article>
     <article class="action-card"><span>มุมที่ควรระวัง</span><strong>อย่าให้จุดแข็งกลายเป็นโหมดป้องกันตัว</strong><p>${psych.stressPattern}</p></article>
     <article class="action-card"><span>ทางกลับสู่สมดุล</span><strong>${getGuardianElementLabel()}</strong><p>${psych.repairPath}</p></article>
     <article class="action-card"><span>ก้าวเล็กที่ทำได้</span><strong>${topTrait.label}</strong><p>เปลี่ยนจุดเด่นนี้ให้กลายเป็นงาน คำพูด หรือขอบเขตที่คนรอบตัวมองเห็นได้จริง</p></article>
@@ -2827,7 +2832,7 @@ function renderStrategy() {
       className: "edge-card",
       label: "มุมที่ต้องระวัง",
       title: `เมื่อ ${premiumElementLabel(dominant.key)} นำมากไป`,
-      copy: `คุณอาจใช้พลังหลักจนลืมเติม ${premiumElementLabel(weakest.key)} ให้ใจและร่างกาย ลองลดความเร็วลงก่อนตัดสินใจเรื่องที่กระทบหลายคน`,
+      copy: `คุณอาจใช้พลังหลักจนลืมจัดพื้นที่ให้ ${premiumElementLabel(weakest.key)} ได้ทำงานกับใจและร่างกาย ลองลดความเร็วลงก่อนตัดสินใจเรื่องที่กระทบหลายคน`,
       score: clampScore(100 - Math.abs((dominant.value || 0) - (weakest.value || 0))),
       band: "ต้องบาลานซ์",
       art: "edge",
@@ -2872,7 +2877,7 @@ function renderFrequentThemes() {
     {
       meta: orderedDomainInsight("luck"),
       title: item?.favorability?.label || "โอกาสจากจังหวะที่ใช่",
-      copy: item?.opportunities || `โชคเปิดเมื่อคุณเติม ${premiumElementLabel(weakest.key)} ให้พลังหลักนุ่มขึ้นและทำงานกับคนอื่นง่ายขึ้น`,
+      copy: item?.opportunities || `โชคเปิดเมื่อคุณจัดชีวิตให้มี ${premiumElementLabel(weakest.key)} มากขึ้น เพื่อให้พลังหลักนุ่มลงและทำงานกับคนอื่นง่ายขึ้น`,
     },
     {
       meta: orderedDomainInsight("repeat"),
@@ -2882,7 +2887,7 @@ function renderFrequentThemes() {
     {
       meta: orderedDomainInsight("edge"),
       title: `ระวัง ${premiumElementLabel(dominant.key)} นำจนลืมพัก`,
-      copy: `ถ้าพลังนี้เริ่มแน่นเกินไป ให้กลับมาเติม ${premiumElementLabel(weakest.key)} ผ่านกิจวัตรเล็ก ๆ ก่อนตอบสนองเรื่องใหญ่`,
+      copy: `ถ้าพลังนี้เริ่มแน่นเกินไป ให้กลับมาสร้างพื้นที่ให้ ${premiumElementLabel(weakest.key)} ผ่านกิจวัตรเล็ก ๆ ก่อนตอบสนองเรื่องใหญ่`,
     },
     {
       meta: orderedDomainInsight("practice"),
