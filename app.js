@@ -82,7 +82,7 @@ const premiumVoice = {
       name: "อัญมณีที่มีรสนิยมและมาตรฐาน",
       image: "อัญมณีที่ผ่านการขัดเกลา",
       tagline: "ผู้มองเห็นความประณีต และเปลี่ยนรายละเอียดให้กลายเป็นความเลอค่า",
-      essence: "คุณมีสายตาที่ละเอียดต่อคุณภาพ ความงาม และคุณค่าที่ซ่อนอยู่ในสิ่งเล็ก ๆ พลังของคุณคือการคัดสรรให้สิ่งธรรมดามีลายเซ็น",
+      essence: "คุณมีสายตาที่ละเอียดต่อคุณภาพ ความงาม และคุณค่าที่ซ่อนอยู่ในสิ่งเล็ก ๆ พลังของคุณคือการคัดสรรให้สิ่งธรรมดามีสไตล์เฉพาะตัว",
       caution: "ความสมบูรณ์แบบงดงามได้ แต่อย่าให้มันกลายเป็นกรงที่ทำให้หัวใจไม่กล้าเผยด้านมนุษย์ของตัวเอง",
     },
     壬: {
@@ -91,7 +91,7 @@ const premiumVoice = {
       image: "สายน้ำกว้างที่เชื่อมโลกหลายใบ",
       tagline: "ผู้ไหลผ่านโลกกว้าง เชื่อมเรื่องราว ผู้คน และโอกาสให้กลายเป็นวิสัยทัศน์",
       essence: "คุณมีใจที่ไม่ชอบถูกจำกัดด้วยกรอบเล็ก ๆ ธรรมชาติของคุณคือการเรียนรู้ สำรวจ และเชื่อมสิ่งไกลกันให้กลายเป็นภาพใหญ่ที่คนอื่นยังมองไม่เห็น",
-      caution: "อิสระจะงดงามที่สุดเมื่อมีทิศทาง ลองให้ความกว้างของตัวเองมีเข็มทิศ ไม่ใช่เพียงทางออกจากข้อผูกมัด",
+      caution: "อิสระจะงดงามที่สุดเมื่อมีทิศทาง ลองให้ความกว้างของตัวเองมีตัวช่วยเลือกทาง ไม่ใช่เพียงทางออกจากข้อผูกมัด",
     },
     癸: {
       title: "The Mystic Rain",
@@ -106,7 +106,7 @@ const premiumVoice = {
     seeker: {
       label: "ดวงแสวงหาสภาพแวดล้อมที่ใช่",
       english: "The Seeker",
-      copy: "พลังชีวิตจะเปล่งประกายสูงสุดเมื่อมีสภาพแวดล้อม ผู้คน และจังหวะที่ช่วยพยุงไฟฝัน",
+      copy: "พลังชีวิตจะแสดงคุณค่าสูงสุดเมื่อมีสภาพแวดล้อม ผู้คน และจังหวะที่ช่วยให้มีแรงทำตามเป้าหมาย",
     },
     harmonizer: {
       label: "ดวงกระแสกลมกลืน",
@@ -116,15 +116,15 @@ const premiumVoice = {
     powerhouse: {
       label: "ดวงพลังงานขับเคลื่อนสูง",
       english: "The Powerhouse",
-      copy: "หน้าที่ของพลังนี้คือการระบายออกไปเป็นผลงาน แบรนด์ สุนทรียภาพ หรือ impact ที่จับต้องได้",
+      copy: "หน้าที่ของพลังนี้คือการระบายออกไปเป็นผลงาน แบรนด์ รสนิยมและความสวยงาม หรือ impact ที่จับต้องได้",
     },
   },
   guardianElements: {
-    WOOD: "พลังแห่งการเติบโต วิสัยทัศน์ และความอ่อนโยนที่ยืดหยุ่น",
-    FIRE: "พลังแห่งการมองเห็น การสื่อสาร และความกล้าที่จะเปล่งประกาย",
-    EARTH: "พลังแห่งความมั่นคง การบ่มเพาะ และความเป็นรูปธรรม",
-    METAL: "พลังแห่งมาตรฐาน ความคมชัด และการคัดสรรสิ่งที่คู่ควร",
-    WATER: "พลังแห่งปัญญา การฟัง การพักฟื้น และการไหลไปสู่ความเป็นไปได้ใหม่",
+    WOOD: "ไม้ช่วยเรื่องการเรียนรู้ วางแผน เติบโต และคุยกับคนที่ช่วยเปิดมุมมอง",
+    FIRE: "ไฟช่วยเรื่องการพูดให้ชัด การนำเสนอ และการทำให้คนเห็นคุณค่า",
+    EARTH: "ดินช่วยเรื่องความมั่นคง การจัดระบบเงิน เวลา บ้าน และหน้าที่",
+    METAL: "ทองช่วยเรื่องมาตรฐาน การตัดสินใจ และการตัดสิ่งที่กินพลังออก",
+    WATER: "น้ำช่วยเรื่องการพัก ฟังข้อมูล ทบทวน และไม่รีบตอบทุกเรื่อง",
   },
 };
 
@@ -140,17 +140,17 @@ const wisdomContentMatrix = {
       key: "woodGrowth",
       bazi: "ธาตุไม้",
       universalTruth: "การเติบโตที่งดงามต้องมีทั้งรากที่ลึก พื้นที่ที่พอดี และมือของเจ้าชะตาที่เลือกทิศทางชีวิตเอง",
-      writingRule: "ใช้ภาพต้นไม้ใหญ่ ราก กิ่งใบ แสง และลายเซ็นชีวิต เพื่อพูดถึงโอกาสโดยไม่เร่งให้คว้าทุกอย่าง",
+      writingRule: "ใช้ภาพต้นไม้ใหญ่ ราก กิ่งใบ แสง และสไตล์เฉพาะตัวชีวิต เพื่อพูดถึงโอกาสโดยไม่เร่งให้คว้าทุกอย่าง",
     },
     {
       key: "goldenRepair",
-      bazi: "แรงปะทะและธาตุทอง",
+      bazi: "แรงชนที่ชวนให้ปรับตัวและธาตุทอง",
       universalTruth: "รอยแตกไม่ได้ลดคุณค่าของชีวิตเสมอไป บางครั้งมันคือเส้นที่ทำให้ตัวตนใหม่มีความจริงและความงามมากกว่าเดิม",
       writingRule: "ใช้ภาพรอยร้าว การประสาน การขัดเกลา และลายทอง เพื่อเปลี่ยนคำเตือนให้เป็นคำประคองใจ",
     },
     {
       key: "rightAction",
-      bazi: "ธาตุดินและธาตุผู้พิทักษ์",
+      bazi: "ธาตุดินและธาตุที่ช่วยให้สมดุล",
       universalTruth: "ใจจะมั่นคงขึ้นเมื่อทำสิ่งที่ควรทำอย่างประณีต แล้วปล่อยให้เวลาเป็นคนพาสิ่งดี ๆ ค่อย ๆ เปิดออก",
       writingRule: "ใช้จังหวะภาษาแบบผู้ใหญ่ใจดี: ให้ทำทีละก้าว วางฐาน เช็กความจริง และไม่ลงโทษตัวเองกับสิ่งที่ยังไม่ออกดอก",
     },
@@ -162,15 +162,15 @@ const wisdomContentMatrix = {
       label: "จังหวะฟ้าเปิด",
       title: "พลังงานสมบูรณ์พร้อมเติบโต",
       text:
-        "ช่วงนี้ดวงเหมือนต้นไม้ใหญ่ที่ได้ทั้งแดด ดิน และลมพอดี รากที่เคยเงียบอยู่ใต้พื้นกำลังส่งแรงขึ้นสู่กิ่งใบ ขอให้เลือกเติบโตอย่างมีรสนิยม ไม่รีบผลักชีวิตจนเสียจังหวะ แต่ค่อย ๆ วางลายเซ็นของตัวเองลงในงาน ความรัก และการตัดสินใจทีละชั้น เมื่อฟ้าเปิดเช่นนี้ สิ่งสำคัญไม่ใช่การคว้าทุกโอกาส แต่คือการเลือกโอกาสที่ทำให้คุณกลายเป็นตัวเองได้งดงามขึ้น",
+        "ช่วงนี้ดวงเหมือนต้นไม้ใหญ่ที่ได้ทั้งแดด ดิน และลมพอดี รากที่เคยเงียบอยู่ใต้พื้นกำลังส่งแรงขึ้นสู่กิ่งใบ ขอให้เลือกเติบโตอย่างมีรสนิยม ไม่รีบผลักชีวิตจนเสียจังหวะ แต่ค่อย ๆ วางสไตล์เฉพาะตัวของตัวเองลงในงาน ความรัก และการตัดสินใจทีละชั้น เมื่อฟ้าเปิดเช่นนี้ สิ่งสำคัญไม่ใช่การคว้าทุกโอกาส แต่คือการเลือกโอกาสที่ทำให้คุณกลายเป็นตัวเองได้งดงามขึ้น",
     },
     resilienceGuide: {
       key: "resilience",
       component: "ResilienceGuide",
-      label: "ประคองใจในแรงปะทะ",
+      label: "ประคองใจในแรงชนที่ชวนให้ปรับตัว",
       title: "รอยร้าวที่กำลังกลายเป็นลายทอง",
       text:
-        "ช่วงที่แรงปะทะเข้ามา ชีวิตอาจเหมือนภาชนะที่ถูกเคาะให้เห็นรอยร้าว แต่รอยนั้นไม่ได้มีไว้ลดคุณค่า หากมีไว้บอกว่าคุณกำลังถูกหลอมให้ลึกและจริงกว่าเดิม สิ่งภายนอกบางอย่างอาจควบคุมไม่ได้ แต่จังหวะหายใจ คำตอบที่เลือก และความเมตตาต่อตัวเองยังเป็นพื้นที่ของคุณอยู่เสมอ ให้ค่อย ๆ ประสานรอยแตกด้วยสติ วางแผนทีละก้าว แล้วปล่อยให้บททดสอบนี้กลายเป็นลายทองที่ทำให้ชีวิตมีความหมายมากกว่าเดิม",
+        "ช่วงที่แรงชนที่ชวนให้ปรับตัวเข้ามา ชีวิตอาจเหมือนภาชนะที่ถูกเคาะให้เห็นรอยร้าว แต่รอยนั้นไม่ได้มีไว้ลดคุณค่า หากมีไว้บอกว่าคุณกำลังถูกหลอมให้ลึกและจริงกว่าเดิม สิ่งภายนอกบางอย่างอาจควบคุมไม่ได้ แต่จังหวะหายใจ คำตอบที่เลือก และความเมตตาต่อตัวเองยังเป็นพื้นที่ของคุณอยู่เสมอ ให้ค่อย ๆ ประสานรอยแตกด้วยสติ วางแผนทีละก้าว แล้วปล่อยให้บททดสอบนี้กลายเป็นลายทองที่ทำให้ชีวิตมีความหมายมากกว่าเดิม",
     },
   },
 };
@@ -354,7 +354,7 @@ const tenGodPsychologyKnowledge = {
   "Seven Killings": {
     coreDrive: "แรงกดดัน อำนาจ การตัดสินใจเร็ว และบททดสอบที่บังคับให้แรงกำลังดีขึ้น",
     shadowPattern: "อยู่ในโหมดสู้ตลอดเวลา จนร่างกายและความสัมพันธ์ไม่มีพื้นที่พัก",
-    repairPractice: "เลือกพื้นที่ใช้พลังให้ถูก สร้างแผนสำรอง และพักก่อนตอบสนองต่อแรงปะทะ",
+    repairPractice: "เลือกพื้นที่ใช้พลังให้ถูก สร้างแผนสำรอง และพักก่อนตอบสนองต่อแรงชนที่ชวนให้ปรับตัว",
   },
   "Direct Resource": {
     coreDrive: "การเรียนรู้ แรงสนับสนุน ผู้มีประสบการณ์ ความปลอดภัย และการพักฟื้นที่มีจังหวะชัดเจน",
@@ -393,10 +393,10 @@ const questionModeKnowledge = {
     action: "กลับไปตั้งฐานด้วยการนอน การเคลื่อนไหวเบา ๆ การจดบันทึก และการพักจากเรื่องที่รับเข้ามาเยอะเกินไป",
   },
   luck: {
-    label: "วัยจรนี้",
+    label: "ช่วง 10 ปีนี้",
     tenGods: ["Friend", "Rob Wealth", "Eating God", "Hurting Officer", "Direct Wealth", "Indirect Wealth", "Direct Officer", "Seven Killings", "Direct Resource", "Indirect Resource"],
     question: "รอบนี้ชีวิตกำลังชวนให้เรียนเรื่องอะไร และควรวางเกมยาวแบบไหน",
-    action: "อ่านเป็นสภาพอากาศของชีวิต แล้วเลือกจังหวะลุยกับจังหวะพักให้เข้ากับแรงของรอบนั้น",
+    action: "อ่านเป็นจังหวะขึ้นลงของชีวิต แล้วเลือกจังหวะลุยกับจังหวะพักให้เข้ากับแรงของรอบนั้น",
   },
   self: {
     label: "ตัวตนและบทเรียนด้านใน",
@@ -428,14 +428,14 @@ const popularQuestionKnowledge = {
   },
   decisionRisk: {
     label: "ควรระวังการตัดสินใจเรื่องอะไร",
-    tag: "เงาสะท้อน",
+    tag: "จุดที่ควรรู้ทัน",
   },
   visibleStrength: {
     label: "จุดแข็งที่คนอื่นเห็นในตัวฉันคืออะไร",
     tag: "ตัวตน",
   },
   decadeStrategy: {
-    label: "วัยจรนี้ควรใช้ชีวิตแบบไหน",
+    label: "ช่วง 10 ปีนี้ควรใช้ชีวิตแบบไหน",
     tag: "รอบดวง",
   },
 };
@@ -464,7 +464,7 @@ document.getElementById("birthTimeUnknown")?.addEventListener("change", () => {
   syncBirthTimeInput();
   state = analyzeFromInputs();
   render();
-  showToast(document.getElementById("birthTimeUnknown")?.checked ? "เปิดโหมดไม่ทราบเวลาเกิดแล้ว ระบบจะแยกเสายามเป็นช่วงความเป็นไปได้" : "กลับมาใช้เวลาเกิดที่กรอกไว้แล้ว");
+  showToast(document.getElementById("birthTimeUnknown")?.checked ? "เปิดโหมดไม่ทราบเวลาเกิดแล้ว ระบบจะแยกเสาเวลาเกิดเป็นช่วงความเป็นไปได้" : "กลับมาใช้เวลาเกิดที่กรอกไว้แล้ว");
 });
 
 document.getElementById("focusQuestion")?.addEventListener("change", (event) => {
@@ -515,7 +515,7 @@ function analyzeFromInputs() {
   if (birthTimeUnknown) {
     calibration.score = Math.max(35, calibration.score - 12);
     calibration.label = calibration.score >= 85 ? "อ่านได้ค่อนข้างนิ่ง" : calibration.score >= 70 ? "ใช้วางแผนได้" : "ควรเช็กซ้ำอีกนิด";
-    calibration.warnings.unshift("ยังไม่ทราบเวลาเกิด ระบบจึงคำนวณแกนหลักจาก 3 เสา และแยกเสายามไว้เป็นช่วงความเป็นไปได้");
+    calibration.warnings.unshift("ยังไม่ทราบเวลาเกิด ระบบจึงคำนวณแกนหลักจาก 3 เสา และแยกเสาเวลาเกิดไว้เป็นช่วงความเป็นไปได้");
     calibration.inputFingerprint = `${date} ไม่ทราบเวลาเกิด ${place}`;
   }
   const sensitivity = birthTimeUnknown ? buildUnknownBirthTimeProfile(date, place, pillars) : buildBirthTimeSensitivity(date, time, place, pillars);
@@ -600,7 +600,7 @@ function buildBirthTimeSensitivity(date, time, place, basePillars) {
   const riskLevel = unstablePillars.includes("Day")
     ? "แนะนำให้เช็กเวลาเกิดจริงอีกครั้ง เพราะเสาวันอาจเปลี่ยน"
     : unstablePillars.includes("Hour")
-      ? "แนะนำให้เช็กเวลาเกิดซ้ำ เพราะเสายามอาจเปลี่ยนได้"
+      ? "แนะนำให้เช็กเวลาเกิดซ้ำ เพราะเสาเวลาเกิดอาจเปลี่ยนได้"
       : boundaryMinutes <= 20
         ? "อยู่ใกล้ขอบชั่วยาม ลองเผื่อเวลาเหลื่อมไว้หน่อย"
         : "เวลาเกิดชุดนี้ค่อนข้างนิ่งในกรอบที่ลองขยับ";
@@ -662,8 +662,8 @@ function buildUnknownBirthTimeProfile(date, place, basePillars) {
     boundaryMinutes: null,
     possibleHourPillars,
     possibleDayPillars,
-    riskLevel: `ยังไม่ทราบเวลาเกิด จึงมีเสายามที่เป็นไปได้ ${possibleHourPillars.length} แบบ ${dayCaution}`,
-    summary: `ระบบใช้เวลา 12:00 เป็นจุดอ้างอิงชั่วคราวเพื่ออ่านภาพรวม แล้วไล่ตรวจทุกช่วงยามของวันเกิดให้เห็นว่าถ้าเกิดคนละช่วง เสายามและเทพสิบองค์ฝั่งยามจะเปลี่ยนอย่างไร`,
+    riskLevel: `ยังไม่ทราบเวลาเกิด จึงมีเสาเวลาเกิดที่เป็นไปได้ ${possibleHourPillars.length} แบบ ${dayCaution}`,
+    summary: `ระบบใช้เวลา 12:00 เป็นจุดอ้างอิงชั่วคราวเพื่ออ่านภาพรวม แล้วไล่ตรวจทุกช่วงยามของวันเกิดให้เห็นว่าถ้าเกิดคนละช่วง เสาเวลาเกิดและพลัง 10 แบบของฝั่งเวลาเกิดจะเปลี่ยนอย่างไร`,
   };
 }
 
@@ -1070,9 +1070,9 @@ function detectTransformedStructure(dayContext, pillars, elementValues, strength
       type: "transformed",
       transformedElement: dayElement,
       label: `ดวงมีจังหวะแปรเป็น ${premiumElementLabel(dayElement)}`,
-      strengthLabel: "แปรสภาพ",
+      strengthLabel: "เปลี่ยนแรงเป็นโอกาส",
       favorableElements: [resourceElement, dayElement, outputElement],
-      reason: `เดือนเป็น ${premiumElementLabel(resourceElement)} ที่หนุนแกนดิถี ${premiumElementLabel(dayElement)} ชัด มีรากรองรับ และมี ${premiumElementLabel(outputElement)} เป็นทางระบาย เลยอ่านเป็นจังหวะแปรสภาพมากกว่าอ่านแค่ว่าอ่อนหรือแรง`,
+      reason: `เดือนเกิดมี ${premiumElementLabel(resourceElement)} ที่ช่วยส่งธาตุหลักประจำตัว ${premiumElementLabel(dayElement)} ชัด มีฐานรองรับ และมี ${premiumElementLabel(outputElement)} เป็นทางระบาย เลยอ่านเป็นจังหวะที่พลังในดวงเปลี่ยนรูปมากกว่าอ่านแค่ว่าอ่อนหรือแรง`,
     };
   }
 
@@ -1100,16 +1100,16 @@ function calculateUsefulGodFromProfile(dayContext, strengthResult, elementValues
     const drainingCandidates = [officerElement, outputElement, wealthElement].sort((left, right) => (elementValues[left] || 0) - (elementValues[right] || 0));
     primary = drainingCandidates[0];
     favorableElements = [...new Set(drainingCandidates.slice(0, 2))];
-    reason = `แกนดิถี ${premiumElementLabel(dayElement)} มีกำลังสูง จึงเลือกพลังที่ช่วยควบคุม ระบาย หรือแปลงแรงออกไปก่อน`;
+    reason = `ธาตุหลักประจำตัว ${premiumElementLabel(dayElement)} มีกำลังสูง จึงเลือกพลังที่ช่วยควบคุม ระบาย หรือแปลงแรงออกไปก่อน`;
   } else if (strength <= 45) {
     primary = strengthResult.rootScore < 8 ? dayElement : resourceElement;
     favorableElements = primary === resourceElement ? [resourceElement, dayElement] : [dayElement, resourceElement];
-    reason = `แกนดิถี ${premiumElementLabel(dayElement)} ยังต้องการแรงหล่อเลี้ยงจากฤดูกาลและราก จึงเน้น${primary === dayElement ? "รากตัวตน" : "แรงหล่อเลี้ยง"}ก่อน แล้วค่อยใช้พลังสนับสนุนร่วม`;
+    reason = `ธาตุหลักประจำตัว ${premiumElementLabel(dayElement)} ยังต้องการแรงหล่อเลี้ยงจากเดือนเกิดและฐานรองรับ จึงเน้น${primary === dayElement ? "ฐานตัวตน" : "แรงหล่อเลี้ยง"}ก่อน แล้วค่อยใช้พลังสนับสนุนร่วม`;
   } else {
     const climateNeed = strengthResult.seasonElement === resourceElement ? outputElement : sortedByNeed[0];
     primary = climateNeed;
     favorableElements = [...new Set([climateNeed, sortedByNeed[0]])].slice(0, 2);
-    reason = `แกนดิถี ${premiumElementLabel(dayElement)} อยู่ช่วงสมดุล จึงดูทั้งพลังที่เบาและภูมิอากาศของเดือน เพื่อเลือกตัวถ่วงที่ไม่ทำให้ดวงเอนด้านเดียว`;
+    reason = `ธาตุหลักประจำตัว ${premiumElementLabel(dayElement)} อยู่ช่วงสมดุล จึงดูทั้งพลังที่ยังมีน้อยและบรรยากาศของเดือนเกิด เพื่อเลือกตัวช่วยบาลานซ์ที่ไม่ทำให้ดวงเอนด้านเดียว`;
   }
 
   return {
@@ -1140,12 +1140,12 @@ function buildCalibrationProfile(input, birth, pillars, strengthResult, transfor
 
   if (strengthResult.percentage >= 43 && strengthResult.percentage <= 57) {
     score -= 5;
-    warnings.push("จังหวะพลังชีวิตอยู่ตรงกลางพอดี การเลือกธาตุผู้พิทักษ์อาจต่างกันได้ตามวิธีให้น้ำหนักฤดูกาลและรากดวง");
+    warnings.push("จังหวะพลังชีวิตอยู่ตรงกลางพอดี การเลือกธาตุที่ช่วยให้สมดุลอาจต่างกันได้ตามวิธีให้น้ำหนักเดือนเกิดและฐานรองรับดวง");
   }
 
   if (transformation) {
     score -= 4;
-    warnings.push("ดวงมีรูปแบบแปรสภาพอยู่ด้วย จุดนี้เป็นกฎอ่านขั้นลึก แนะนำให้อ่านคู่กับซินแสหรือแหล่งเทียบอื่น");
+    warnings.push("ดวงมีรูปแบบเปลี่ยนแรงเป็นโอกาสอยู่ด้วย จุดนี้เป็นกฎอ่านขั้นลึก แนะนำให้อ่านคู่กับซินแสหรือแหล่งเทียบอื่น");
   }
 
   if (usefulProfile.favorableElements?.length > 2) score -= 2;
@@ -1313,7 +1313,7 @@ function buildAnnualLuckWithinDecade(decadeStartYear, decadeStartAge, dayContext
     const signal = relations.some((relation) => relation.type === "clash")
       ? "ปีเปลี่ยนแรง"
       : favorability.supportScore >= 55
-        ? "ปีหนุน"
+        ? "ปีช่วยส่ง"
         : favorability.supportScore < 25
           ? "ปีฝึกใจ"
           : "ปีปรับจังหวะ";
@@ -1357,7 +1357,7 @@ function scoreLuckFavorability(luckJiazi, branchTenGods, favorableElements) {
     (favorableElements.includes(stemElement) ? 35 : 0) +
     (favorableElements.includes(branchElement) ? 30 : 0) +
     Math.round(hiddenHits.reduce((sum, item) => sum + item.weight, 0) * 25);
-  const label = supportScore >= 55 ? "มีลมหนุนให้เติบโต" : supportScore >= 25 ? "ต้องเดินอย่างมีจังหวะ" : "ชวนฝึกสมดุลอย่างอ่อนโยน";
+  const label = supportScore >= 55 ? "มีแรงช่วยส่งให้เติบโต" : supportScore >= 25 ? "ต้องเดินอย่างมีจังหวะ" : "ชวนฝึกสมดุลอย่างอ่อนโยน";
   return { supportScore, label, stemElement, branchElement, hiddenHits };
 }
 
@@ -1378,17 +1378,17 @@ function tenGodDomain(tenGod) {
 }
 
 function relationText(relations) {
-  if (!relations.length) return "ยังไม่มีแรงปะทะหรือแรงผูกพันที่เด่นเกินไป จึงอ่านผ่านบรรยากาศหลักของรอบนี้ได้อย่างค่อยเป็นค่อยไป";
-  const typeLabels = { clash: "แรงปะทะที่ขอให้ขยับตำแหน่งชีวิต", harm: "แรงสะสมเล็ก ๆ ที่ควรคุยให้ชัด", combine: "แรงผูกพันที่พาคนหรือโอกาสเข้าหา", self: "แรงทับซ้ำที่ทำให้บทเรียนเดิมกลับมาให้เห็นชัด" };
+  if (!relations.length) return "ยังไม่มีแรงชนที่ชวนให้ปรับตัวหรือแรงดึงดูดให้เชื่อมโยงที่เด่นเกินไป จึงอ่านผ่านภาพรวมของช่วงนี้ได้อย่างค่อยเป็นค่อยไป";
+  const typeLabels = { clash: "แรงชนที่ชวนให้ปรับตัวที่ขอให้ขยับตำแหน่งชีวิต", harm: "แรงสะสมเล็ก ๆ ที่ควรคุยให้ชัด", combine: "แรงดึงดูดให้เชื่อมโยงที่พาคนหรือโอกาสเข้าหา", self: "แรงทับซ้ำที่ทำให้บทเรียนเดิมกลับมาให้เห็นชัด" };
   return relations.map((relation) => `${typeLabels[relation.type]}กับ${pillarPositionThai(relation.pillar)} ${premiumBranchLabel(relation.branch)}`).join(", ");
 }
 
 function buildDecadeFocusFromDiagnosis(activatedTenGod, branchTenGods, branchRelations, favorability, index) {
   const hiddenLead = branchTenGods[0]?.tenGod || activatedTenGod;
   const relationLead = branchRelations.find((relation) => relation.type === "clash" || relation.type === "harm");
-  if (relationLead) return `${tenGodThai(activatedTenGod)} ถูกเร่งผ่าน${relationLead.type === "clash" ? "แรงปะทะ" : "แรงสะสม"}ของ${pillarPositionThai(relationLead.pillar)}`;
-  if (favorability.supportScore >= 55) return `${tenGodThai(activatedTenGod)} เปิดทางด้วยธาตุผู้พิทักษ์`;
-  if (hiddenLead !== activatedTenGod) return `${tenGodThai(activatedTenGod)} อยู่หน้าฉาก แต่ใจลึก ๆ กำลังเรียนรู้ ${tenGodThai(hiddenLead)}`;
+  if (relationLead) return `${tenGodThai(activatedTenGod)} ถูกเร่งผ่าน${relationLead.type === "clash" ? "แรงชนที่ชวนให้ปรับตัว" : "แรงสะสม"}ของ${pillarPositionThai(relationLead.pillar)}`;
+  if (favorability.supportScore >= 55) return `${tenGodThai(activatedTenGod)} เปิดทางด้วยธาตุที่ช่วยให้สมดุล`;
+  if (hiddenLead !== activatedTenGod) return `${tenGodThai(activatedTenGod)} อยู่ด้านที่เห็นชัด แต่ใจลึก ๆ กำลังเรียนรู้ ${tenGodThai(hiddenLead)}`;
   return [`จัดระเบียบ ${tenGodThai(activatedTenGod)}`, `ทดสอบบทบาท ${tenGodThai(activatedTenGod)}`, `ต่อยอด ${tenGodThai(activatedTenGod)}`, `เปลี่ยนวิธีใช้ ${tenGodThai(activatedTenGod)}`][index % 4];
 }
 
@@ -1398,7 +1398,7 @@ function buildDecadeClimateFromDiagnosis(luckJiazi, master, activatedTenGod, bra
   const lifeStage = getHumanAgeStage(ageStart);
   const transition = buildDecadeTransition(index, activatedTenGod, favorability);
   const example = getDecadeRealLifeExample(activatedTenGod, branchRelations, favorability, ageStart);
-  return `รอบอายุ ${ageRangeLabel} เดินเข้ามาพร้อม ${premiumPillarLabel(luckJiazi.stem, luckJiazi.branch)} ด้านบนปลุก ${tenGodThai(activatedTenGod)} ซึ่งเกี่ยวกับ ${tenGodDomain(activatedTenGod)} ส่วนรากล่างมี ${hiddenSummary} ทำให้รอบนี้มีหลายชั้น ไม่ใช่คำอ่านรสเดียว ภาพรวมคือ ${favorability.label} เพราะได้รับอิทธิพลจาก ${premiumElementLabel(favorability.stemElement)} และ ${premiumElementLabel(favorability.branchElement)} ${lifeStage.label}: ${lifeStage.copy} ${transition} ในเชิงใจ รอบนี้แตะเรื่อง ${psych.coreDrive} และชวนให้รู้ทันเวลามันกลายเป็น ${psych.shadowPattern} ${example}`;
+  return `รอบอายุ ${ageRangeLabel} เดินเข้ามาพร้อม ${premiumPillarLabel(luckJiazi.stem, luckJiazi.branch)} ด้านบนปลุก ${tenGodThai(activatedTenGod)} ซึ่งเกี่ยวกับ ${tenGodDomain(activatedTenGod)} ส่วนฐานล่างมี ${hiddenSummary} ทำให้รอบนี้มีหลายชั้น ไม่ใช่คำอ่านรสเดียว ภาพรวมคือ ${favorability.label} เพราะได้รับอิทธิพลจาก ${premiumElementLabel(favorability.stemElement)} และ ${premiumElementLabel(favorability.branchElement)} ${lifeStage.label}: ${lifeStage.copy} ${transition} ในเชิงใจ รอบนี้แตะเรื่อง ${psych.coreDrive} และชวนให้รู้ทันเวลามันกลายเป็น ${psych.shadowPattern} ${example}`;
 }
 
 function buildDecadeEventsFromDiagnosis(activatedTenGod, branchTenGods, branchRelations, favorability) {
@@ -1407,7 +1407,7 @@ function buildDecadeEventsFromDiagnosis(activatedTenGod, branchTenGods, branchRe
     `หัวใจของรอบ: ${tenGodThai(activatedTenGod)} - ${tenGodDomain(activatedTenGod)}`,
     `ชั้นในของใจ: ${psych.coreDrive}`,
     `แรงซ่อนด้านล่าง: ${branchTenGods.map((item) => `${premiumStemLabel(item.stem)} พา ${tenGodThai(item.tenGod)}`).join(" / ")}`,
-    `บรรยากาศของรอบ: ${favorability.label}`,
+    `ภาพรวมของช่วงนี้: ${favorability.label}`,
   ];
   if (branchRelations.length) events.push(`สัญญาณกับพื้นดวง: ${relationText(branchRelations)}`);
   return events;
@@ -1444,11 +1444,11 @@ function buildDecadeRisksFromDiagnosis(activatedTenGod, branchRelations, favorab
     "Indirect Resource": "สัญชาตญาณละเอียดมาก จึงควรมีหลักฐาน คนคุยที่ไว้ใจได้ และกิจวัตรที่ช่วยไม่ให้ใจคิดวนลำพัง",
   };
   const relationRisk = branchRelations.some((relation) => relation.type === "clash")
-    ? " รอบนี้มีแรงปะทะ จึงควรทำแผนสำรองก่อนเปลี่ยนงาน ย้ายบ้าน หรือคุยเรื่องความสัมพันธ์ที่กระทบอนาคต"
+    ? " รอบนี้มีแรงชนที่ชวนให้ปรับตัว จึงควรทำแผนสำรองก่อนเปลี่ยนงาน ย้ายบ้าน หรือคุยเรื่องความสัมพันธ์ที่กระทบอนาคต"
     : branchRelations.some((relation) => relation.type === "harm")
       ? " รอบนี้มีแรงสะสมเล็ก ๆ จึงควรเคลียร์เรื่องค้างใจตั้งแต่ยังเป็นเรื่องเบา ก่อนจะกลายเป็นความไม่ไว้ใจกัน"
       : "";
-  const balanceRisk = favorability.supportScore < 25 ? " เพราะพลังของรอบนี้ยังไม่ค่อยโอบรับธาตุผู้พิทักษ์ จึงควรลดการตัดสินใจแบบสุดโต่งและให้เวลาตัวเองตรวจความจริงอีกชั้น" : "";
+  const balanceRisk = favorability.supportScore < 25 ? " เพราะพลังของรอบนี้ยังไม่ค่อยเข้ากับธาตุที่ช่วยให้สมดุล จึงควรลดการตัดสินใจแบบสุดโต่งและให้เวลาตัวเองตรวจความจริงอีกชั้น" : "";
   return `${risks[activatedTenGod]}${relationRisk}${balanceRisk}`;
 }
 
@@ -1459,7 +1459,7 @@ function buildDecadeAdviceFromDiagnosis(favorableElements, activatedTenGod, bran
     : branchRelations.some((relation) => relation.type === "combine")
       ? "ใช้คน ความร่วมมือ และสัญญาระยะยาวให้เป็นประโยชน์ แต่อย่าให้การผูกพันทำให้เสียอิสระ"
       : "วางจังหวะทบทวนทุกปี เพราะรอบนี้เปลี่ยนผ่านแบบค่อยเป็นค่อยไป";
-  return `ใช้ธาตุผู้พิทักษ์ ${usefulText} เป็นเข็มทิศ เมื่อ ${tenGodThai(activatedTenGod)} ถูกปลุก ให้ถามว่าการตัดสินใจนี้ทำให้ใจมีพื้นที่หายใจขึ้นหรือบีบพลังชีวิตให้แคบลง ${relationAdvice} จุดที่น่ากลับมาเช็กตัวเองอยู่ช่วงอายุ ${ageStart + 3}-${ageStart + 6}; ถ้าช่วงนั้นเริ่มเห็นผลค่อยขยับต่อ แต่ถ้ายังฝืด ลองปรับวิธีก่อนใส่แรงเพิ่ม เช่น ทบทวนสัญญา คุยกับคนรักให้ตรงขึ้น หรือพักหนึ่งคืนก่อนตอบรับงานใหญ่`;
+  return `ใช้ธาตุที่ช่วยให้สมดุล ${usefulText} เป็นตัวช่วยเลือกทาง เมื่อ ${tenGodThai(activatedTenGod)} เด่นขึ้น ให้ถามว่าการตัดสินใจนี้ทำให้ใจมีพื้นที่หายใจขึ้นหรือบีบพลังชีวิตให้แคบลง ${relationAdvice} จุดที่น่ากลับมาเช็กตัวเองอยู่ช่วงอายุ ${ageStart + 3}-${ageStart + 6}; ถ้าช่วงนั้นเริ่มเห็นผลค่อยขยับต่อ แต่ถ้ายังฝืด ลองปรับวิธีก่อนใส่แรงเพิ่ม เช่น ทบทวนสัญญา คุยกับคนรักให้ตรงขึ้น หรือพักหนึ่งคืนก่อนตอบรับงานใหญ่`;
 }
 
 function buildInnerWorkFromDiagnosis(activatedTenGod, branchRelations, favorability) {
@@ -1477,7 +1477,7 @@ function buildInnerWorkFromDiagnosis(activatedTenGod, branchRelations, favorabil
     "Indirect Resource": "ฝึกเชื่อสัญชาตญาณพร้อมตรวจหลักฐาน",
   };
   const relationLayer = branchRelations.length ? ` บทเรียนซ้อนคือการรับมือกับ ${relationText(branchRelations)}` : "";
-  const balanceLayer = favorability.supportScore >= 55 ? " รอบนี้มีแรงหนุน ใช้จังหวะดีให้เป็นวินัย ไม่ใช่ใช้จนหมดแรง" : " รอบนี้ต้องบริหารพลัง อย่าฝืนให้ทุกอย่างสำเร็จพร้อมกัน";
+  const balanceLayer = favorability.supportScore >= 55 ? " รอบนี้มีแรงช่วยส่ง ใช้จังหวะดีให้เป็นวินัย ไม่ใช่ใช้จนหมดแรง" : " รอบนี้ต้องบริหารพลัง อย่าฝืนให้ทุกอย่างสำเร็จพร้อมกัน";
   return `${base[activatedTenGod]} ในชีวิตจริงอาจเริ่มจากเรื่องเล็กมาก เช่น เว้นหนึ่งจังหวะก่อนตอบแชตงาน ตั้งขอบเขตเวลาพัก หรือพูดความต้องการกับคนรักให้ชัดขึ้น ในเชิงจิตวิทยาให้ฝึกว่า ${psych.repairPractice}${relationLayer}${balanceLayer}`;
 }
 
@@ -1487,7 +1487,7 @@ function buildDecadeStagePlan(activatedTenGod, branchRelations, favorability, ag
     ? "ปี 1-3: จัดการแรงเปลี่ยนก่อน อย่าเพิ่งล็อกชีวิตด้วยสัญญายาวถ้าภาพจริงยังไม่นิ่ง"
     : `ปี 1-3: สังเกตว่า ${tenGodThai(activatedTenGod)} เข้ามาผ่านเรื่องใด และมันแตะความต้องการเรื่อง ${psych.coreDrive} แบบไหน`;
   const mid = favorability.supportScore >= 55
-    ? "ปี 4-6: เร่งใช้โอกาส เพราะธาตุของรอบหนุนดวงพอให้ขยายผล"
+    ? "ปี 4-6: เร่งใช้โอกาส เพราะธาตุของรอบช่วยส่งดวงพอให้ขยายผล"
     : `ปี 4-6: เลือกขยายเฉพาะสิ่งที่พิสูจน์แล้ว อย่าขยายจาก ${psych.shadowPattern}`;
   const late = `ปี 7-10: เก็บบทเรียน ตัดสิ่งที่กินพลัง และส่งต่อแบบฝึก "${psych.repairPractice}" เข้าสู่รอบถัดไป`;
   return { early, mid, late };
@@ -1564,7 +1564,7 @@ function buildDecadeEvents(elementKey, index, activatedTenGod) {
     METAL: ["เปลี่ยนกติกาชีวิต", "ตัดความสัมพันธ์หรืองานที่ไม่ตรงมาตรฐาน", "มีการสอบ แข่งขัน หรือถูกดูผลงานอย่างจริงจัง", "ต้องตัดสินใจเด็ดขาด"],
     WATER: ["เดินทาง เรียนต่อ หรือย้ายบริบท", "สนใจศาสตร์ลึกหรือการค้นหาตัวเอง", "เจอเรื่องใหม่ที่เปลี่ยนมุมมอง", "ต้องฟังสัญชาตญาณมากขึ้น"],
   };
-  return [`พลังเทพสิบองค์ที่ถูกปลุก: ${tenGodThai(activatedTenGod)}`, ...rotate(events[elementKey], index).slice(0, 3)];
+  return [`พลัง 10 แบบของดวงที่เด่นขึ้น: ${tenGodThai(activatedTenGod)}`, ...rotate(events[elementKey], index).slice(0, 3)];
 }
 
 function buildDecadeOpportunities(elementKey, index, ageStart, activatedTenGod) {
@@ -1634,7 +1634,7 @@ function getPremiumMasterVoice() {
 function getPremiumStrengthVoice() {
   if (state.transformation) {
     return {
-      label: "ดวงแปรสภาพ",
+      label: "ดวงเปลี่ยนแรงเป็นโอกาส",
       english: "The Alchemist",
       copy: "พลังในดวงกำลังเปลี่ยนรูปจากแรงดิบให้กลายเป็นเส้นทางเฉพาะตัว จึงต้องอ่านด้วยความประณีตมากกว่าตัดสินว่าอ่อนหรือแข็ง",
     };
@@ -1654,7 +1654,7 @@ function getGuardianElementCopy() {
 }
 
 function getGuardianElementLabel() {
-  return `ธาตุผู้พิทักษ์ ${getUsefulGodLabel()}`;
+  return getUsefulGodLabel();
 }
 
 function hasDecadeClash(item) {
@@ -1751,17 +1751,17 @@ const premiumDisplayLexicon = {
     亥: "กุน น้ำลึกก่อนเริ่มรอบใหม่",
   },
   tenGods: {
-    Friend: { label: "เทพปีเกียง", code: "比肩" },
-    "Rob Wealth": { label: "เทพเกียบไช้", code: "劫財" },
-    "Eating God": { label: "เทพเจียะซิ้ง", code: "食神" },
-    "Hurting Officer": { label: "เทพเซียงกัว", code: "傷官" },
-    "Direct Wealth": { label: "เทพเจี่ยไช้", code: "正財" },
-    "Indirect Wealth": { label: "เทพเพียงไช้", code: "偏財" },
-    "Direct Officer": { label: "เทพเจี่ยกัว", code: "正官" },
-    "Seven Killings": { label: "เทพฉิกสัวะ", code: "七殺" },
-    "Direct Resource": { label: "เทพเจี่ยอิน", code: "正印" },
-    "Indirect Resource": { label: "เทพเพียงอิน", code: "偏印" },
-    "Day Master": { label: "แกนชีวิตของตัวตน", code: "日主" },
+    Friend: { label: "ปีเกียง - ตัวตนและเพื่อน", code: "比肩" },
+    "Rob Wealth": { label: "เกียบไช้ - หุ้นส่วนและการแข่งขัน", code: "劫財" },
+    "Eating God": { label: "เจียะซิ้ง - ความสุขและผลงาน", code: "食神" },
+    "Hurting Officer": { label: "เซียงกัว - ไอเดียและการแสดงออก", code: "傷官" },
+    "Direct Wealth": { label: "เจี่ยไช้ - เงินที่จัดการได้", code: "正財" },
+    "Indirect Wealth": { label: "เพียงไช้ - โอกาสและเงินเสริม", code: "偏財" },
+    "Direct Officer": { label: "เจี่ยกัว - กฎเกณฑ์และตำแหน่ง", code: "正官" },
+    "Seven Killings": { label: "ฉิกสัวะ - แรงกดดันและความกล้า", code: "七殺" },
+    "Direct Resource": { label: "เจี่ยอิน - ความรู้และผู้สนับสนุน", code: "正印" },
+    "Indirect Resource": { label: "เพียงอิน - สัญชาตญาณและงานลึก", code: "偏印" },
+    "Day Master": { label: "ตัวตนหลัก", code: "日主" },
   },
 };
 
@@ -1775,11 +1775,11 @@ function premiumElementLabel(key, html = false) {
 }
 
 function premiumStemLabel(stem, html = false) {
-  return `${premiumDisplayLexicon.stems[stem] || "ราศีบน"} ${formatCode(stem, html)}`;
+  return `${premiumDisplayLexicon.stems[stem] || "ตัวบน"} ${formatCode(stem, html)}`;
 }
 
 function premiumBranchLabel(branch, html = false) {
-  return `${premiumDisplayLexicon.branches[branch] || "ราศีล่าง"} ${formatCode(branch, html)}`;
+  return `${premiumDisplayLexicon.branches[branch] || "ตัวล่าง"} ${formatCode(branch, html)}`;
 }
 
 function premiumPillarLabel(stem, branch, html = false) {
@@ -1792,7 +1792,7 @@ function premiumTenGodLabel(tenGod, html = false) {
 }
 
 function pillarPositionThai(label) {
-  return { Year: "เสาปี", Month: "เสาเดือน", Day: "เสาวัน", Hour: "เสายาม" }[label] || label;
+  return { Year: "เสาปี", Month: "เสาเดือน", Day: "เสาวัน", Hour: "เสาเวลาเกิด" }[label] || label;
 }
 
 function getHumanAgeStage(ageStart) {
@@ -1804,7 +1804,7 @@ function getHumanAgeStage(ageStart) {
   }
   if (ageStart < 26) {
     return {
-      label: "วัยลองโลกและสะสมประกายฝัน",
+      label: "วัยลองโลกและสะสมความฝัน",
       copy: "นี่คือช่วงที่คนส่วนใหญ่มักลองเรียน ลองรัก ลองทำงาน และลองผิดพลาดอย่างมีความหมาย เหมือนจิบกาแฟเช้าวันแรกของงานใหม่แล้วพบว่าใจเริ่มถามจริงจังว่าอยากเป็นใคร",
     };
   }
@@ -1817,7 +1817,7 @@ function getHumanAgeStage(ageStart) {
   if (ageStart < 46) {
     return {
       label: "วัยสร้างรากฐานและเลือกภาระที่ใช่",
-      copy: "นี่คือช่วงที่ชีวิตไม่อยากพิสูจน์ทุกอย่างแล้ว แต่อยากสร้างสิ่งที่อยู่ได้นาน ทั้งงานที่มีลายเซ็น ความสัมพันธ์ที่ไว้ใจได้ และจังหวะชีวิตที่ไม่ทำให้ใจเหนื่อยเกินไป",
+      copy: "นี่คือช่วงที่ชีวิตไม่อยากพิสูจน์ทุกอย่างแล้ว แต่อยากสร้างสิ่งที่อยู่ได้นาน ทั้งงานที่มีสไตล์เฉพาะตัว ความสัมพันธ์ที่ไว้ใจได้ และจังหวะชีวิตที่ไม่ทำให้ใจเหนื่อยเกินไป",
     };
   }
   if (ageStart < 56) {
@@ -1841,7 +1841,7 @@ function getHumanAgeStage(ageStart) {
 function buildDecadeTransition(index, activatedTenGod, favorability) {
   const tenGodText = premiumTenGodLabel(activatedTenGod);
   if (index === 0) {
-    return `นี่คือประตูแรกของวัยจรใหญ่ จึงควรอ่านเหมือนบทนำที่สอนให้รู้จัก ${tenGodText} ผ่านคนรอบตัว โรงเรียน บ้าน หรือประสบการณ์ตั้งต้นที่ค่อย ๆ วางรอยบนใจ`;
+    return `นี่คือประตูแรกของช่วงดวง 10 ปี จึงควรอ่านเหมือนบทนำที่สอนให้รู้จัก ${tenGodText} ผ่านคนรอบตัว โรงเรียน บ้าน หรือประสบการณ์ตั้งต้นที่ค่อย ๆ วางรอยบนใจ`;
   }
   if (favorability.supportScore >= 55) {
     return `เมื่อข้ามจากรอบก่อนมาถึงรอบนี้ ชีวิตเหมือนได้ลมส่งหลังมากขึ้น สิ่งที่เคยฝึกไว้จะเริ่มมีเวทีให้ใช้ โดยเฉพาะบทเรียนของ ${tenGodText}`;
@@ -1866,9 +1866,9 @@ function getDecadeRealLifeExample(activatedTenGod, branchRelations, favorability
     "Direct Officer": "เช่น ได้รับบทบาทที่คนคาดหวังมากขึ้น ต้องยืนในตำแหน่งอย่างสง่า โดยไม่ปล่อยให้ตำแหน่งกลบเสียงข้างใน",
     "Seven Killings": "เช่น เจองานเร่ง คู่แข่งแรง หรือสถานการณ์บังคับให้ตัดสินใจเร็ว จึงต้องนิ่งพอจะเลือกสนาม ไม่ใช่ตอบโต้ทุกแรงกดดัน",
     "Direct Resource": "เช่น ได้ผู้แนะนำที่ไว้ใจได้ หลักสูตร ใบรับรอง หรือเวลาพักฟื้นที่ช่วยให้คุณกลับมาทำงานด้วยฐานใจที่มั่นคงกว่าเดิม",
-    "Indirect Resource": "เช่น เริ่มสนใจงานลึก งานวิจัย การเยียวยา หรือความหมายของชีวิต แต่ต้องมีหลักฐานและกิจวัตรคอยพยุงไม่ให้คิดวนลำพัง",
+    "Indirect Resource": "เช่น เริ่มสนใจงานลึก งานวิจัย การเยียวยา หรือความหมายของชีวิต แต่ต้องมีหลักฐานและกิจวัตรช่วยไม่ให้คิดวนลำพัง",
   };
-  const tempo = favorability.supportScore >= 55 ? "จังหวะนี้ค่อนข้างมีลมหนุน" : favorability.supportScore < 25 ? "จังหวะนี้ควรลดการเดิมพันใหญ่" : "จังหวะนี้เหมาะกับการลองแล้วปรับ";
+  const tempo = favorability.supportScore >= 55 ? "จังหวะนี้ค่อนข้างมีแรงช่วยส่ง" : favorability.supportScore < 25 ? "จังหวะนี้ควรลดการเดิมพันใหญ่" : "จังหวะนี้เหมาะกับการลองแล้วปรับ";
   return `${examples[activatedTenGod] || "เช่น ชีวิตหยิบสถานการณ์ธรรมดาในงานและความสัมพันธ์มาเป็นห้องเรียนส่วนตัว"} ${tempo} โดยเฉพาะช่วงอายุ ${ageStart + 3}-${ageStart + 6} ปี`;
 }
 
@@ -1907,9 +1907,9 @@ function renderPillars() {
         return `
           <div class="pillar unknown-hour">
             <span>Hour</span>
-            <strong>ยังไม่ทราบเสายาม</strong>
+            <strong>ยังไม่ทราบเสาเวลาเกิด</strong>
             <div>${possible.length} แบบที่เป็นไปได้</div>
-            <small>อ่าน strength/personality จาก 3 เสาหลัก ส่วนเสายามจริงยังต้องรอข้อมูลเวลาเกิด</small>
+            <small>อ่าน พลังชีวิตและบุคลิก จาก 3 เสาหลัก ส่วนเสาเวลาเกิดจริงยังต้องรอข้อมูลเวลาเกิด</small>
             <small>${possible.slice(0, 4).join(" · ")}${possible.length > 4 ? " · ..." : ""}</small>
           </div>
         `;
@@ -1976,15 +1976,15 @@ function renderInsightStudio() {
   document.getElementById("readingCopy").innerHTML = `
     <strong>${name}: ${masterVoice.name} — ${masterVoice.tagline}</strong>
     <p>${masterVoice.essence} ภาพของดวงนี้คล้าย ${masterVoice.image} ที่ไม่ได้มีไว้เพียงบอกว่า “คุณเป็นใคร” แต่ชวนให้เห็นว่าพลังชีวิตของคุณจะงดงามที่สุดเมื่อได้อยู่ในพื้นที่แบบใด</p>
-    <p>เมื่ออ่านผ่านเลนส์จิตวิทยา แกนลึกของใจมักตามหา ${psych.coreNeed} ${premiumElementLabel(dominant.key)} จึงกลายเป็นบรรยากาศที่ขึ้นนำและทำให้ชีวิตพูดผ่านเรื่อง ${elementArchetypes[dominant.key]} ส่วน ${strengthVoice.label} บอกว่าจังหวะพลังโดยรวมกำลังชวนให้คุณใช้ชีวิตแบบ ${strengthVoice.copy}</p>
-    <p>ในวันที่ใจไม่ปลอดภัย รูปแบบที่อาจค่อย ๆ โผล่คือ ${psych.stressPattern} ตรงนี้ไม่ใช่ข้อเสีย แต่เป็นเงาสะท้อนที่ควรถูกเห็นด้วยความเมตตา ${masterVoice.caution}</p>
-    <p>เข็มทิศของดวงนี้คือ ${getGuardianElementLabel()} — ${getGuardianElementCopy()} เมื่อใช้พลังนี้เป็นเข็มทิศ ชีวิตจะไม่ต้องฝืนทุกอย่างพร้อมกัน แต่ค่อย ๆ เลือกพื้นที่สร้างผลงาน ความสัมพันธ์ และจังหวะพักที่ทำให้แสงของคุณสว่างได้นานขึ้น</p>
+    <p>เมื่ออ่านจากมุมจิตวิทยา แกนลึกของใจมักตามหา ${psych.coreNeed} ${premiumElementLabel(dominant.key)} จึงกลายเป็นพลังที่เด่นและทำให้ชีวิตมักแสดงออกผ่านเรื่อง ${elementArchetypes[dominant.key]} ส่วน ${strengthVoice.label} บอกว่าจังหวะพลังโดยรวมกำลังชวนให้คุณใช้ชีวิตแบบ ${strengthVoice.copy}</p>
+    <p>ในวันที่ใจไม่ปลอดภัย รูปแบบที่อาจค่อย ๆ โผล่คือ ${psych.stressPattern} ตรงนี้ไม่ใช่ข้อเสีย แต่เป็นจุดที่ควรมองอย่างใจเย็น ${masterVoice.caution}</p>
+    <p>ธาตุที่ช่วยให้ดวงนี้สมดุลคือ ${getGuardianElementLabel()} — ${getGuardianElementCopy()} เมื่อใช้พลังนี้เป็นตัวช่วยตัดสินใจ ชีวิตจะไม่ต้องฝืนทุกอย่างพร้อมกัน แต่ค่อย ๆ เลือกพื้นที่ทำงานและสร้างผลงาน ความสัมพันธ์ และจังหวะพักที่ทำให้แสงของคุณสว่างได้นานขึ้น</p>
   `;
 
   document.getElementById("readingActions").innerHTML = `
-    <div class="action-card"><span>แก่นแท้ที่งดงาม</span><strong>${psych.coreNeed}</strong><p>นี่คือเสียงเงียบ ๆ ที่ใจมักตามหาอยู่เบื้องหลังการตัดสินใจสำคัญ</p></div>
-    <div class="action-card"><span>เงาสะท้อนที่ควรรู้ทัน</span><strong>${premiumElementLabel(dominant.key)} นำมากเกิน</strong><p>${psych.stressPattern}</p></div>
-    <div class="action-card"><span>พลังงานเปิดทางสว่าง</span><strong>${getUsefulGodLabel()}</strong><p>${psych.repairPath} แล้วให้ธาตุผู้พิทักษ์พาใจกับชีวิตกลับสู่จังหวะที่นุ่มนวลขึ้น</p></div>
+    <div class="action-card"><span>ตัวตนข้างในที่งดงาม</span><strong>${psych.coreNeed}</strong><p>นี่คือเสียงเงียบ ๆ ที่ใจมักตามหาอยู่เบื้องหลังการตัดสินใจสำคัญ</p></div>
+    <div class="action-card"><span>จุดที่ควรรู้ทัน</span><strong>${premiumElementLabel(dominant.key)} นำมากเกิน</strong><p>${psych.stressPattern}</p></div>
+    <div class="action-card"><span>พลังที่ช่วยเปิดทาง</span><strong>${getUsefulGodLabel()}</strong><p>${psych.repairPath} แล้วใช้ธาตุที่ช่วยให้สมดุลเป็นแนวทางพาใจกับชีวิตกลับมานิ่งขึ้น</p></div>
     <div class="action-card"><span>แบบฝึกใจ</span><strong>เสริม ${premiumElementLabel(weakest.key)} ผ่านสิ่งที่ทำได้จริง</strong><p>${elementSupportPractice(weakest.key)} ${psych.growthPractice}</p></div>
   `;
 }
@@ -2040,7 +2040,7 @@ function renderLuckDetail() {
     ${renderWisdomComponent(wisdom)}
     <div class="luck-detail-grid">
       <article class="luck-card">
-        <span>เรื่องที่ถูกปลุก</span>
+        <span>เรื่องที่เด่นขึ้น</span>
         <strong>${tenGodThai(item.activatedTenGod)}</strong>
         <p>${tenGodDomain(item.activatedTenGod)}</p>
       </article>
@@ -2179,7 +2179,7 @@ function getWeakestElement() {
 
 function describeElementPresence(elementKey) {
   const value = state.elementValues[elementKey] || 0;
-  if (value >= 32) return "ขึ้นนำชัด";
+  if (value >= 32) return "เด่นชัด";
   if (value >= 22) return "มีกำลังดี";
   if (value >= 14) return "พอประคองสมดุล";
   return "ค่อนข้างเบา";
@@ -2235,7 +2235,7 @@ function renderPrintReport() {
       <p>จัดทำสำหรับ ${escapeHtml(name)} | สร้างเมื่อ ${escapeHtml(generatedAt)}</p>
       <div class="print-meta">
         ${printCard("วันเกิด", escapeHtml(birthDate), "จุดเริ่มต้น")}
-        ${printCard("เวลาเกิด", escapeHtml(birthTime), state.birthTimeUnknown ? "คำนวณแกนหลักจาก 3 เสา และแยกเสายามที่เป็นไปได้ไว้ต่างหาก" : "ใช้ดูเสายาม")}
+        ${printCard("เวลาเกิด", escapeHtml(birthTime), state.birthTimeUnknown ? "คำนวณแกนหลักจาก 3 เสา และแยกเสาเวลาเกิดที่เป็นไปได้ไว้ต่างหาก" : "ใช้ดูเสาเวลาเกิด")}
         ${printCard("สถานที่เกิด", escapeHtml(birthPlace), "ใช้เทียบเวลาแดดจริง")}
         ${printCard("เจ้าชะตา", masterVoice.name, `${masterVoice.title} · ${masterVoice.image}`)}
         ${printCard("เวลาแดดจริง", `${state.birth.trueSolarOffsetMinutes} นาที`, `ลองจิจูด ${state.birth.longitude}`)}
@@ -2248,9 +2248,9 @@ function renderPrintReport() {
       <h2>ภาพรวมสำคัญ</h2>
       <div class="print-grid">
         ${printCard("จังหวะพลังชีวิต", getStrengthNarrative(), getStrengthDetail())}
-        ${printCard("ธาตุผู้พิทักษ์", getGuardianElementLabel(), getGuardianElementCopy())}
+        ${printCard("ธาตุที่ช่วยให้สมดุล", getGuardianElementLabel(), getGuardianElementCopy())}
         ${printCard("รูปแบบดวง", state.chartType, strengthVoice.copy)}
-        ${printCard("ด้านเด่น", topTrait.label, "เป็นภาษาหลักในการสร้างงานและสื่อสารคุณค่า")}
+        ${printCard("ด้านเด่น", topTrait.label, "เป็นวิธีแสดงออกหลักในการสร้างงานและสื่อสารคุณค่า")}
       </div>
     </section>
 <section class="print-section">
@@ -2281,26 +2281,26 @@ function renderPrintReport() {
     <section class="print-section">
       <h2>สิ่งเสริมสมดุล</h2>
       <div class="print-grid">
-        ${printCard("สีและบรรยากาศ", getGuardianElementLabel(), `ใช้สีหรือบรรยากาศของ${getGuardianElementLabel()} เพื่อช่วยเปิดทางให้ใจกลับมาสมดุล`)}
+        ${printCard("สีและความรู้สึกของพื้นที่", getGuardianElementLabel(), `ใช้สีหรือบรรยากาศที่เข้ากับ${getGuardianElementLabel()} เพื่อช่วยให้ใจกลับมาสมดุล`)}
         ${printCard("ทิศสนับสนุน", escapeHtml(document.getElementById("directions").textContent), "ใช้เป็นทิศทางเล็ก ๆ ตอนจัดโต๊ะ จัดห้อง หรือวางใจเริ่มวันใหม่")}
         ${printCard("เลขเสริม", escapeHtml(document.getElementById("numbers").textContent), "ใช้เป็นตัวช่วยจำเล็ก ๆ เวลาวางจังหวะชีวิต")}
-        ${printCard("ธาตุผู้พิทักษ์", getGuardianElementLabel(), getGuardianElementCopy())}
+        ${printCard("ธาตุที่ช่วยให้สมดุล", getGuardianElementLabel(), getGuardianElementCopy())}
       </div>
     </section>
 
     <section class="print-section">
       <h2>ห้องอ่านชีวิตเชิงลึก</h2>
-      <p>${escapeHtml(name)} มีแกนดิถีแบบ ${masterVoice.name} (${masterVoice.title}) ภาพภายในคล้าย ${masterVoice.image} ${premiumElementLabel(dominant.key)} เป็นบรรยากาศที่ขึ้นนำและสะท้อน ${elementArchetypes[dominant.key]} ส่วน ${premiumElementLabel(weakest.key)} คือพลังที่ยังเบา แปลแบบง่าย ๆ คือควรจัดกิจวัตร สภาพแวดล้อม หรือคนรอบตัวให้ช่วยพยุงด้านนี้มากขึ้น</p>
-      <p>${getGuardianElementLabel()} คือพลังงานเปิดทางสว่างของดวงนี้ ใช้เป็นตัวกรองเมื่อต้องเลือกงาน ความสัมพันธ์ หรือจังหวะเปลี่ยนชีวิต โดยไม่ต้องฝืนธรรมชาติของตัวเองจนเกินพอดี</p>
+      <p>${escapeHtml(name)} มีธาตุหลักประจำตัวแบบ ${masterVoice.name} (${masterVoice.title}) ภาพภายในคล้าย ${masterVoice.image} ${premiumElementLabel(dominant.key)} เป็นพลังที่เด่น จึงทำให้ชีวิตมักเจอเรื่อง ${elementArchetypes[dominant.key]} ส่วน ${premiumElementLabel(weakest.key)} คือพลังที่ยังมีน้อย แปลแบบง่าย ๆ คือควรจัดกิจวัตร สภาพแวดล้อม หรือคนรอบตัวให้ช่วยให้ด้านนี้สมดุลขึ้น</p>
+      <p>${getGuardianElementLabel()} คือพลังที่ช่วยเปิดทางของดวงนี้ ใช้เป็นตัวช่วยคิดเมื่อต้องเลือกงาน ความสัมพันธ์ หรือจังหวะเปลี่ยนชีวิต โดยไม่ต้องฝืนธรรมชาติของตัวเองจนเกินพอดี</p>
     </section>
 
     <section class="print-section">
       <h2>สิ่งที่ลองทำได้เลย</h2>
       <div class="print-grid">
         ${printCard("โอกาส", `สร้างชื่อจาก ${topTrait.label}`, "ใช้ความถนัดเด่นเป็นจุดตั้งต้นของงานหรือการตัดสินใจสำคัญ")}
-        ${printCard("เงาสะท้อน", `${premiumElementLabel(dominant.key)} นำมากไป`, "รู้ทันการตัดสินใจเร็ว ความคาดหวังสูง หรือการรับภาระเกินขอบเขต")}
+        ${printCard("จุดที่ควรรู้ทัน", `${premiumElementLabel(dominant.key)} นำมากไป`, "รู้ทันการตัดสินใจเร็ว ความคาดหวังสูง หรือการรับภาระเกินขอบเขต")}
         ${printCard("ก้าวถัดไป", `เสริม ${premiumElementLabel(weakest.key)} ให้ใช้ได้จริง`, elementSupportPractice(weakest.key))}
-        ${printCard("ตัวช่วยก่อนตัดสินใจ", getGuardianElementLabel(), "ใช้ธาตุผู้พิทักษ์เป็นเข็มทิศก่อนตัดสินใจเรื่องใหญ่")}
+        ${printCard("ตัวช่วยก่อนตัดสินใจ", getGuardianElementLabel(), "ใช้ธาตุที่ช่วยให้สมดุลเป็นตัวช่วยคิดก่อนเลือกเรื่องใหญ่")}
         ${activeWisdom ? printCard(activeWisdom.label, activeWisdom.title, activeWisdom.text) : ""}
       </div>
     </section>
@@ -2334,7 +2334,7 @@ function renderPrintReport() {
               <p><b>สิ่งที่มักเกิดขึ้น:</b></p>
               <ul>${item.eventThemes.map((theme) => `<li>${theme}</li>`).join("")}</ul>
               <p><b>โอกาส:</b> ${item.opportunities}</p>
-              <p><b>เงาสะท้อน:</b> ${item.risks}</p>
+              <p><b>จุดที่ควรรู้ทัน:</b> ${item.risks}</p>
               ${renderLuckWisdomPrint(item)}
               <p><b>บทเรียนด้านใน:</b> ${item.innerWork}</p>
               <p><b>คำแนะนำ:</b> ${item.advice}</p>
@@ -2355,20 +2355,20 @@ function buildPrintableReportSections(name, dominant, weakest, topTrait) {
   const strengthVoice = getPremiumStrengthVoice();
   return {
     personality: `
-      <p>${safeName} มีแกนดิถีแบบ ${masterVoice.name} (${masterVoice.title}) ภาพภายในคล้าย ${masterVoice.image} ที่ค่อย ๆ เผยความหมายเมื่ออยู่ในพื้นที่ที่ให้เกียรติจังหวะของหัวใจ</p>
-      <p>${masterVoice.essence} ถ้าอ่านแบบนักจิตวิทยา ใจลึก ๆ ต้องการ ${psych.coreNeed} และมักใช้ ${topTrait.label} เป็นภาษาหลักในการขอพื้นที่ปลอดภัย การยอมรับ และความรู้สึกว่าตัวเองมีคุณค่า</p>
+      <p>${safeName} มีธาตุหลักประจำตัวแบบ ${masterVoice.name} (${masterVoice.title}) ภาพภายในคล้าย ${masterVoice.image} ที่ค่อย ๆ เผยความหมายเมื่ออยู่ในพื้นที่ที่ให้เกียรติจังหวะของหัวใจ</p>
+      <p>${masterVoice.essence} ถ้าอ่านแบบนักจิตวิทยา ใจลึก ๆ ต้องการ ${psych.coreNeed} และมักใช้ ${topTrait.label} เป็นวิธีแสดงออกหลักในการขอพื้นที่ปลอดภัย การยอมรับ และความรู้สึกว่าตัวเองมีคุณค่า</p>
       <ul>
-        <li>สภาพอากาศหลักของดวง: ${premiumElementLabel(dominant.key)} ทำให้ชีวิตมักพูดผ่านเรื่อง ${elementArchetypes[dominant.key]}</li>
-        <li>ด้านที่เปล่งประกาย: ${topTrait.label} คือภาษาหลักที่ควรใช้สร้างงานและสื่อสารคุณค่า</li>
-        <li>ด้านที่ควรวางระบบช่วยพยุง: ${premiumElementLabel(weakest.key)} ผ่านกิจวัตร สภาพแวดล้อม และคนที่ช่วยให้ใจทำงานได้สมดุลขึ้น</li>
+        <li>ภาพรวมพลังของดวง: ${premiumElementLabel(dominant.key)} ทำให้ชีวิตมักแสดงออกผ่านเรื่อง ${elementArchetypes[dominant.key]}</li>
+        <li>จุดเด่นที่ใช้ได้ดี: ${topTrait.label} คือวิธีแสดงออกหลักที่ควรใช้สร้างงานและสื่อสารคุณค่า</li>
+        <li>ด้านที่ควรวางระบบช่วยให้สมดุล: ${premiumElementLabel(weakest.key)} ผ่านกิจวัตร สภาพแวดล้อม และคนที่ช่วยให้ใจทำงานได้สมดุลขึ้น</li>
       </ul>
     `,
     career: `
-      <p>งานที่ใช่ไม่ใช่เพียงงานที่ทำได้ดี แต่คือพื้นที่ที่ให้ ${masterVoice.name} ได้แปลงแก่นแท้เป็นผลงานที่มีลายเซ็นของตัวเอง ${getGuardianElementLabel()} ควรถูกออกแบบเข้าไปในวิธีทำงาน เพื่อเป็นพลังงานเปิดทางสว่างของการตัดสินใจ</p>
-      <p>เวลางานกดดัน รูปแบบที่ควรสังเกตคือ ${psych.stressPattern} ถ้ารู้ทันเร็วพอ งานจะไม่กลายเป็นสนามพิสูจน์คุณค่า แต่จะกลับมาเป็นพื้นที่สร้างผลงานอย่างมีสติและสง่างาม</p>
+      <p>งานที่ใช่ไม่ใช่เพียงงานที่ทำได้ดี แต่คือพื้นที่ที่ให้ ${masterVoice.name} ได้แปลงตัวตนข้างในเป็นผลงานที่มีสไตล์เฉพาะตัวของตัวเอง ${getGuardianElementLabel()} ควรถูกออกแบบเข้าไปในวิธีทำงาน เพื่อเป็นพลังที่ช่วยเปิดทางของการตัดสินใจ</p>
+      <p>เวลางานกดดัน รูปแบบที่ควรสังเกตคือ ${psych.stressPattern} ถ้ารู้ทันเร็วพอ งานจะไม่กลายเป็นสนามพิสูจน์คุณค่า แต่จะกลับมาเป็นพื้นที่ทำงานและสร้างผลงานอย่างมีสติและสง่างาม</p>
       <ul>
         <li>บทบาทเหมาะ: วางกลยุทธ์ ให้คำปรึกษา กำหนดทิศทางสินค้า อ่านภาพรวม เส้นทางผู้ก่อตั้ง หรือบทบาทนำทีม</li>
-        <li>บรรยากาศงานที่เข้ากัน: มีอิสระในการตัดสินใจ แต่ต้องมีมาตรฐานวัดผลชัด</li>
+        <li>สภาพงานที่เข้ากัน: มีอิสระในการตัดสินใจ แต่ต้องมีมาตรฐานวัดผลชัด</li>
         <li>สิ่งที่ควรเว้นระยะ: งานที่เร่งตลอดเวลาแต่ไม่เปิดพื้นที่ให้คุณกำหนดทิศทาง</li>
       </ul>
     `,
@@ -2378,7 +2378,7 @@ function buildPrintableReportSections(name, dominant, weakest, topTrait) {
       <ul>
         <li>วิธีเล่นเกมเงิน: ทำรายได้หลักให้นิ่ง แล้วใช้รายได้รองเป็นพื้นที่ลองของ</li>
         <li>จุดแข็ง: สร้างมูลค่าจากการมองภาพรวมและจัดระเบียบสิ่งซับซ้อน</li>
-        <li>เงาสะท้อน: รับโอกาสมากเกินไปจนพลังแกนดิถีกระจาย</li>
+        <li>จุดที่ควรรู้ทัน: รับโอกาสมากเกินไปจนพลังธาตุหลักประจำตัวกระจาย</li>
       </ul>
     `,
     relationship: `
@@ -2392,7 +2392,7 @@ function buildPrintableReportSections(name, dominant, weakest, topTrait) {
     `,
     health: `
       <p>การดูแลสุขภาพไม่ต้องรอให้เหนื่อยมากแล้วค่อยแก้ ลองมองเป็นการถนอมไฟข้างในแบบวันต่อวัน ${premiumElementLabel(dominant.key)} ต้องมีทางระบาย ส่วน ${premiumElementLabel(weakest.key)} ควรถูกดูแลผ่านกิจวัตรที่ทำซ้ำได้จริง เช่น เวลาพัก วิธีทำงาน หรือพื้นที่ที่ทำให้ใจไม่ตึงเกินไป</p>
-      <p>ร่างกายของดวงนี้มักส่งสัญญาณเมื่อใจแบกนานเกินไป แบบฝึกใจที่ควรทำซ้ำคือ ${psych.growthPractice} เพราะเป็นวิธีพยุงจุดที่เบาโดยไม่ต้องเปลี่ยนชีวิตแบบรุนแรง</p>
+      <p>ร่างกายของดวงนี้มักส่งสัญญาณเมื่อใจแบกนานเกินไป แบบฝึกใจที่ควรทำซ้ำคือ ${psych.growthPractice} เพราะเป็นวิธีดูแลจุดที่ยังอ่อนโดยไม่ต้องเปลี่ยนชีวิตแบบรุนแรง</p>
       <ul>
         <li>ดูแลหลัก: การนอน ความเครียด การยืดเหยียด และช่วงเวลาปลอดหน้าจอ</li>
         <li>สัญญาณเตือน: ใจเร็ว คิดวน หงุดหงิดง่าย หรือหมดแรงหลังตัดสินใจเยอะ</li>
@@ -2400,7 +2400,7 @@ function buildPrintableReportSections(name, dominant, weakest, topTrait) {
       </ul>
     `,
     luck: `
-      <p>วัยจรควรถูกอ่านเป็นสภาพอากาศของชีวิตมากกว่าคำทำนายตายตัว ส่วนนี้รวมทุกช่วงอายุไว้ให้คุณค่อย ๆ ย้อนอ่านและวางแผนต่อได้ ${strengthVoice.copy}</p>
+      <p>ช่วงดวง 10 ปีควรถูกอ่านเป็นจังหวะขึ้นลงของชีวิตมากกว่าคำทำนายตายตัว ส่วนนี้รวมทุกช่วงอายุไว้ให้คุณค่อย ๆ ย้อนอ่านและวางแผนต่อได้ ${strengthVoice.copy}</p>
       <p>ในเชิงจิตวิทยา แต่ละรอบคือห้องเรียนของใจ รอบที่หนักไม่ได้แปลว่าแย่เสมอไป แต่อาจเป็นช่วงที่ชีวิตบังคับให้เห็นกลไกป้องกันตัวเองชัดขึ้น แล้วค่อยเลือกวิธีตอบสนองใหม่ที่เป็นผู้ใหญ่มากกว่าเดิม</p>
       <ul>
         <li>รอบที่เลือกบนหน้าเว็บล่าสุด: อายุ ${state.luck[activeLuckIndex].ageRangeLabel}</li>
@@ -2427,7 +2427,7 @@ function renderPillarPrintCards() {
     .map((pillar) => {
       if (state.birthTimeUnknown && pillar.label === "Hour") {
         const possible = state.sensitivity.possibleHourPillars || [];
-        return printCard("Hour", "ยังไม่ทราบเสายาม", `คำนวณ strength/personality จาก 3 เสาหลัก เสายามที่เป็นไปได้มี ${possible.length} แบบ: ${possible.slice(0, 5).join(" · ")}${possible.length > 5 ? " · ..." : ""}`);
+        return printCard("Hour", "ยังไม่ทราบเสาเวลาเกิด", `คำนวณ พลังชีวิตและบุคลิก จาก 3 เสาหลัก เสาเวลาเกิดที่เป็นไปได้มี ${possible.length} แบบ: ${possible.slice(0, 5).join(" · ")}${possible.length > 5 ? " · ..." : ""}`);
       }
       return printCard(pillar.label, premiumPillarLabel(pillar.stem, pillar.branch), tenGodThai(pillar.tenGod));
     })
@@ -2489,7 +2489,7 @@ function personalityMeaning(key) {
 }
 
 function getStrengthLevel() {
-  if (state.strength < 40) return "กำลังต้องมีแรงพยุง";
+  if (state.strength < 40) return "ควรมีคนหรือระบบช่วยประคอง";
   if (state.strength < 60) return "สมดุล";
   if (state.strength < 80) return "แรงกำลังดี";
   return "แรงเต็มถัง";
@@ -2574,7 +2574,7 @@ function orderedGuardianAdvice(elementKey) {
       copy: "เหมาะกับการพัก ฟังข้อมูล อ่านภาพรวม และไม่รีบตอบทุกอย่างทันที เช่น จดสิ่งที่รู้สึกก่อนประชุม หรือเว้นเวลาหนึ่งคืนก่อนตัดสินใจเรื่องใหญ่",
     },
   };
-  return advice[elementKey] || { title: "ใช้พลังนี้เป็นเข็มทิศ", copy: "สังเกตว่าพลังนี้ทำให้ใจนิ่งขึ้นตรงไหน แล้วออกแบบกิจวัตรและสภาพแวดล้อมให้รองรับจังหวะนั้น" };
+  return advice[elementKey] || { title: "ใช้พลังนี้เป็นตัวช่วยเลือกทาง", copy: "สังเกตว่าพลังนี้ทำให้ใจนิ่งขึ้นตรงไหน แล้วออกแบบกิจวัตรและสภาพแวดล้อมให้รองรับจังหวะนั้น" };
 }
 
 
@@ -2647,7 +2647,7 @@ function orderedQuestionDepth(modeKey, mode, mainGod, item, annualHits, topProfi
     },
   };
   const profile = modeAdvice[modeKey] || modeAdvice.career;
-  const years = annualHits.length ? annualHits.slice(0, 4).map((year) => `${year.year} (${year.signal})`).join(", ") : "ยังไม่มีปีที่เด่นชัดมากในวัยจรนี้";
+  const years = annualHits.length ? annualHits.slice(0, 4).map((year) => `${year.year} (${year.signal})`).join(", ") : "ยังไม่มีปีที่เด่นชัดมากในช่วง 10 ปีนี้";
   return {
     field: profile.field,
     situation: profile.situation,
@@ -2655,10 +2655,10 @@ function orderedQuestionDepth(modeKey, mode, mainGod, item, annualHits, topProfi
     caution: profile.caution,
     foundation: topProfileGod
       ? `พื้นดวงมี ${tenGodThai(topProfileGod[0])} เป็นแรงเกี่ยวข้องกับคำถามนี้ จึงแปลว่าคุณมีทรัพยากรภายในพอจะใช้เรื่องนี้เป็นทางเติบโต ไม่ใช่ต้องรอจังหวะจากข้างนอกอย่างเดียว`
-      : `พื้นดวงไม่ได้ดันเรื่องนี้แบบตรง ๆ มากนัก จึงควรเริ่มจากการจัดสภาพแวดล้อมและคนรอบตัวให้ช่วยพยุงก่อน แล้วค่อยเพิ่มแรง`,
+      : `พื้นดวงไม่ได้เน้นเรื่องนี้แบบตรง ๆ มากนัก จึงควรเริ่มจากการจัดสภาพแวดล้อมและคนรอบตัวให้ช่วยให้เรื่องนี้นิ่งขึ้นก่อน แล้วค่อยเพิ่มแรง`,
     decade: item
-      ? `วัยจรนี้กำลังกระตุ้น ${tenGodThai(item.activatedTenGod)} ซึ่งเกี่ยวกับ ${tenGodDomain(item.activatedTenGod)} ถ้าโยงกับคำถามเรื่อง${profile.field} ให้ดูว่าชีวิตกำลังขอให้คุณจัดบทบาท ขอบเขต หรือวิธีใช้พลังใหม่ตรงไหน`
-      : "ยังไม่มีวัยจรที่เลือกไว้ จึงอ่านจากพื้นดวงเป็นหลักก่อน",
+      ? `ช่วง 10 ปีนี้กำลังกระตุ้น ${tenGodThai(item.activatedTenGod)} ซึ่งเกี่ยวกับ ${tenGodDomain(item.activatedTenGod)} ถ้าโยงกับคำถามเรื่อง${profile.field} ให้ดูว่าชีวิตกำลังขอให้คุณจัดบทบาท ขอบเขต หรือวิธีใช้พลังใหม่ตรงไหน`
+      : "ยังไม่ได้เลือกช่วง 10 ปี จึงอ่านจากพื้นดวงเป็นหลักก่อน",
     years,
     innerWork: godPsych?.repairPractice || mode.action,
   };
@@ -2699,8 +2699,8 @@ function renderPillars() {
         return `
           <article class="pillar unknown-hour">
             <span>${pillarPositionThai(pillar.label)}</span>
-            <strong>ยังไม่ทราบเสายาม</strong>
-            <small>ตอนนี้อ่านแกนหลักจาก 3 เสาก่อน เสายามที่เป็นไปได้มี ${possible.length} แบบ</small>
+            <strong>ยังไม่ทราบเสาเวลาเกิด</strong>
+            <small>ตอนนี้อ่านแกนหลักจาก 3 เสาก่อน เสาเวลาเกิดที่เป็นไปได้มี ${possible.length} แบบ</small>
             <small>${possible.slice(0, 5).join(" · ")}${possible.length > 5 ? " · ..." : ""}</small>
           </article>
         `;
@@ -2758,8 +2758,8 @@ function renderInsightStudio() {
   orderedSetHtml("readingCopy", `
     <strong>${escapeHtml(name)}: ${masterVoice.name} — ${masterVoice.tagline}</strong>
     <p>จริง ๆ แล้วแกนดวงนี้เหมือน ${masterVoice.image} ที่ไม่ได้มีไว้บอกแค่ว่า “คุณเป็นคนแบบไหน” แต่ช่วยให้เห็นว่าคุณควรอยู่ในพื้นที่แบบไหนถึงจะไม่ต้องฝืนตัวเองมากเกินไป</p>
-    <p>${premiumElementLabel(dominant.key, true)} เป็นบรรยากาศที่ขึ้นนำ ทำให้ชีวิตมักพูดผ่านเรื่อง ${elementArchetypes[dominant.key]} ส่วนพรสวรรค์ที่คนมักสัมผัสได้คือ ${topTrait.label}</p>
-    <p>เทพสิบองค์ที่เด่นในพื้นดวงตอนนี้คือ ${topGods || "ยังไม่มีตัวไหนนำชัดมาก"} ถ้าใช้ดี มันจะกลายเป็นภาษาที่ช่วยให้คุณสร้างงาน เลือกคน และวางจังหวะชีวิตได้ตรงตัวขึ้น</p>
+    <p>${premiumElementLabel(dominant.key, true)} เป็นพลังที่เด่น ทำให้ชีวิตมักแสดงออกผ่านเรื่อง ${elementArchetypes[dominant.key]} ส่วนพรสวรรค์ที่คนมักสัมผัสได้คือ ${topTrait.label}</p>
+    <p>พลัง 10 แบบที่เด่นในดวงตอนนี้คือ ${topGods || "ยังไม่มีตัวไหนนำชัดมาก"} ถ้าใช้ดี มันจะกลายเป็นภาษาที่ช่วยให้คุณสร้างงาน เลือกคน และวางจังหวะชีวิตได้ตรงตัวขึ้น</p>
   `);
   orderedSetHtml("readingActions", `
     <article class="action-card"><span>สิ่งที่ใจต้องการ</span><strong>${psych.coreNeed}</strong><p>เวลาต้องตัดสินใจ ลองถามก่อนว่าเรื่องนี้ช่วยให้ใจได้สิ่งนี้จริงไหม</p></article>
@@ -2917,11 +2917,11 @@ function renderQuestionReading() {
   const psych = mainGod ? getTenGodPsychology(mainGod) : null;
   const depth = orderedQuestionDepth(activeQuestionMode, mode, mainGod, item, annualHits, topProfileGod);
   const matchText = relevantInDecade
-    ? `วัยจรรอบนี้แตะเรื่อง${depth.field}ค่อนข้างตรง เพราะ ${tenGodThai(item.activatedTenGod)} กำลังถูกปลุกขึ้นมาในชีวิตจริง`
-    : `คำถามเรื่อง${depth.field}ควรอ่านจากพื้นดวงก่อน แล้วใช้วัยจรเป็นสภาพอากาศประกอบ ไม่ต้องรีบสรุปจากช่วงเวลาอย่างเดียว`;
+    ? `ช่วง 10 ปีรอบนี้แตะเรื่อง${depth.field}ค่อนข้างตรง เพราะ ${tenGodThai(item.activatedTenGod)} กำลังเด่นขึ้นมาในชีวิตจริง`
+    : `คำถามเรื่อง${depth.field}ควรอ่านจากพื้นดวงก่อน แล้วใช้ช่วง 10 ปีเป็นจังหวะประกอบ ไม่ต้องรีบสรุปจากช่วงเวลาอย่างเดียว`;
     const yearLine = annualHits.length
     ? annualHits.slice(0, 3).map((year) => `${year.year} · ${year.signal}`).join(" / ")
-    : "ยังไม่มีปีไหนเด่นจนต้องรีบตัดสินใจ ใช้วัยจรหลักเป็นเข็มทิศก่อน";
+    : "ยังไม่มีปีไหนเด่นจนต้องรีบตัดสินใจ ใช้จังหวะหลักของช่วง 10 ปีเป็นตัวช่วยเลือกทางก่อน";
   const insightLead = psych?.coreDrive || depth.foundation;
   const focusKey = mainGod ? tenGodThai(mainGod) : getGuardianElementLabel();
   orderedSetHtml("questionReading", `
@@ -2945,7 +2945,7 @@ function renderQuestionReading() {
         <p>${insightLead}</p>
       </article>
       <article class="focus-story-card">
-        <span>วัยจรเล่าอะไร</span>
+        <span>ช่วง 10 ปีนี้เล่าอะไร</span>
         <strong>${item ? item.chapter.title : "อ่านจากพื้นดวงเป็นหลัก"}</strong>
         <p>${depth.decade}</p>
       </article>
@@ -2977,7 +2977,7 @@ function renderTimeline() {
     const isActive = index === activeLuckIndex;
     return `
       <button class="timeline-item ${isActive ? "active" : ""}" type="button" data-luck-index="${index}" aria-pressed="${isActive}">
-        <span class="timeline-age">วัยจร ${item.ageRangeLabel}</span>
+        <span class="timeline-age">ช่วง 10 ปี ${item.ageRangeLabel}</span>
         <strong>${item.focus}</strong>
         <small>${item.pillarCode} · ${tenGodThai(item.activatedTenGod)}</small>
         <em>${item.favorability.label}</em>
@@ -3000,7 +3000,7 @@ function renderLuckDetail() {
   const item = orderedCurrentLuck();
   if (!item) return;
   const wisdom = getLuckWisdomComponent(item);
-  orderedSetText("activeLuckLabel", `วัยจร ${item.ageRangeLabel}`);
+  orderedSetText("activeLuckLabel", `ช่วง 10 ปี ${item.ageRangeLabel}`);
   orderedSetHtml("luckDetail", `
     <div class="luck-hero">
       <span class="section-kicker">${item.pillarCode} · เริ่มโดยประมาณ ${item.startDateLabel}</span>
@@ -3014,7 +3014,7 @@ function renderLuckDetail() {
       <article class="luck-card"><span>โอกาส</span><strong>ใช้รอบนี้ให้เป็นงานจริง</strong><p>${item.opportunities}</p></article>
       <article class="luck-card"><span>จุดที่ควรใจเย็น</span><strong>อย่ารีบตอบจากแรงกดดัน</strong><p>${item.risks}</p></article>
     </div>
-    <article class="luck-card"><span>คำถามของวัยจรนี้</span><strong>${item.chapter.reflectiveQuestion}</strong><p>${item.chapter.narrative}</p></article>
+    <article class="luck-card"><span>คำถามของช่วง 10 ปีนี้</span><strong>${item.chapter.reflectiveQuestion}</strong><p>${item.chapter.narrative}</p></article>
   `);
 }
 
@@ -3022,9 +3022,9 @@ function renderPlanning() {
   const item = orderedCurrentLuck();
   if (!item) return;
   const cards = [
-    ["ต้นวัยจร", "ตั้งหลักให้ถูกสนาม", item.stagePlan.early],
-    ["กลางวัยจร", "เร่งเฉพาะสิ่งที่เริ่มชัด", item.stagePlan.mid],
-    ["ปลายวัยจร", "เก็บบทเรียนก่อนข้ามบทใหม่", item.stagePlan.late],
+    ["ต้นช่วง 10 ปี", "ตั้งหลักให้ถูกสนาม", item.stagePlan.early],
+    ["กลางช่วง 10 ปี", "เร่งเฉพาะสิ่งที่เริ่มชัด", item.stagePlan.mid],
+    ["ปลายช่วง 10 ปี", "เก็บบทเรียนก่อนข้ามบทใหม่", item.stagePlan.late],
     ["แบบฝึกส่วนตัว", item.chapter.intensity, item.chapter.closing],
   ];
   orderedSetHtml("planningGrid", cards.map(([label, title, copy]) => `
@@ -3046,11 +3046,11 @@ function renderPrintReport() {
       <p>วันเกิด ${escapeHtml(birthDate)} · เวลา ${escapeHtml(birthTime)} · สถานที่ ${escapeHtml(birthPlace)}</p>
     </section>
     <section class="print-section"><h2>1. คำแนะนำเว็บ</h2><p>อ่านรายงานนี้เป็นเพื่อนคิด ไม่ใช่คำสั่งตายตัว เริ่มจากตัวตน แล้วค่อยดูคำถามเฉพาะเรื่องและวัยจร</p></section>
-    <section class="print-section"><h2>2. ข้อมูลตั้งต้น</h2><div class="print-grid">${printCard("ธาตุหลัก", masterVoice.name, masterVoice.tagline)}${printCard("ธาตุผู้พิทักษ์", getGuardianElementLabel(), getGuardianElementCopy())}${printCard("พลังชีวิต", getStrengthNarrative(), getStrengthDetail())}${printCard("ธีมดวง", state.chartType, "อ่านจากโครงสร้างเสาและธาตุทั้งหมด")}</div></section>
+    <section class="print-section"><h2>2. ข้อมูลตั้งต้น</h2><div class="print-grid">${printCard("ธาตุหลัก", masterVoice.name, masterVoice.tagline)}${printCard("ธาตุที่ช่วยให้สมดุล", getGuardianElementLabel(), getGuardianElementCopy())}${printCard("พลังชีวิต", getStrengthNarrative(), getStrengthDetail())}${printCard("ธีมดวง", state.chartType, "อ่านจากโครงสร้างเสาและธาตุทั้งหมด")}</div></section>
     <section class="print-section"><h2>3. รายละเอียดตัวตน</h2><div class="print-grid">${renderPillarPrintCards()}</div><p>${masterVoice.essence}</p></section>
     <section class="print-section"><h2>4. นิสัย โชค และสิ่งที่มักพบ</h2><p>${document.getElementById("readingCopy")?.innerText || ""}</p><div class="print-grid">${orderedTraitEntries(4).map(([key, value]) => printCard(personalityLabel(key), describeScoreBand(value), personalityMeaning(key))).join("")}</div></section>
-    <section class="print-section"><h2>5. Focused question</h2><p>${escapeHtml(focusAnswer)}</p></section>
-    <section class="print-section"><h2>6. วัยจร</h2><p>${item ? `วัยจรที่เลือก: ${item.ageRangeLabel} · ${item.chapter.title}` : ""}</p>${state.luck.map((luck) => `<div class="print-section"><h3>วัยจร ${luck.ageRangeLabel}: ${luck.focus}</h3><p>${luck.climate}</p><p>${luck.advice}</p></div>`).join("")}</section>
+    <section class="print-section"><h2>5. คำถามเฉพาะเรื่อง</h2><p>${escapeHtml(focusAnswer)}</p></section>
+    <section class="print-section"><h2>6. วัยจร</h2><p>${item ? `ช่วง 10 ปีที่เลือก: ${item.ageRangeLabel} · ${item.chapter.title}` : ""}</p>${state.luck.map((luck) => `<div class="print-section"><h3>ช่วง 10 ปี ${luck.ageRangeLabel}: ${luck.focus}</h3><p>${luck.climate}</p><p>${luck.advice}</p></div>`).join("")}</section>
   `);
 }
 // ORDERED_INTERFACE_END
