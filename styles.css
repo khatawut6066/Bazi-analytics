@@ -891,3 +891,148 @@ canvas { max-width: 100%; }
   .trait-meter { grid-template-columns: 1fr; }
   .trait-meter b { text-align: left; }
 }
+/* Layout balance pass: reduce empty stretches and prevent card overflow */
+.identity-grid,
+.personality-layout,
+.luck-layout {
+  align-items: start;
+}
+
+.section-block,
+.panel,
+.summary-card,
+.guide-copy,
+.guide-card-grid,
+.guide-card-grid article,
+.birth-form,
+.identity-overview,
+.identity-overview > *,
+.identity-grid,
+.identity-grid > *,
+.identity-mini-columns,
+.identity-mini-columns > *,
+.personality-layout,
+.personality-layout > *,
+.luck-layout,
+.luck-layout > *,
+.question-reading,
+.luck-detail,
+.hook-summary,
+.daily-energy,
+.focus-action-panel,
+.luck-simple-grid,
+.luck-step-list,
+.trait-item,
+.timeline-item,
+.action-card,
+.premium-life-card,
+.theme-card,
+.question-card,
+.luck-card,
+.planning-card,
+.wisdom-component {
+  min-width: 0;
+}
+
+.compact-identity-grid {
+  grid-template-columns: 1fr;
+}
+
+.compact-identity-grid .balance-panel,
+.compact-identity-grid .chart-snapshot-panel,
+.compact-identity-grid .life-advice-panel {
+  grid-column: 1 / -1;
+}
+
+.compact-identity-grid .guardian-actions,
+.compact-identity-grid .compact-auspicious,
+.compact-identity-grid .life-advice {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.reading-panel {
+  min-height: auto;
+}
+
+.story-luck-layout .timeline {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.story-luck-layout .timeline-panel,
+.story-luck-layout .luck-detail-panel,
+.personality-layout .panel,
+.identity-grid .panel {
+  align-self: start;
+}
+
+.trait-panel .radar-wrap {
+  min-height: 300px;
+  padding: 0 0 8px;
+}
+
+canvas {
+  display: block;
+  width: min(100%, 520px);
+  height: auto;
+}
+
+.panel p,
+.panel strong,
+.panel small,
+.panel span,
+.summary-card strong,
+.summary-card small,
+.timeline-item strong,
+.timeline-item small,
+.timeline-item em,
+.trait-copy p,
+.trait-copy small,
+.trait-meter b,
+.primary-link,
+.secondary-link,
+.primary-action,
+.analyze-button,
+.status-pill,
+.focus-mini,
+.focus-badge {
+  overflow-wrap: anywhere;
+}
+
+.primary-link,
+.secondary-link,
+.primary-action,
+.analyze-button {
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .story-luck-layout .timeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .identity-mini-columns,
+  .compact-identity-grid .guardian-actions,
+  .compact-identity-grid .compact-auspicious,
+  .compact-identity-grid .life-advice {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .story-luck-layout .timeline,
+  .luck-step-list,
+  .luck-simple-grid,
+  .focus-action-panel,
+  .identity-mini-columns,
+  .compact-identity-grid .guardian-actions,
+  .compact-identity-grid .compact-auspicious,
+  .compact-identity-grid .life-advice {
+    grid-template-columns: 1fr;
+  }
+  .trait-panel .radar-wrap {
+    min-height: 260px;
+  }
+  .section-bridge {
+    margin-top: 12px;
+  }
+}

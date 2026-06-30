@@ -2012,8 +2012,8 @@ function renderRadar() {
   const width = canvas.width;
   const height = canvas.height;
   const centerX = width / 2;
-  const centerY = height / 2 + 10;
-  const radius = 108;
+  const centerY = height / 2 + 4;
+  const radius = Math.min(width, height) * 0.34;
   const entries = Object.entries(state.personality);
   ctx.clearRect(0, 0, width, height);
   ctx.strokeStyle = getCss("--line");
