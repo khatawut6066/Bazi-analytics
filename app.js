@@ -2012,13 +2012,13 @@ function renderRadar() {
   const width = canvas.width;
   const height = canvas.height;
   const centerX = width / 2;
-  const centerY = height / 2 + 8;
-  const radius = 116;
+  const centerY = height / 2 + 10;
+  const radius = 108;
   const entries = Object.entries(state.personality);
   ctx.clearRect(0, 0, width, height);
   ctx.strokeStyle = getCss("--line");
   ctx.fillStyle = getCss("--muted");
-  ctx.font = "13px Arial";
+  ctx.font = "13px Tahoma, Arial";
 
   for (let ring = 1; ring <= 4; ring += 1) {
     drawPolygon(ctx, entries.length, centerX, centerY, (radius / 4) * ring);
@@ -2040,13 +2040,25 @@ function renderRadar() {
   ctx.lineWidth = 3;
   ctx.stroke();
 
-  entries.forEach(([label], index) => {
+  points.forEach((point) => {
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = getCss("--accent");
+    ctx.fill();
+  });
+
+  entries.forEach(([key, value], index) => {
     const angle = -Math.PI / 2 + (index * Math.PI * 2) / entries.length;
-    const x = centerX + Math.cos(angle) * (radius + 34);
-    const y = centerY + Math.sin(angle) * (radius + 24);
+    const x = centerX + Math.cos(angle) * (radius + 44);
+    const y = centerY + Math.sin(angle) * (radius + 32);
+    const label = shortPersonalityLabel(key);
     ctx.fillStyle = getCss("--text");
     ctx.textAlign = x < centerX - 8 ? "right" : x > centerX + 8 ? "left" : "center";
-    ctx.fillText(label, x, y);
+    ctx.font = "13px Tahoma, Arial";
+    ctx.fillText(label, x, y - 3);
+    ctx.fillStyle = getCss("--muted");
+    ctx.font = "11px Tahoma, Arial";
+    ctx.fillText(`${Math.round(value)}%`, x, y + 13);
   });
 }
 
@@ -2082,12 +2094,49 @@ function describeElementPresence(elementKey) {
 }
 
 function describeScoreBand(value) {
-  if (value >= 80) return "เด่นมาก";
-  if (value >= 65) return "เด่น";
-  if (value >= 50) return "พอใช้เป็นฐาน";
-  return "ยังเป็นพื้นที่ฝึกใช้";
+  if (value >= 82) return "เด่นมาก ใช้เป็นแต้มต่อได้";
+  if (value >= 68) return "เด่น ใช้ได้ค่อนข้างมั่นใจ";
+  if (value >= 54) return "มีฐานดี กำลังต่อยอดได้";
+  if (value >= 42) return "ยังต้องใช้แบบมีตัวช่วย";
+  return "ควรค่อย ๆ ฝึกในสถานการณ์เล็ก ๆ";
 }
 
+function describeTraitTone(value) {
+  if (value >= 82) return "เป็นพลังนำของคุณ";
+  if (value >= 68) return "เป็นจุดถนัดที่หยิบใช้ได้บ่อย";
+  if (value >= 54) return "เป็นฐานที่เริ่มใช้ได้ดี";
+  if (value >= 42) return "เป็นพื้นที่ที่ควรใช้แบบมีจังหวะ";
+  return "เป็นมุมที่ค่อย ๆ ฝึกแล้วจะช่วยชีวิตมากขึ้น";
+}
+
+function traitActionTip(key, value) {
+  const strong = value >= 68;
+  const tips = {
+    leadership: strong ? "ใช้รับบทนำเมื่อโจทย์คลุมเครือ แต่เปิดพื้นที่ให้ทีมช่วยเติมรายละเอียด" : "เริ่มจากนำเรื่องเล็ก เช่น สรุปเป้าหมายประชุมหรือแบ่งหน้าที่ให้ชัด",
+    creativity: strong ? "หยิบไอเดียออกมาทำเป็นตัวอย่างจริง อย่าเก็บไว้แค่ในหัว" : "ลองจดไอเดียวันละ 3 ข้อ แล้วเลือกทำแค่ข้อที่ง่ายที่สุดก่อน",
+    social: strong ? "ใช้การคุยและเครือข่ายเปิดประตู แต่ตั้งขอบเขตเวลาให้ตัวเองด้วย" : "เริ่มจากบทสนทนาสั้น ๆ ที่จริงใจ ไม่ต้องพยายามถูกใจทุกคน",
+    logic: strong ? "ใช้วางระบบ เช็กข้อมูล และทำให้คนอื่นเห็นขั้นตอนชัดขึ้น" : "ใช้ checklist ช่วยคิดแทนการเก็บทุกอย่างไว้ในหัว",
+    emotion: strong ? "ใช้ความละเอียดอ่อนอ่านบรรยากาศ แต่อย่ารับอารมณ์คนอื่นมาเป็นของตัวเองทั้งหมด" : "ให้เวลาตัวเองถามว่า ‘ฉันรู้สึกอะไรจริง ๆ’ ก่อนตอบสนอง",
+    drive: strong ? "ใช้แรงขับกับเป้าหมายที่วัดผลได้ อย่าเผาตัวเองกับทุกสนามพร้อมกัน" : "ตั้งเป้าสั้น 7 วัน แล้วให้รางวัลเล็ก ๆ เมื่อทำครบ",
+    resilience: strong ? "ใช้ความนิ่งเป็นหลักยึดในช่วงกดดัน แต่ต้องไม่แบกเงียบจนเกินไป" : "สร้าง routine พัก ฟื้น และขอความช่วยเหลือก่อนถึงจุดล้า",
+    intuition: strong ? "ใช้สัญชาตญาณเป็นสัญญาณแรก แล้วเช็กด้วยข้อมูลจริงอีกชั้น" : "ฝึกจดความรู้สึกกับหลักฐานแยกกัน จะช่วยให้ตัดสินใจนิ่งขึ้น",
+  };
+  return tips[key] || "ใช้พลังนี้อย่างพอดี แล้วสังเกตว่าชีวิตเบาขึ้นตรงไหน";
+}
+
+function shortPersonalityLabel(key) {
+  const labels = {
+    leadership: "นำทาง",
+    creativity: "สร้างสรรค์",
+    social: "สังคม",
+    logic: "ตรรกะ",
+    emotion: "อารมณ์",
+    drive: "แรงผลัก",
+    resilience: "ความอึด",
+    intuition: "เซนส์",
+  };
+  return labels[key] || key;
+}
 function getTopPersonalityTrait() {
   const labels = {
     leadership: "พลังนำทาง",
@@ -2356,14 +2405,14 @@ function sectionTitle(key) {
 
 function personalityLabel(key) {
   const labels = {
-    leadership: "พลังนำทาง",
-    creativity: "ความคิดสร้างสรรค์",
-    social: "การเชื่อมโยงผู้คน",
-    logic: "คิดเป็นขั้นตอน",
-    emotion: "ความลึกทางอารมณ์",
-    drive: "แรงขับเคลื่อน",
-    resilience: "ความอึดและความนิ่ง",
-    intuition: "สัญชาตญาณ",
+    leadership: "พลังนำทางและรับผิดชอบ",
+    creativity: "ไอเดียและการสร้างผลงาน",
+    social: "การคุยกับคนและเครือข่าย",
+    logic: "การคิดเป็นระบบ",
+    emotion: "ความละเอียดทางความรู้สึก",
+    drive: "แรงผลักและความทะเยอทะยาน",
+    resilience: "ความอึดและการตั้งหลัก",
+    intuition: "เซนส์และการมองเรื่องลึก",
   };
   return labels[key] || key;
 }
@@ -2851,16 +2900,22 @@ function renderInsightStudio() {
 
 function renderTraitList() {
   orderedSetHtml("traitList", orderedTraitEntries(5)
-    .map(([key, value]) => `
-      <article class="trait-item">
-        <span>${personalityLabel(key)}</span>
-        <div class="bar-track"><span class="bar-fill" style="width:${clampScore(value)}%; background:var(--accent)"></span></div>
-        <strong>${describeScoreBand(value)}</strong>
+    .map(([key, value], index) => `
+      <article class="trait-item ${index === 0 ? "trait-featured" : ""}">
+        <div class="trait-copy">
+          <span>${index === 0 ? "มิติที่เด่นสุด" : describeTraitTone(value)}</span>
+          <strong>${personalityLabel(key)}</strong>
+          <p>${personalityMeaning(key)}</p>
+          <small>${traitActionTip(key, value)}</small>
+        </div>
+        <div class="trait-meter">
+          <div class="bar-track"><span class="bar-fill" style="width:${clampScore(value)}%; background:var(--accent)"></span></div>
+          <b>${describeScoreBand(value)}</b>
+        </div>
       </article>
     `)
     .join(""));
 }
-
 function renderStrategy() {
   const container = document.getElementById("strategyGrid");
   if (!container) return;

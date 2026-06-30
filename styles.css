@@ -808,3 +808,86 @@ canvas { max-width: 100%; }
   .section-bridge .primary-link { width: 100%; }
   .energy-topline { align-items: flex-start; flex-direction: column; }
 }
+/* Personality map: make the radar and trait scores easier to understand */
+.trait-panel-intro {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 10px;
+  padding: 14px;
+  border: 1px solid rgba(31, 107, 85, 0.16);
+  border-radius: var(--radius);
+  background: rgba(237, 246, 243, 0.58);
+}
+.trait-panel-intro span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+.trait-panel-intro strong {
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.35;
+}
+.trait-panel-intro p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.65;
+}
+.trait-panel .radar-wrap {
+  min-height: 340px;
+  padding: 4px 0 10px;
+}
+.trait-list {
+  gap: 12px;
+}
+.trait-item {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 12px;
+  padding: 15px;
+}
+.trait-featured {
+  border-color: rgba(31, 107, 85, 0.28);
+  background: linear-gradient(135deg, rgba(237, 246, 243, 0.88), rgba(255, 253, 248, 0.98));
+}
+.trait-copy {
+  display: grid;
+  gap: 6px;
+}
+.trait-copy span {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+.trait-copy strong {
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.35;
+}
+.trait-copy p,
+.trait-copy small {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.62;
+}
+.trait-copy small {
+  color: var(--muted);
+}
+.trait-meter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+.trait-meter b {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.35;
+  white-space: normal;
+  text-align: right;
+}
+@media (max-width: 720px) {
+  .trait-panel .radar-wrap { min-height: 300px; }
+  .trait-meter { grid-template-columns: 1fr; }
+  .trait-meter b { text-align: left; }
+}
