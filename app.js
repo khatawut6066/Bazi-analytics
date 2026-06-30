@@ -2406,6 +2406,21 @@ const deityCardProfiles = {
   },
 };
 
+
+const deityAnimeArtwork = new Image();
+deityAnimeArtwork.decoding = "async";
+deityAnimeArtwork.src = "assets/deity-anime-card-source.png";
+deityAnimeArtwork.addEventListener("load", () => {
+  if (state) renderDeityCardStudio();
+});
+
+function ensureDeityArtworkLoaded() {
+  if (deityAnimeArtwork.complete && deityAnimeArtwork.naturalWidth > 0) return Promise.resolve();
+  return new Promise((resolve) => {
+    deityAnimeArtwork.addEventListener("load", resolve, { once: true });
+    deityAnimeArtwork.addEventListener("error", resolve, { once: true });
+  });
+}
 function getPersonalDeityProfile() {
   const [key, rawScore] = orderedTopTenGods(1)[0] || ["Direct Resource", 60];
   const profile = deityCardProfiles[key] || deityCardProfiles["Direct Resource"];
@@ -2450,7 +2465,7 @@ function drawDeityCardCanvas(canvas, profile = getPersonalDeityProfile()) {
   ctx.font = '400 25px Tahoma, "Noto Sans Thai", Arial';
   ctx.fillText("Personal Deity Card", 118, 180);
 
-  drawDeityCharacter(ctx, width / 2, 550, profile);
+  drawDeityArtwork(ctx, 132, 240, width - 264, 680, profile);
 
   ctx.textAlign = "center";
   ctx.fillStyle = main;
@@ -2471,7 +2486,7 @@ function drawDeityCardCanvas(canvas, profile = getPersonalDeityProfile()) {
   ctx.stroke();
   ctx.fillStyle = main;
   ctx.font = '700 28px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText("คำจำวันนี้", 172, 1698);
+  ctx.fillText("คำคมประจำวัน", 172, 1698);
   ctx.fillStyle = "#22221f";
   ctx.font = '400 29px Tahoma, "Noto Sans Thai", Arial';
   wrapCanvasText(ctx, profile.mantra, 172, 1744, 726, 42, 2);
@@ -2492,6 +2507,44 @@ function drawDeityCardGlow(ctx, width, height, main, mid) {
   ctx.fillRect(0, 0, width, height);
 }
 
+
+function drawDeityArtwork(ctx, x, y, width, height, profile) {
+  const [main] = profile.palette;
+  ctx.save();
+  roundRect(ctx, x, y, width, height, 42);
+  ctx.clip();
+  const image = deityAnimeArtwork;
+  if (image.complete && image.naturalWidth > 0) {
+    const srcW = image.naturalWidth;
+    const srcH = image.naturalHeight;
+    const targetRatio = width / height;
+    let sw = srcW;
+    let sh = srcH;
+    let sx = 0;
+    let sy = 0;
+    if (srcW / srcH > targetRatio) {
+      sw = srcH * targetRatio;
+      sx = (srcW - sw) / 2;
+    } else {
+      sh = srcW / targetRatio;
+      sy = Math.max(0, (srcH - sh) * 0.18);
+    }
+    ctx.drawImage(image, sx, sy, sw, sh, x, y, width, height);
+  } else {
+    drawDeityCharacter(ctx, x + width / 2, y + height * 0.44, profile);
+  }
+  const shade = ctx.createLinearGradient(0, y + height * 0.55, 0, y + height);
+  shade.addColorStop(0, "rgba(255,255,255,0)");
+  shade.addColorStop(1, "rgba(18,52,47,0.42)");
+  ctx.fillStyle = shade;
+  ctx.fillRect(x, y, width, height);
+  ctx.restore();
+
+  roundRect(ctx, x, y, width, height, 42);
+  ctx.strokeStyle = hexToRgba(main, 0.34);
+  ctx.lineWidth = 4;
+  ctx.stroke();
+}
 function drawDeityCharacter(ctx, cx, cy, profile) {
   const [main, mid] = profile.palette;
   ctx.save();
@@ -2648,6 +2701,7 @@ function canvasToBlob(canvas) {
 }
 
 async function createDeityCardFile() {
+  await ensureDeityArtworkLoaded();
   renderDeityCardStudio();
   const canvas = document.getElementById("deityCardCanvas");
   const blob = await canvasToBlob(canvas);
