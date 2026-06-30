@@ -448,6 +448,7 @@ let activePopularQuestion = "lifeLesson";
 document.getElementById("baziForm").addEventListener("submit", (event) => {
   event.preventDefault();
   state = analyzeFromInputs();
+  activeLuckIndex = getPresentLuckIndex();
   render();
   showToast("แผนที่ชีวิตของคุณพร้อมเปิดออกแล้ว");
 });
@@ -462,6 +463,14 @@ document.getElementById("exportBtn").addEventListener("click", () => {
 
 document.querySelectorAll(".bridge-print").forEach((button) => {
   button.addEventListener("click", () => exportPdfReport());
+});
+
+document.querySelectorAll("[data-current-luck]").forEach((link) => {
+  link.addEventListener("click", () => {
+    activeLuckIndex = getPresentLuckIndex();
+    renderTimeline();
+    renderLuckDetail();
+  });
 });
 
 document.getElementById("birthTimeUnknown")?.addEventListener("change", () => {
@@ -2424,6 +2433,36 @@ function orderedCurrentLuck() {
   return state.luck[activeLuckIndex];
 }
 
+function calculateAgeOnDate(birthDate, targetDate = new Date()) {
+  if (!(birthDate instanceof Date) || Number.isNaN(birthDate.getTime())) return 0;
+  let age = targetDate.getFullYear() - birthDate.getFullYear();
+  const birthdayThisYear = new Date(targetDate.getFullYear(), birthDate.getMonth(), birthDate.getDate(), birthDate.getHours(), birthDate.getMinutes(), 0);
+  if (targetDate < birthdayThisYear) age -= 1;
+  return Math.max(0, age);
+}
+
+function getPresentLuckIndex(referenceDate = new Date()) {
+  if (!state?.luck?.length) return 0;
+  const time = referenceDate.getTime();
+  const exactIndex = state.luck.findIndex((item) => item.startDate instanceof Date && item.endDate instanceof Date && time >= item.startDate.getTime() && time < item.endDate.getTime());
+  if (exactIndex >= 0) return exactIndex;
+  const age = calculateAgeOnDate(state.birth?.localDate, referenceDate);
+  const ageIndex = state.luck.findIndex((item, index) => age >= item.age && (!state.luck[index + 1] || age < state.luck[index + 1].age));
+  if (ageIndex >= 0) return ageIndex;
+  return time < state.luck[0].startDate?.getTime() ? 0 : state.luck.length - 1;
+}
+
+function orderedPresentLuck(referenceDate = new Date()) {
+  if (!state?.luck?.length) return null;
+  return state.luck[getPresentLuckIndex(referenceDate)] || state.luck[0];
+}
+
+function getPresentAnnualLuck(item, referenceDate = new Date()) {
+  if (!item?.annualLuck?.length) return null;
+  const year = referenceDate.getFullYear();
+  return item.annualLuck.find((annual) => annual.year === year) || null;
+}
+
 function orderedTopTenGods(limit = 3) {
   return Object.entries(state.tenGodProfile?.scores || {})
     .sort((left, right) => right[1] - left[1])
@@ -2696,8 +2735,8 @@ function orderedQuestionDepth(modeKey, mode, mainGod, item, annualHits, topProfi
       ? `พื้นดวงมี ${tenGodThai(topProfileGod[0])} เป็นแรงเกี่ยวข้องกับคำถามนี้ จึงแปลว่าคุณมีทรัพยากรภายในพอจะใช้เรื่องนี้เป็นทางเติบโต ไม่ใช่ต้องรอจังหวะจากข้างนอกอย่างเดียว`
       : `พื้นดวงไม่ได้เน้นเรื่องนี้แบบตรง ๆ มากนัก จึงควรเริ่มจากการจัดสภาพแวดล้อมและคนรอบตัวให้ช่วยให้เรื่องนี้นิ่งขึ้นก่อน แล้วค่อยเพิ่มแรง`,
     decade: item
-      ? `ช่วง 10 ปีนี้กำลังกระตุ้น ${tenGodThai(item.activatedTenGod)} ซึ่งเกี่ยวกับ ${tenGodDomain(item.activatedTenGod)} ถ้าโยงกับคำถามเรื่อง${profile.field} ให้ดูว่าชีวิตกำลังขอให้คุณจัดบทบาท ขอบเขต หรือวิธีใช้พลังใหม่ตรงไหน`
-      : "ยังไม่ได้เลือกช่วง 10 ปี จึงอ่านจากพื้นดวงเป็นหลักก่อน",
+      ? `วัยจรปัจจุบันกำลังกระตุ้น ${tenGodThai(item.activatedTenGod)} ซึ่งเกี่ยวกับ ${tenGodDomain(item.activatedTenGod)} ถ้าโยงกับคำถามเรื่อง${profile.field} ให้ดูว่าช่วงนี้ชีวิตกำลังขอให้คุณจัดบทบาท ขอบเขต หรือวิธีใช้พลังใหม่ตรงไหน`
+      : "ยังไม่พบวัยจรปัจจุบัน จึงอ่านจากพื้นดวงเป็นหลักก่อน",
     years,
     innerWork: godPsych?.repairPractice || mode.action,
   };
@@ -2904,21 +2943,27 @@ function renderQuestionReading() {
   const select = document.getElementById("focusQuestion");
   activeQuestionMode = select?.value || activeQuestionMode || "career";
   const mode = questionModeKnowledge[activeQuestionMode] || questionModeKnowledge.career;
-  const item = orderedCurrentLuck();
+  const item = orderedPresentLuck();
+  const presentAnnual = getPresentAnnualLuck(item);
   const relevantInDecade = item ? mode.tenGods.includes(item.activatedTenGod) : false;
-  const annualHits = item ? item.annualLuck.filter((year) => mode.tenGods.includes(year.stemTenGod)) : [];
+  const relevantThisYear = presentAnnual ? mode.tenGods.includes(presentAnnual.stemTenGod) : false;
+  const annualHits = relevantThisYear && presentAnnual ? [presentAnnual] : [];
   const topProfileGod = Object.entries(state.tenGodProfile.scores)
     .filter(([tenGod]) => mode.tenGods.includes(tenGod))
     .sort((left, right) => right[1] - left[1])[0];
   const mainGod = topProfileGod?.[0] || item?.activatedTenGod;
   const psych = mainGod ? getTenGodPsychology(mainGod) : null;
   const depth = orderedQuestionDepth(activeQuestionMode, mode, mainGod, item, annualHits, topProfileGod);
-  const matchText = relevantInDecade
-    ? `ช่วง 10 ปีรอบนี้แตะเรื่อง${depth.field}ค่อนข้างตรง เพราะ ${tenGodThai(item.activatedTenGod)} กำลังเด่นขึ้นมาในชีวิตจริง`
-    : `คำถามเรื่อง${depth.field}ควรอ่านจากพื้นดวงก่อน แล้วใช้ช่วง 10 ปีเป็นจังหวะประกอบ ไม่ต้องรีบสรุปจากช่วงเวลาอย่างเดียว`;
-    const yearLine = annualHits.length
-    ? annualHits.slice(0, 3).map((year) => `${year.year} · ${year.signal}`).join(" / ")
-    : "ยังไม่มีปีไหนเด่นจนต้องรีบตัดสินใจ ใช้จังหวะหลักของช่วง 10 ปีเป็นตัวช่วยเลือกทางก่อน";
+  const matchText = relevantInDecade && relevantThisYear
+    ? `ตอนนี้เรื่อง${depth.field}ถูกแตะทั้งจากวัยจรปัจจุบันและพลังของปีนี้ จึงเหมาะกับการอ่านเป็นคำตอบของช่วงนี้จริง ๆ ไม่ใช่ภาพรวมทั้งชีวิต`
+    : relevantInDecade
+      ? `วัยจรปัจจุบันแตะเรื่อง${depth.field}ค่อนข้างตรง เพราะ ${tenGodThai(item.activatedTenGod)} กำลังเด่นขึ้นมาในชีวิตจริง`
+      : relevantThisYear
+        ? `ปีนี้กำลังขยับเรื่อง${depth.field}ให้ชัดขึ้น แม้ว่าวัยจรหลักจะไม่ได้ชี้เรื่องนี้ตรง ๆ ก็ตาม`
+        : `คำถามเรื่อง${depth.field}ในช่วงนี้ควรอ่านจากพื้นดวงและพลังรายวันประกอบก่อน ยังไม่จำเป็นต้องรีบตัดสินใจจากวัยจรอย่างเดียว`;
+  const yearLine = presentAnnual
+    ? `${presentAnnual.year} · ${presentAnnual.signal}`
+    : "ปีปัจจุบันอยู่นอกช่วงวัยจรที่ระบบคำนวณไว้";
   const insightLead = psych?.coreDrive || depth.foundation;
   const focusKey = mainGod ? tenGodThai(mainGod) : getGuardianElementLabel();
   const guardianKey = getFavorableElements()[0] || getDailyElementKey();
@@ -2927,13 +2972,13 @@ function renderQuestionReading() {
     <article class="question-spotlight">
       <div class="question-spotlight-top">
         <span class="focus-badge">${mode.label}</span>
-        <span class="focus-mini">โฟกัสเดียวก่อน แล้วค่อยลงมือให้ชัด</span>
+        <span class="focus-mini">อ่านจากจังหวะปัจจุบันเท่านั้น</span>
       </div>
       <strong>${mode.question}</strong>
       <p>${matchText}</p>
       <div class="focus-meta-row">
         <div><span>แกนที่ควรฟัง</span><b>${focusKey}</b></div>
-        <div><span>ปีที่น่าจับตา</span><b>${yearLine}</b></div>
+        <div><span>ปีปัจจุบัน</span><b>${yearLine}</b></div>
       </div>
     </article>
 
@@ -2944,7 +2989,7 @@ function renderQuestionReading() {
         <p>${insightLead}</p>
       </article>
       <article class="focus-story-card">
-        <span>ช่วง 10 ปีนี้เล่าอะไร</span>
+        <span>จังหวะปัจจุบันกำลังบอกอะไร</span>
         <strong>${item ? item.chapter.title : "อ่านจากพื้นดวงเป็นหลัก"}</strong>
         <p>${depth.decade}</p>
       </article>
@@ -2994,7 +3039,6 @@ function renderTimeline() {
       renderLuckDetail();
       renderPlanning();
       renderFrequentThemes();
-      renderQuestionReading();
     });
   });
 }
@@ -3061,4 +3105,5 @@ function renderPrintReport() {
 // ORDERED_INTERFACE_END
 syncBirthTimeInput();
 state = analyzeFromInputs();
+activeLuckIndex = getPresentLuckIndex();
 render();
