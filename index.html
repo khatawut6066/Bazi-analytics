@@ -17,12 +17,12 @@
           </span>
         </a>
         <nav class="nav-list" aria-label="ลำดับการอ่าน">
-          <a href="#guide">คำแนะนำเว็บ</a>
-          <a href="#input">กรอกข้อมูล</a>
-          <a href="#identity">ตัวตน</a>
-          <a href="#personality">นิสัยและโชค</a>
-          <a href="#questions">คำถามเฉพาะเรื่อง</a>
-          <a href="#luck">วัยจร 10 ปี</a>
+          <a href="#guide">เริ่มต้น</a>
+          <a href="#input">ใส่ข้อมูล</a>
+          <a href="#identity">สรุปตัวตน</a>
+          <a href="#personality">มุมที่ใช่</a>
+          <a href="#questions">เรื่องที่ค้างใจ</a>
+          <a href="#luck">เส้นทาง 10 ปี</a>
         </nav>
         <button class="icon-button" id="themeToggle" type="button" title="เปลี่ยนธีม" aria-label="เปลี่ยนธีม">◐</button>
       </header>
@@ -33,11 +33,11 @@
           <div class="guide-layout">
             <article class="guide-copy">
               <span class="soft-label">อ่านง่าย เห็นภาพ ไม่ต้องแปลศัพท์เอง</span>
-              <h1>กรอกข้อมูลเกิด แล้วดูภาพรวมชีวิตแบบเข้าใจง่าย</h1>
-              <p>เว็บนี้ไม่ได้ฟันธงชีวิตคุณให้ตายตัวนะ เราอ่านปาจื่อเพื่อช่วยดูว่า จุดเด่นของคุณคืออะไร จุดไหนควรดูแลให้สมดุลขึ้น ช่วงไหนควรลุย และช่วงไหนควรใจเย็นก่อนตัดสินใจ</p>
+              <h1>เปิดแผนที่ชีวิตแบบเข้าใจง่าย ไม่ต้องแปลศัพท์เอง</h1>
+              <p>เว็บนี้จะเริ่มจากสรุป 3 บรรทัดที่อ่านแล้วจับแกนตัวเองได้ทันที จากนั้นค่อยพาไปดูตัวตน นิสัย เรื่องที่ค้างใจ และเส้นทางวัยจรแบบไม่ตัดสินชีวิตคุณให้ตายตัว</p>
               <div class="guide-actions">
-                <a class="primary-link" href="#input">เริ่มกรอกข้อมูล</a>
-                <a class="secondary-link" href="#luck">ดูช่วงดวง 10 ปี</a>
+                <a class="primary-link" href="#input">เปิดแผนที่ของฉัน</a>
+                <a class="secondary-link" href="#luck">แอบดูเส้นทาง 10 ปี</a>
               </div>
             </article>
             <div class="guide-card-grid" id="siteGuide">
@@ -57,7 +57,7 @@
               <div class="section-kicker">2 · ช่องกรอกข้อมูลผู้ดูดวงชะตา</div>
               <h2>ใส่ข้อมูลเกิด แล้วบันทึกผลอ่านเป็น PDF ได้เลย</h2>
             </div>
-            <button class="primary-action save-pdf-button" id="exportBtn" type="button"><span>PDF</span>บันทึกไว้</button>
+            <button class="primary-action save-pdf-button" id="exportBtn" type="button"><span>PDF</span>เก็บไว้อ่านต่อ</button>
           </div>
 
           <form id="baziForm" class="birth-form">
@@ -89,8 +89,8 @@
               <span><strong>ยังไม่ทราบเวลาเกิด</strong><small>อ่านจาก 3 เสาหลักก่อน แล้วค่อยดูเสาเวลาเกิดที่เป็นไปได้</small></span>
             </label>
             <div class="form-actions">
-              <button class="analyze-button" type="submit">เริ่มอ่านดวง</button>
-              <p>หลังแก้ข้อมูล กดปุ่มนี้เพื่อให้คำอ่านอัปเดตใหม่ทั้งหมด</p>
+              <button class="analyze-button" type="submit">เปิดแผนที่ชีวิตของฉัน</button>
+              <p>แก้ข้อมูลเมื่อไหร่ กดปุ่มนี้อีกครั้ง แล้วคำอ่านจะปรับตามทันที</p>
             </div>
           </form>
         </section>
@@ -99,10 +99,12 @@
           <div class="section-head">
             <div>
               <div class="section-kicker">3 · รายละเอียดข้อมูลตัวตน</div>
-              <h2>ภาพรวมตัวตนและวิธีใช้ชีวิตให้เข้าทาง</h2>
+              <h2>อ่าน 3 บรรทัดแรก แล้วค่อยลงลึกเรื่องตัวตน</h2>
             </div>
             <span class="status-pill" id="birthModeLabel">อ่านจากข้อมูลเกิด</span>
           </div>
+
+          <div class="hook-summary" id="hookSummary" aria-live="polite"></div>
 
           <div class="identity-overview">
             <article class="summary-card master-card"><span>ธาตุหลักประจำตัว</span><strong id="dayMaster">-</strong><small id="daySymbol">-</small></article>
@@ -110,6 +112,8 @@
             <article class="summary-card rhythm-card"><span>จังหวะพลังชีวิต</span><strong id="strengthScore">-</strong><small id="strengthLevel">-</small></article>
             <article class="summary-card chart-card"><span>ธีมหลักของดวง</span><strong id="chartType">-</strong><small>อ่านจากเสา ธาตุ และพลัง 10 แบบของดวง</small></article>
           </div>
+
+          <div class="daily-energy" id="dailyEnergy" aria-live="polite"></div>
 
           <div class="identity-grid compact-identity-grid">
             <article class="panel wide-panel chart-snapshot-panel">
@@ -134,7 +138,7 @@
             <article class="panel wide-panel life-advice-panel">
               <h3 class="panel-plain-title">คำแนะนำที่ใช้ได้เลย</h3>
               <div class="life-advice" id="lifeAdvice"></div>
-            </article>
+            </article>          <div class="section-bridge"><a class="secondary-link" href="#personality">ไปดูว่านิสัยนี้พาคุณเจออะไรบ่อย</a></div>
           </div>
         </section>
 
@@ -142,7 +146,7 @@
           <div class="section-head">
             <div>
               <div class="section-kicker">4 · ตัวตน ลักษณะนิสัย โชค และสิ่งที่มักพบ</div>
-              <h2>ตัวตน นิสัย และสิ่งที่มักเจอบ่อย</h2>
+              <h2>มุมที่คนมักเห็นในตัวคุณ และมุมที่คุณควรรู้ทัน</h2>
             </div>
           </div>
           <div class="personality-layout">
@@ -157,13 +161,14 @@
           </div>
           <div class="strategy-grid" id="strategyGrid"></div>
           <div class="frequent-themes" id="frequentThemes"></div>
+          <div class="section-bridge"><a class="secondary-link" href="#questions">มีเรื่องค้างใจไหม เลือกถามต่อได้เลย</a></div>
         </section>
 
         <section class="section-block question-section" id="questions">
           <div class="section-head">
             <div>
               <div class="section-kicker">5 · คำถามเฉพาะเรื่อง</div>
-              <h2>เลือกเรื่องที่อยากรู้ตอนนี้</h2>
+              <h2>มีเรื่องไหนค้างใจเป็นพิเศษไหม</h2>
             </div>
             <select id="focusQuestion" aria-label="เลือกเรื่องที่อยากถาม">
               <option value="career" selected>งาน</option>
@@ -176,13 +181,14 @@
             <img src="assets/art-focus-compass.svg" alt="ภาพการ์ตูนเข็มทิศคำถาม" loading="lazy" />
           </figure>
           <div class="question-reading" id="questionReading"></div>
+          <div class="section-bridge"><a class="secondary-link" href="#luck">เปิดวัยจร 10 ปีที่หนุนคำตอบนี้</a></div>
         </section>
 
         <section class="section-block luck-section" id="luck">
           <div class="section-head compact-head">
             <div>
               <div class="section-kicker">6 · วัยจร 10 ปี</div>
-              <h2>เล่าเป็นช่วงชีวิต ไม่เน้นศัพท์เทคนิค</h2>
+              <h2>เปิดเส้นทาง 10 ปีแบบเล่าให้เห็นภาพ</h2>
             </div>
             <span class="status-pill" id="activeLuckLabel">ช่วง 10 ปี</span>
           </div>
@@ -193,6 +199,7 @@
             <article class="panel timeline-panel"><div class="timeline" id="luckTimeline"></div></article>
             <article class="panel luck-detail-panel"><div class="luck-detail" id="luckDetail"></div></article>
           </div>
+          <div class="section-bridge final-bridge"><a class="secondary-link" href="#input">แก้ข้อมูลแล้วเปิดแผนที่ใหม่</a><button class="primary-link bridge-print" type="button">เก็บผลอ่านทั้งหมดเป็น PDF</button></div>
         </section>
       </main>
     </div>

@@ -460,6 +460,10 @@ document.getElementById("exportBtn").addEventListener("click", () => {
   exportPdfReport();
 });
 
+document.querySelectorAll(".bridge-print").forEach((button) => {
+  button.addEventListener("click", () => exportPdfReport());
+});
+
 document.getElementById("birthTimeUnknown")?.addEventListener("change", () => {
   syncBirthTimeInput();
   state = analyzeFromInputs();
@@ -1889,6 +1893,7 @@ function render() {
   document.getElementById("usefulReason").textContent = getGuardianElementCopy();
   document.getElementById("chartType").textContent = state.chartType;
 
+  renderHookSummary();
   renderPillars();
   renderElements();
   renderAuspicious();
@@ -2498,6 +2503,160 @@ function orderedDomainInsight(key) {
   return insights[key];
 }
 
+const dailyElementCycle = ["WOOD", "FIRE", "EARTH", "METAL", "WATER"];
+
+const hospitalityEnergyProfiles = {
+  WOOD: {
+    title: "วันนี้เหมาะกับการตั้งทิศทางให้ทีม",
+    copy: "งานบริการอาจมีรายละเอียดใหม่เข้ามา เช่น เปลี่ยนกะ เปลี่ยนโต๊ะ หรือมีคำขอพิเศษจากลูกค้า ลองเริ่มวันด้วยการสรุปเป้าหมายกะงาน 1 เรื่องให้ทีมเห็นภาพเดียวกันก่อนแยกย้ายไปลงมือ",
+    practice: "เขียนลำดับงานสั้น ๆ ก่อนเริ่มงาน และเลือกพื้นที่ที่มีสีเขียวหรือต้นไม้เล็ก ๆ ช่วยให้ใจรู้สึกมีทางโต",
+  },
+  FIRE: {
+    title: "วันนี้คนจะรับพลังจากสีหน้าและน้ำเสียงของคุณเร็วมาก",
+    copy: "ถ้าต้องเจอลูกค้าหลายอารมณ์หรือประชุมกับหัวหน้ากะ ให้ใช้ความสดใสแบบพอดี ไม่ต้องรีบตอบทุกอย่างทันที รอยยิ้มที่นิ่งและคำพูดที่ชัดจะช่วยลดแรงปะทะได้ดี",
+    practice: "ก่อนคุยเรื่องสำคัญให้หายใจยาวหนึ่งครั้ง และลดโทนร้อนด้วยสีขาว ฟ้า หรือน้ำเงินเล็ก ๆ ในชุดหรือของใช้",
+  },
+  EARTH: {
+    title: "วันนี้เหมาะกับการทำให้เรื่องยุ่งกลายเป็นระบบ",
+    copy: "งานหลังบ้าน ตารางจอง รายละเอียดห้อง หรือรายการที่ต้องส่งต่อทีมอาจต้องการความนิ่งเป็นพิเศษ อย่ารับทุกเรื่องไว้คนเดียว ให้แยกว่าสิ่งไหนต้องทำเอง สิ่งไหนควรมอบหมาย และสิ่งไหนแค่ต้องจดให้ไม่หลุด",
+    practice: "ใช้ checklist 3 ข้อก่อนจบกะ และกินอาหารอุ่น ๆ หรือพักเท้า 5 นาทีเพื่อคืนฐานให้ร่างกาย",
+  },
+  METAL: {
+    title: "วันนี้มาตรฐานคือเพื่อน ไม่ใช่แรงกดดัน",
+    copy: "ถ้ามี complaint, SOP หรือรายละเอียดที่ต้องคุยให้ชัด ให้พูดด้วยข้อมูล ไม่ใช่อารมณ์ งานบริการจะไหลขึ้นเมื่อคุณตัดสิ่งรก ๆ ออกจากบทสนทนาและเหลือแต่ข้อตกลงที่ทำตามได้จริง",
+    practice: "ใช้ประโยคสั้น ชัด และสุภาพ เช่น ‘ขอเช็กข้อมูลอีกครั้งก่อนยืนยันนะครับ/ค่ะ’ พร้อมเลือกโทนขาว เทา หรือเงินให้ใจรู้สึกเป็นระเบียบ",
+  },
+  WATER: {
+    title: "วันนี้การฟังจะพาคุณชนะมากกว่าการรีบตอบ",
+    copy: "ลูกค้าหรือทีมอาจไม่ได้ต้องการคำตอบเร็วที่สุด แต่อยากรู้สึกว่าถูกเข้าใจจริง ๆ ถ้าเจอแรงกดดันหน้าเคาน์เตอร์หรือในแชตงาน ให้ทวนประเด็นสำคัญก่อนตอบ เพื่อให้ใจคุณไม่รับอารมณ์ของคนอื่นมาเต็มตัว",
+    practice: "พกน้ำไว้ใกล้ตัว เว้นจังหวะก่อนตอบข้อความสำคัญ และหาเวลาสั้น ๆ อยู่เงียบ ๆ หลังช่วงที่รับคนเยอะ",
+  },
+};
+
+const elementActionTips = {
+  WOOD: "เสริมไม้ด้วยการวางแผนสั้น ๆ เปิดพื้นที่สีเขียว หรือคุยกับคนที่ช่วยให้เห็นอนาคตชัดขึ้น",
+  FIRE: "เสริมไฟด้วยแสงที่พอดี การพูดให้ชัด และการทำให้ผลงานถูกมองเห็นโดยไม่ต้องเร่งตัวเองเกินไป",
+  EARTH: "เสริมดินด้วย checklist อาหารอุ่น ๆ ตารางพัก และการทำเรื่องใหญ่ให้เป็นขั้นตอนเล็กที่จับต้องได้",
+  METAL: "เสริมทองด้วยสีขาว เทา เงิน การตัดสิ่งที่ไม่จำเป็น และขอบเขตที่พูดสุภาพแต่ชัด",
+  WATER: "เสริมน้ำด้วยสีฟ้า น้ำเงิน เวลาคิดเงียบ ๆ การดื่มน้ำ และการพักจากเสียงรอบตัวสักช่วงหนึ่ง",
+};
+
+function positiveMod(value, base) {
+  return ((value % base) + base) % base;
+}
+
+function getDailyElementKey(date = new Date()) {
+  const start = new Date(2024, 0, 1);
+  const today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const days = Math.floor((today.getTime() - start.getTime()) / 86400000);
+  return dailyElementCycle[positiveMod(days, dailyElementCycle.length)];
+}
+
+function formatThaiDay(date = new Date()) {
+  return date.toLocaleDateString("th-TH", { weekday: "long", day: "numeric", month: "short" });
+}
+
+function buildThreeLineHook() {
+  const name = document.getElementById("clientName")?.value || "คุณ";
+  const masterVoice = getPremiumMasterVoice();
+  const dominant = getDominantElement();
+  const weakest = getWeakestElement();
+  const topTrait = getTopPersonalityTrait();
+  const item = orderedCurrentLuck();
+  const strengthVoice = getPremiumStrengthVoice();
+  return [
+    {
+      label: "บรรทัดแรก",
+      title: `${escapeHtml(name)} มีแกนแบบ ${masterVoice.name}`,
+      copy: `${masterVoice.tagline} จุดนี้คือเหตุผลที่คุณมักรู้สึกดีเมื่อได้อยู่ในพื้นที่ที่ไม่บังคับให้ฝืนธรรมชาติของตัวเอง`,
+    },
+    {
+      label: "บรรทัดที่สอง",
+      title: `${premiumElementLabel(dominant.key, true)} เด่น ส่วน ${premiumElementLabel(weakest.key, true)} คือจุดที่ควรดูแล`,
+      copy: `พลังเด่นทำให้คุณใช้ ${elementArchetypes[dominant.key]} ได้ดี แต่เมื่อเหนื่อยง่ายหรือคิดวน ให้กลับมาเสริม ${premiumElementLabel(weakest.key, true)} ผ่านสิ่งเล็กที่ทำซ้ำได้`,
+    },
+    {
+      label: "บรรทัดที่สาม",
+      title: item ? `ช่วงนี้ชีวิตกำลังเปิดบท: ${item.chapter.title}` : strengthVoice.label,
+      copy: item ? `อ่านรอบนี้เป็นจังหวะวางตัว ไม่ใช่คำตัดสิน ช่วงอายุ ${item.ageRangeLabel} จะเห็นชัดว่า ${topTrait.label} ควรถูกใช้ให้จับต้องได้มากขึ้น` : strengthVoice.copy,
+    },
+  ];
+}
+
+function renderHookSummary() {
+  const lines = buildThreeLineHook();
+  orderedSetHtml("hookSummary", `
+    <article class="hook-intro">
+      <span>อ่าน 3 บรรทัดนี้ก่อน</span>
+      <strong>ถ้าจะจับแกนดวงแบบเร็ว ๆ ให้เริ่มตรงนี้</strong>
+    </article>
+    ${lines.map((line) => `
+      <article class="hook-line-card">
+        <span>${line.label}</span>
+        <strong>${line.title}</strong>
+        <p>${line.copy}</p>
+      </article>
+    `).join("")}
+  `);
+}
+
+function buildHospitalityEnergyGuide() {
+  const today = new Date();
+  const dailyKey = getDailyElementKey(today);
+  const daily = hospitalityEnergyProfiles[dailyKey];
+  const guardianKey = getFavorableElements()[0] || dailyKey;
+  const masterElement = state.master?.element || dailyKey;
+  const item = orderedCurrentLuck();
+  const decadeTone = item?.favorability?.supportScore >= 55
+    ? `วัยจรรอบนี้มีแรงช่วยส่งพอให้ลองขยับเรื่องสำคัญ แต่ยังควรเลือกสนามที่คุ้มพลัง ไม่ใช่ตอบรับทุกโอกาสที่เข้ามา`
+    : item?.favorability?.supportScore < 25
+      ? `วัยจรรอบนี้ขอให้คุณประหยัดแรงและไม่รีบเดิมพันใหญ่ โดยเฉพาะวันที่งานบริการพาอารมณ์คนอื่นเข้ามาใกล้มาก`
+      : `วัยจรรอบนี้เหมาะกับการลองแล้วปรับ ใช้ชีวิตจริงเป็นข้อมูล ไม่ต้องรีบสรุปว่าทางไหนใช่ตั้งแต่วันแรก`;
+  return {
+    dateLabel: formatThaiDay(today),
+    dailyKey,
+    dailyTitle: daily.title,
+    dailyCopy: `${daily.copy} ธาตุประจำตัวของคุณคือ ${premiumElementLabel(masterElement, true)} จึงควรดูว่าพลังวันนี้ช่วยให้คุณลื่นขึ้น หรือทำให้ตอบสนองไวเกินไปตรงไหน`,
+    practice: daily.practice,
+    weeklyTitle: item ? `สัปดาห์นี้อ่านร่วมกับวัยจร: ${item.chapter.title}` : "สัปดาห์นี้ให้ดูจังหวะตัวเองเป็นหลัก",
+    weeklyCopy: `${decadeTone} ตัวช่วยที่ควรใช้คือ ${premiumElementLabel(guardianKey, true)}: ${elementActionTips[guardianKey]}`,
+  };
+}
+
+function renderDailyEnergy() {
+  const guide = buildHospitalityEnergyGuide();
+  orderedSetHtml("dailyEnergy", `
+    <article class="energy-card energy-today">
+      <div class="energy-topline">
+        <span>พลังงานวันนี้ · ${guide.dateLabel}</span>
+        <b>${premiumElementLabel(guide.dailyKey, true)}</b>
+      </div>
+      <strong>${guide.dailyTitle}</strong>
+      <p>${guide.dailyCopy}</p>
+      <div class="energy-practice"><span>ลองทำวันนี้</span><p>${guide.practice}</p></div>
+    </article>
+    <article class="energy-card energy-week">
+      <div class="energy-topline">
+        <span>คำแนะนำรายสัปดาห์</span>
+        <b>สำหรับชีวิตทำงานจริง</b>
+      </div>
+      <strong>${guide.weeklyTitle}</strong>
+      <p>${guide.weeklyCopy}</p>
+    </article>
+  `);
+}
+
+function buildModePracticalAdvice(modeKey, guardianKey, dailyKey) {
+  const guardianTip = elementActionTips[guardianKey] || "เลือกสิ่งที่ทำให้ใจนิ่งขึ้นและลดแรงปะทะก่อนตัดสินใจเรื่องใหญ่";
+  const todayTip = elementActionTips[dailyKey] || guardianTip;
+  const advice = {
+    career: `วันนี้ถ้าต้องคุยงานกับหัวหน้า ทีม หรือลูกค้า ให้เริ่มจากเป้าหมายเดียวที่อยากให้ทุกคนเข้าใจตรงกัน แล้วใช้ ${guardianTip}`,
+    wealth: `ก่อนตกลงเรื่องเงินหรือโปรเจกต์เสริม ให้แบ่งตัวเลขเป็นเงินจำเป็น เงินทดลอง และเงินเสี่ยง ถ้าใจยังร้อน ให้ใช้ ${todayTip} ก่อนตอบตกลง`,
+    relationship: `ถ้าต้องคุยเรื่องละเอียดอ่อน ให้ใช้ประโยคสั้นและจริง เช่น “ฉันรู้สึก...” และ “ฉันอยากให้เราลอง...” แล้วเสริมบรรยากาศด้วย ${guardianTip}`,
+    health: `วันนี้ร่างกายไม่ต้องการแผนใหญ่ แค่ลดสิ่งกระตุ้นหนึ่งอย่าง นอนให้ใกล้เวลาเดิม และใช้ ${todayTip} เพื่อพาใจกลับมานิ่ง`,
+  };
+  return advice[modeKey] || advice.career;
+}
 function orderedQuestionDepth(modeKey, mode, mainGod, item, annualHits, topProfileGod) {
   const godPsych = mainGod ? getTenGodPsychology(mainGod) : null;
   const modeAdvice = {
@@ -2555,9 +2714,11 @@ function render() {
   orderedSetText("chartType", state.chartType);
   orderedSetText("birthModeLabel", state.birthTimeUnknown ? "อ่านจาก 3 เสาหลัก" : "อ่านจาก 4 เสาหลัก");
 
+  renderHookSummary();
   renderPillars();
   renderElements();
   renderAuspicious();
+  renderDailyEnergy();
   renderGuardianActions();
   renderLifeAdvice();
   renderInsightStudio();
@@ -2760,6 +2921,8 @@ function renderQuestionReading() {
     : "ยังไม่มีปีไหนเด่นจนต้องรีบตัดสินใจ ใช้จังหวะหลักของช่วง 10 ปีเป็นตัวช่วยเลือกทางก่อน";
   const insightLead = psych?.coreDrive || depth.foundation;
   const focusKey = mainGod ? tenGodThai(mainGod) : getGuardianElementLabel();
+  const guardianKey = getFavorableElements()[0] || getDailyElementKey();
+  const practicalTip = buildModePracticalAdvice(activeQuestionMode, guardianKey, getDailyElementKey());
   orderedSetHtml("questionReading", `
     <article class="question-spotlight">
       <div class="question-spotlight-top">
@@ -2802,6 +2965,10 @@ function renderQuestionReading() {
         <span>มุมที่ต้องใจเย็น</span>
         <p>${depth.caution}</p>
       </div>
+      <div class="focus-practical">
+        <span>ลองทำวันนี้</span>
+        <p>${practicalTip}</p>
+      </div>
     </article>
   `);
 }
@@ -2816,6 +2983,7 @@ function renderTimeline() {
         <span class="timeline-age">${item.ageRangeLabel}</span>
         <strong>${item.chapter.title}</strong>
         <small>${item.chapter.reflectiveQuestion}</small>
+        <em>แตะเพื่ออ่านช่วงนี้</em>
       </button>
     `;
   }).join("");
@@ -2875,6 +3043,8 @@ function renderPrintReport() {
   const masterVoice = getPremiumMasterVoice();
   const item = orderedCurrentLuck();
   const focusAnswer = document.getElementById("questionReading")?.innerText || "";
+  const hookText = document.getElementById("hookSummary")?.innerText || "";
+  const energyText = document.getElementById("dailyEnergy")?.innerText || "";
   orderedSetHtml("printReport", `
     <section class="print-cover">
       <h1>BaZi Life Map ของ ${escapeHtml(name)}</h1>
@@ -2882,7 +3052,7 @@ function renderPrintReport() {
     </section>
     <section class="print-section"><h2>1. คำแนะนำเว็บ</h2><p>อ่านรายงานนี้เป็นเพื่อนคิด ไม่ใช่คำสั่งตายตัว เริ่มจากตัวตน แล้วค่อยดูคำถามเฉพาะเรื่องและวัยจร</p></section>
     <section class="print-section"><h2>2. ข้อมูลตั้งต้น</h2><div class="print-grid">${printCard("ธาตุหลัก", masterVoice.name, masterVoice.tagline)}${printCard("ธาตุที่ช่วยให้สมดุล", getGuardianElementLabel(), getGuardianElementCopy())}${printCard("พลังชีวิต", getStrengthNarrative(), getStrengthDetail())}${printCard("ธีมดวง", state.chartType, "อ่านจากโครงสร้างเสาและธาตุทั้งหมด")}</div></section>
-    <section class="print-section"><h2>3. รายละเอียดตัวตน</h2><div class="print-grid">${renderPillarPrintCards()}</div><p>${masterVoice.essence}</p></section>
+    <section class="print-section"><h2>3. รายละเอียดตัวตน</h2><p>${escapeHtml(hookText)}</p><p>${escapeHtml(energyText)}</p><div class="print-grid">${renderPillarPrintCards()}</div><p>${masterVoice.essence}</p></section>
     <section class="print-section"><h2>4. นิสัย โชค และสิ่งที่มักพบ</h2><p>${document.getElementById("readingCopy")?.innerText || ""}</p><div class="print-grid">${orderedTraitEntries(4).map(([key, value]) => printCard(personalityLabel(key), describeScoreBand(value), personalityMeaning(key))).join("")}</div></section>
     <section class="print-section"><h2>5. คำถามเฉพาะเรื่อง</h2><p>${escapeHtml(focusAnswer)}</p></section>
     <section class="print-section"><h2>6. วัยจร 10 ปี</h2><p>${item ? `ช่วงที่เลือก: อายุ ${item.ageRangeLabel} · ${item.chapter.title}` : ""}</p><p>${item ? item.climate : ""}</p><div class="print-grid">${item ? printCard("โอกาสที่น่าใช้", "ทำให้จับต้องได้", item.opportunities) : ""}${item ? printCard("จุดที่ต้องใจเย็น", "อย่ารีบตอบจากแรงกดดัน", item.risks) : ""}${item ? printCard("คำถามไว้ทบทวน", item.chapter.reflectiveQuestion, item.chapter.closing) : ""}</div><h3>ภาพรวมช่วงอื่น</h3><ul>${state.luck.map((luck) => `<li>อายุ ${luck.ageRangeLabel}: ${luck.chapter.title}</li>`).join("")}</ul></section>
