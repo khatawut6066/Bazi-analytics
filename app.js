@@ -457,12 +457,12 @@ document.getElementById("themeToggle").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-document.getElementById("exportBtn").addEventListener("click", () => {
-  exportPdfReport();
+document.getElementById("shareDeityCard")?.addEventListener("click", () => {
+  shareDeityCard();
 });
 
-document.querySelectorAll(".bridge-print").forEach((button) => {
-  button.addEventListener("click", () => exportPdfReport());
+document.getElementById("downloadDeityCard")?.addEventListener("click", () => {
+  downloadDeityCard();
 });
 
 document.querySelectorAll("[data-current-luck]").forEach((link) => {
@@ -491,10 +491,6 @@ document.getElementById("popularQuestionButtons")?.addEventListener("click", (ev
   if (!button) return;
   activePopularQuestion = button.dataset.popularQuestion;
   renderPopularQuestions();
-});
-
-window.addEventListener("beforeprint", () => {
-  renderPrintReport();
 });
 
 function analyzeFromInputs() {
@@ -2152,208 +2148,6 @@ function getTopPersonalityTrait() {
   return { key, value, label: labels[key] };
 }
 
-function exportPdfReport() {
-  state.aiReady = true;
-  renderPrintReport();
-  showToast("กำลังเปิดหน้าต่างพิมพ์ เลือก Save as PDF เพื่อเก็บไว้อ่านต่อได้เลย");
-  window.setTimeout(() => window.print(), 120);
-}
-
-function renderPrintReport() {
-  const name = document.getElementById("clientName").value || "คุณ";
-  const birthDate = document.getElementById("birthDate").value || "-";
-  const birthTime = state.birthTimeUnknown ? "ยังไม่ทราบเวลาเกิด" : (document.getElementById("birthTime").value || "-");
-  const birthPlace = document.getElementById("birthPlace").value || "-";
-  const dominant = getDominantElement();
-  const weakest = getWeakestElement();
-  const topTrait = getTopPersonalityTrait();
-  const report = buildPrintableReportSections(name, dominant, weakest, topTrait);
-  const masterVoice = getPremiumMasterVoice();
-  const strengthVoice = getPremiumStrengthVoice();
-  const activeWisdom = getLuckWisdomComponent(state.luck[activeLuckIndex]);
-  const generatedAt = new Date().toLocaleString("th-TH");
-
-  document.getElementById("printReport").innerHTML = `
-    <div class="print-cover">
-      <p>แผนที่ชีวิตปาจื้อส่วนตัว</p>
-      <h1>บทอ่านปาจื้อส่วนตัว</h1>
-      <p>จัดทำสำหรับ ${escapeHtml(name)} | สร้างเมื่อ ${escapeHtml(generatedAt)}</p>
-      <div class="print-meta">
-        ${printCard("วันเกิด", escapeHtml(birthDate), "จุดเริ่มต้น")}
-        ${printCard("เวลาเกิด", escapeHtml(birthTime), state.birthTimeUnknown ? "คำนวณแกนหลักจาก 3 เสา และแยกเสาเวลาเกิดที่เป็นไปได้ไว้ต่างหาก" : "ใช้ดูเสาเวลาเกิด")}
-        ${printCard("สถานที่เกิด", escapeHtml(birthPlace), "ใช้เทียบเวลาแดดจริง")}
-        ${printCard("เจ้าชะตา", masterVoice.name, `${masterVoice.title} · ${masterVoice.image}`)}
-        ${printCard("เวลาแดดจริง", `${state.birth.trueSolarOffsetMinutes} นาที`, `ลองจิจูด ${state.birth.longitude}`)}
-        ${printCard("ทิศทางรอบดวง", state.luck[0].direction, `${state.luck[0].directionRule} จากเสาปี ${premiumPillarLabel(state.pillars[0].stem, state.pillars[0].branch)}`)}
-        ${printCard("อายุที่เริ่มรอบแรก", state.luck[0].startAge.label, `นับถึงสารท ${state.luck[0].startAge.targetTermLabel}`)}
-      </div>
-    </div>
-
-    <section class="print-section">
-      <h2>ภาพรวมสำคัญ</h2>
-      <div class="print-grid">
-        ${printCard("จังหวะพลังชีวิต", getStrengthNarrative(), getStrengthDetail())}
-        ${printCard("ธาตุที่ช่วยให้สมดุล", getGuardianElementLabel(), getGuardianElementCopy())}
-        ${printCard("รูปแบบดวง", state.chartType, strengthVoice.copy)}
-        ${printCard("ด้านเด่น", topTrait.label, "เป็นวิธีแสดงออกหลักในการสร้างงานและสื่อสารคุณค่า")}
-      </div>
-    </section>
-<section class="print-section">
-      <h2>เสาหลักดวง</h2>
-      <div class="print-grid">
-        ${renderPillarPrintCards()}
-      </div>
-    </section>
-
-    <section class="print-section">
-      <h2>สมดุลธาตุทั้งห้า</h2>
-      <div class="print-grid">
-        ${Object.entries(state.elementValues)
-          .map(([key]) => printCard(premiumElementLabel(key), describeElementPresence(key), elementArchetypes[key]))
-          .join("")}
-      </div>
-    </section>
-
-    <section class="print-section">
-      <h2>บุคลิก 8 ด้าน</h2>
-      <div class="print-grid">
-        ${Object.entries(state.personality)
-          .map(([key, value]) => printCard(personalityLabel(key), describeScoreBand(value), personalityMeaning(key)))
-          .join("")}
-      </div>
-    </section>
-
-    <section class="print-section">
-      <h2>สิ่งเสริมสมดุล</h2>
-      <div class="print-grid">
-        ${printCard("สีและความรู้สึกของพื้นที่", getGuardianElementLabel(), `ใช้สีหรือบรรยากาศที่เข้ากับ${getGuardianElementLabel()} เพื่อช่วยให้ใจกลับมาสมดุล`)}
-        ${printCard("ทิศสนับสนุน", escapeHtml(document.getElementById("directions").textContent), "ใช้เป็นทิศทางเล็ก ๆ ตอนจัดโต๊ะ จัดห้อง หรือวางใจเริ่มวันใหม่")}
-        ${printCard("เลขเสริม", escapeHtml(document.getElementById("numbers").textContent), "ใช้เป็นตัวช่วยจำเล็ก ๆ เวลาวางจังหวะชีวิต")}
-        ${printCard("ธาตุที่ช่วยให้สมดุล", getGuardianElementLabel(), getGuardianElementCopy())}
-      </div>
-    </section>
-
-    <section class="print-section">
-      <h2>ห้องอ่านชีวิตเชิงลึก</h2>
-      <p>${escapeHtml(name)} มีธาตุหลักประจำตัวแบบ ${masterVoice.name} (${masterVoice.title}) ภาพภายในคล้าย ${masterVoice.image} ${premiumElementLabel(dominant.key)} เป็นพลังที่เด่น จึงทำให้ชีวิตมักเจอเรื่อง ${elementArchetypes[dominant.key]} ส่วน ${premiumElementLabel(weakest.key)} คือพลังที่ยังมีน้อย แปลแบบง่าย ๆ คือควรจัดกิจวัตร สภาพแวดล้อม หรือคนรอบตัวให้ช่วยให้ด้านนี้สมดุลขึ้น</p>
-      <p>${getGuardianElementLabel()} คือพลังที่ช่วยเปิดทางของดวงนี้ ใช้เป็นตัวช่วยคิดเมื่อต้องเลือกงาน ความสัมพันธ์ หรือจังหวะเปลี่ยนชีวิต โดยไม่ต้องฝืนธรรมชาติของตัวเองจนเกินพอดี</p>
-    </section>
-
-    <section class="print-section">
-      <h2>สิ่งที่ลองทำได้เลย</h2>
-      <div class="print-grid">
-        ${printCard("โอกาส", `สร้างชื่อจาก ${topTrait.label}`, "ใช้ความถนัดเด่นเป็นจุดตั้งต้นของงานหรือการตัดสินใจสำคัญ")}
-        ${printCard("จุดที่ควรรู้ทัน", `${premiumElementLabel(dominant.key)} นำมากไป`, "รู้ทันการตัดสินใจเร็ว ความคาดหวังสูง หรือการรับภาระเกินขอบเขต")}
-        ${printCard("ก้าวถัดไป", `เสริม ${premiumElementLabel(weakest.key)} ให้ใช้ได้จริง`, elementSupportPractice(weakest.key))}
-        ${printCard("ตัวช่วยก่อนตัดสินใจ", getGuardianElementLabel(), "ใช้ธาตุที่ช่วยให้สมดุลเป็นตัวช่วยคิดก่อนเลือกเรื่องใหญ่")}
-        ${activeWisdom ? printCard(activeWisdom.label, activeWisdom.title, activeWisdom.text) : ""}
-      </div>
-    </section>
-
-    <section class="print-section">
-      <h2>คำถามยอดนิยม</h2>
-      <div class="print-grid">
-        ${renderPopularQuestionPrintCards()}
-      </div>
-    </section>
-
-    <section class="print-section">
-      <h2>บทเล่าเรื่องแบบอ่านยาว</h2>
-      ${Object.entries(report)
-        .map(([key, html]) => `<div class="print-section"><h3>${sectionTitle(key)}</h3>${html}</div>`)
-        .join("")}
-    </section>
-
-    <section class="print-section">
-      <h2>วัยจร</h2>
-      ${state.luck
-        .map(
-          (item) => `
-            <div class="print-card print-section">
-              <span>อายุ ${item.ageRangeLabel}</span>
-              <strong>${item.chapter.title}</strong>
-              <p>${item.climate}</p>
-              <p><b>บทชีวิต:</b> ${item.chapter.title}</p>
-              <p><b>คำถามสะท้อนใจ:</b> ${item.chapter.reflectiveQuestion}</p>
-              <p><b>ปีเร่งผล:</b> ${item.chapter.strongYears.length ? item.chapter.strongYears.join(", ") : "ไม่มีปีเด่นชัด"} | <b>ปีทบทวน:</b> ${item.chapter.testYears.length ? item.chapter.testYears.join(", ") : "ไม่มีปีปะทะเด่น"}</p>
-              <p><b>สิ่งที่ควรรู้:</b> ${item.chapter.narrative}</p>
-              <p><b>โอกาส:</b> ${item.opportunities}</p>
-              <p><b>จุดที่ควรรู้ทัน:</b> ${item.risks}</p>
-              ${renderLuckWisdomPrint(item)}
-              <p><b>บทเรียนด้านใน:</b> ${item.innerWork}</p>
-              <p><b>คำแนะนำ:</b> ${item.advice}</p>
-              <p><b>ปีที่น่าจับตา:</b> ${item.chapter.strongYears.concat(item.chapter.testYears).slice(0, 5).join(", ") || "ยังไม่มีปีเด่นชัด"}</p>
-            </div>
-          `,
-        )
-        .join("")}
-    </section>
-  `;
-}
-
-function buildPrintableReportSections(name, dominant, weakest, topTrait) {
-  const safeName = escapeHtml(name);
-  const psych = getPsychologicalProfile(dominant, weakest, topTrait);
-  const masterVoice = getPremiumMasterVoice();
-  const strengthVoice = getPremiumStrengthVoice();
-  return {
-    personality: `
-      <p>${safeName} มีธาตุหลักประจำตัวแบบ ${masterVoice.name} (${masterVoice.title}) ภาพภายในคล้าย ${masterVoice.image} ที่ค่อย ๆ เผยความหมายเมื่ออยู่ในพื้นที่ที่ให้เกียรติจังหวะของหัวใจ</p>
-      <p>${masterVoice.essence} ถ้าอ่านแบบนักจิตวิทยา ใจลึก ๆ ต้องการ ${psych.coreNeed} และมักใช้ ${topTrait.label} เป็นวิธีแสดงออกหลักในการขอพื้นที่ปลอดภัย การยอมรับ และความรู้สึกว่าตัวเองมีคุณค่า</p>
-      <ul>
-        <li>ภาพรวมพลังของดวง: ${premiumElementLabel(dominant.key)} ทำให้ชีวิตมักแสดงออกผ่านเรื่อง ${elementArchetypes[dominant.key]}</li>
-        <li>จุดเด่นที่ใช้ได้ดี: ${topTrait.label} คือวิธีแสดงออกหลักที่ควรใช้สร้างงานและสื่อสารคุณค่า</li>
-        <li>ด้านที่ควรวางระบบช่วยให้สมดุล: ${premiumElementLabel(weakest.key)} ผ่านกิจวัตร สภาพแวดล้อม และคนที่ช่วยให้ใจทำงานได้สมดุลขึ้น</li>
-      </ul>
-    `,
-    career: `
-      <p>งานที่ใช่ไม่ใช่เพียงงานที่ทำได้ดี แต่คือพื้นที่ที่ให้ ${masterVoice.name} ได้แปลงตัวตนข้างในเป็นผลงานที่มีสไตล์เฉพาะตัวของตัวเอง ${getGuardianElementLabel()} ควรถูกออกแบบเข้าไปในวิธีทำงาน เพื่อเป็นพลังที่ช่วยเปิดทางของการตัดสินใจ</p>
-      <p>เวลางานกดดัน รูปแบบที่ควรสังเกตคือ ${psych.stressPattern} ถ้ารู้ทันเร็วพอ งานจะไม่กลายเป็นสนามพิสูจน์คุณค่า แต่จะกลับมาเป็นพื้นที่ทำงานและสร้างผลงานอย่างมีสติและสง่างาม</p>
-      <ul>
-        <li>บทบาทเหมาะ: วางกลยุทธ์ ให้คำปรึกษา กำหนดทิศทางสินค้า อ่านภาพรวม เส้นทางผู้ก่อตั้ง หรือบทบาทนำทีม</li>
-        <li>สภาพงานที่เข้ากัน: มีอิสระในการตัดสินใจ แต่ต้องมีมาตรฐานวัดผลชัด</li>
-        <li>สิ่งที่ควรเว้นระยะ: งานที่เร่งตลอดเวลาแต่ไม่เปิดพื้นที่ให้คุณกำหนดทิศทาง</li>
-      </ul>
-    `,
-    wealth: `
-      <p>รูปแบบทรัพย์ของดวงนี้เด่นเมื่อรายได้ผูกกับความเชี่ยวชาญ การตัดสินใจ และชื่อเสียงระยะยาว มากกว่าการเร่งคว้าโอกาสที่ทำให้ใจเสียศูนย์ ถ้าจะขยายรายได้ ควรขยายจากสิ่งที่ควบคุมคุณภาพได้ก่อน แล้วค่อยเพิ่มแรงส่งอย่างมีชั้นเชิง</p>
-      <p>ด้านเงินควรอ่านเป็นเรื่องความปลอดภัยทางใจด้วย ถ้าใจรู้สึกไม่มั่นคง อาจรีบรับโอกาสมากเกินไปหรือควบคุมทุกอย่างแน่นเกินไป คลังทรัพย์ที่ดีของดวงนี้จึงต้องมีทั้งแผนและพื้นที่หายใจ</p>
-      <ul>
-        <li>วิธีเล่นเกมเงิน: ทำรายได้หลักให้นิ่ง แล้วใช้รายได้รองเป็นพื้นที่ลองของ</li>
-        <li>จุดแข็ง: สร้างมูลค่าจากการมองภาพรวมและจัดระเบียบสิ่งซับซ้อน</li>
-        <li>จุดที่ควรรู้ทัน: รับโอกาสมากเกินไปจนพลังธาตุหลักประจำตัวกระจาย</li>
-      </ul>
-    `,
-    relationship: `
-      <p>ความสัมพันธ์ต้องการทั้งความเคารพต่อเป้าหมายและพื้นที่หายใจ คนที่เข้ากันได้ดีคือคนที่ช่วยสะท้อน ช่วยตั้งคำถาม และไม่ทำให้พลังหลักกลายเป็นความกดดัน</p>
-      <p>เมื่อรู้สึกไม่ปลอดภัยในความสัมพันธ์ กลไกเดิมอาจพาให้ ${psych.stressPattern} ทางออกคือพูดความต้องการจริงให้เป็นประโยคสั้น ๆ และไม่ลงโทษตัวเองที่ต้องการการยืนยันจากคนสำคัญ</p>
-      <ul>
-        <li>ภาษารักที่สำคัญ: ความไว้ใจ การสนับสนุนเป้าหมาย และการพูดตรงอย่างมีเมตตา</li>
-        <li>รูปแบบขัดแย้ง: เงียบแล้วคิดเอง หรือพยายามควบคุมสถานการณ์เร็วเกินไป</li>
-        <li>คำแนะนำ: แยกความคาดหวังออกจากคำขอให้ชัดก่อนสนทนาเรื่องสำคัญ</li>
-      </ul>
-    `,
-    health: `
-      <p>การดูแลสุขภาพไม่ต้องรอให้เหนื่อยมากแล้วค่อยแก้ ลองมองเป็นการถนอมไฟข้างในแบบวันต่อวัน ${premiumElementLabel(dominant.key)} ต้องมีทางระบาย ส่วน ${premiumElementLabel(weakest.key)} ควรถูกดูแลผ่านกิจวัตรที่ทำซ้ำได้จริง เช่น เวลาพัก วิธีทำงาน หรือพื้นที่ที่ทำให้ใจไม่ตึงเกินไป</p>
-      <p>ร่างกายของดวงนี้มักส่งสัญญาณเมื่อใจแบกนานเกินไป แบบฝึกใจที่ควรทำซ้ำคือ ${psych.growthPractice} เพราะเป็นวิธีดูแลจุดที่ยังอ่อนโดยไม่ต้องเปลี่ยนชีวิตแบบรุนแรง</p>
-      <ul>
-        <li>ดูแลหลัก: การนอน ความเครียด การยืดเหยียด และช่วงเวลาปลอดหน้าจอ</li>
-        <li>สัญญาณเตือน: ใจเร็ว คิดวน หงุดหงิดง่าย หรือหมดแรงหลังตัดสินใจเยอะ</li>
-        <li>แนวทาง: ใช้ ritual สั้น ๆ รายวันแทนการเปลี่ยนชีวิตครั้งใหญ่แบบหักดิบ</li>
-      </ul>
-    `,
-    luck: `
-      <p>ช่วงดวง 10 ปีควรถูกอ่านเป็นจังหวะขึ้นลงของชีวิตมากกว่าคำทำนายตายตัว รอบที่เลือกล่าสุดคือช่วงอายุ ${state.luck[activeLuckIndex].ageRangeLabel}: ${state.luck[activeLuckIndex].chapter.title}</p>
-      <p>${state.luck[activeLuckIndex].climate}</p>
-      <ul>
-        <li>โอกาสที่น่าใช้: ${state.luck[activeLuckIndex].opportunities}</li>
-        <li>จุดที่ต้องใจเย็น: ${state.luck[activeLuckIndex].risks}</li>
-        <li>คำถามไว้ทบทวน: ${state.luck[activeLuckIndex].chapter.reflectiveQuestion}</li>
-      </ul>
-    `,
-  };
-}
-
 function printCard(label, value, description) {
   return `
     <div class="print-card">
@@ -2518,6 +2312,385 @@ function orderedTopTenGods(limit = 3) {
     .slice(0, limit);
 }
 
+
+const deityCardProfiles = {
+  Friend: {
+    name: "เทพปี่เกียง",
+    role: "เทพแห่งตัวตนและเพื่อนร่วมทาง",
+    mantra: "ยืนอยู่กับตัวเองให้มั่น แล้วเลือกคนที่เดินไปทางเดียวกัน",
+    identity: "คุณเป็นคนที่มีแกนตัวตนชัด รักความจริงใจ และมักรู้สึกดีที่สุดเมื่อได้อยู่กับคนที่เคารพพื้นที่ของกันและกัน",
+    power: "ใช้พลังนี้ด้วยการเลือกทีม เลือกเพื่อน และเลือกงานที่ไม่บังคับให้คุณทรยศความเป็นตัวเอง",
+    palette: ["#1f6b55", "#8fbf9f", "#fff6df"],
+    symbol: "circle",
+  },
+  "Rob Wealth": {
+    name: "เทพเกียบไช้",
+    role: "เทพแห่งทีมและแรงแข่งขัน",
+    mantra: "พลังของคุณโตขึ้นเมื่อรู้ว่าใครคือคนร่วมทาง และใครคือสนามฝึก",
+    identity: "คุณมีไฟของนักสู้แบบสุภาพ ชอบลงมือจริง และมักเติบโตเร็วเมื่อมีเป้าหมายที่ท้าทายหรือคนเก่งอยู่ใกล้ตัว",
+    power: "ใช้พลังนี้ด้วยการตั้งขอบเขตเรื่องเงิน เวลา และความรับผิดชอบให้ชัด ก่อนใจดีจนตัวเองเหนื่อย",
+    palette: ["#c2792b", "#e2b66f", "#fff4df"],
+    symbol: "spark",
+  },
+  "Eating God": {
+    name: "เทพเจียะซิ้ง",
+    role: "เทพแห่งความสุขและผลงานที่จับต้องได้",
+    mantra: "สิ่งที่คุณทำด้วยความสบายใจ มักกลายเป็นของขวัญให้คนอื่นด้วย",
+    identity: "คุณมีพลังของคนที่เปลี่ยนความคิดให้เป็นผลงานได้ดี มีรสนิยม อ่อนโยน และมักทำให้บรรยากาศรอบตัวน่าอยู่ขึ้น",
+    power: "ใช้พลังนี้ด้วยการทำไอเดียให้เห็นเป็นชิ้นงานจริง แม้เริ่มจากเวอร์ชันเล็กก่อนก็พอแล้ว",
+    palette: ["#d89a4b", "#f0c98d", "#fff7e8"],
+    symbol: "sun",
+  },
+  "Hurting Officer": {
+    name: "เทพเซียงกัว",
+    role: "เทพแห่งไอเดียและการแสดงออก",
+    mantra: "เสียงของคุณมีพลัง เมื่อพูดให้คมพอและนุ่มพอในเวลาเดียวกัน",
+    identity: "คุณเป็นคนเห็นทางเลือกที่คนอื่นยังไม่เห็น มีความคิดไว ชอบตั้งคำถาม และมักไม่อยากทำอะไรเพียงเพราะทุกคนทำตามกันมา",
+    power: "ใช้พลังนี้ด้วยการเปลี่ยนคำวิจารณ์ให้เป็นข้อเสนอที่ทำต่อได้จริง โดยเฉพาะในห้องประชุมหรือเวลาคุยงานสำคัญ",
+    palette: ["#c45f59", "#e7a19c", "#fff0ed"],
+    symbol: "flame",
+  },
+  "Direct Wealth": {
+    name: "เทพเจี่ยไช้",
+    role: "เทพแห่งทรัพย์ที่จัดการได้",
+    mantra: "ความมั่นคงไม่ได้มาจากการรีบเก็บทุกอย่าง แต่มาจากการรู้ว่าอะไรควรดูแลก่อน",
+    identity: "คุณมีเซนส์เรื่องความคุ้มค่า ชอบเห็นผลลัพธ์ชัด และมักสบายใจเมื่อชีวิตมีระบบที่จับต้องได้",
+    power: "ใช้พลังนี้ด้วยการจัดเงิน งาน และสัญญาให้เป็นรูปธรรม อย่าปล่อยให้ความเกรงใจทำให้รายละเอียดสำคัญหายไป",
+    palette: ["#b98b39", "#e0c27a", "#fff8df"],
+    symbol: "coin",
+  },
+  "Indirect Wealth": {
+    name: "เทพเพียงไช้",
+    role: "เทพแห่งโอกาสและรายได้เสริม",
+    mantra: "โอกาสชอบมาหาคุณตอนกล้าลอง แต่ต้องมีหลักให้กลับมายืน",
+    identity: "คุณมีสายตาที่มองเห็นช่องทางใหม่ได้ไว ชอบขยับ ลองตลาด และมักมีไอเดียที่ต่อยอดเป็นรายได้หรือโปรเจกต์เสริมได้ดี",
+    power: "ใช้พลังนี้ด้วยการทดลองเล็ก วัดผลจริง แล้วค่อยเพิ่มน้ำหนัก อย่าให้ความตื่นเต้นพาคุณกระโดดไกลเกินข้อมูลที่มี",
+    palette: ["#8b6f3d", "#d6b25f", "#fff3cf"],
+    symbol: "star",
+  },
+  "Direct Officer": {
+    name: "เทพเจี่ยกัว",
+    role: "เทพแห่งวินัยและบารมี",
+    mantra: "ความสง่างามของคุณเกิดขึ้นเมื่อหน้าที่กับหัวใจเดินไปด้วยกัน",
+    identity: "คุณมีพลังของคนที่คนอื่นไว้ใจได้ รู้จักรับผิดชอบ และมักถูกมองว่าเป็นคนที่ถือมาตรฐานในเรื่องสำคัญ",
+    power: "ใช้พลังนี้ด้วยการยืนในบทบาทให้ชัด แต่ไม่ปล่อยให้ตำแหน่งหรือความคาดหวังกลบเสียงข้างในของตัวเอง",
+    palette: ["#4c7892", "#9ec3d3", "#edf7fb"],
+    symbol: "mountain",
+  },
+  "Seven Killings": {
+    name: "เทพชิกสัวะ",
+    role: "เทพแห่งแรงกดดันและความกล้า",
+    mantra: "แรงกดดันไม่ได้มาเพื่อทำให้คุณแตก แต่มาเพื่อปลุกความกล้าที่ยังนอนอยู่",
+    identity: "คุณมีพลังตัดสินใจในสถานการณ์ยาก รับมือแรงปะทะได้ดี และมักแข็งแรงขึ้นเมื่อชีวิตบังคับให้เลือกทางให้ชัด",
+    power: "ใช้พลังนี้ด้วยการหยุดหนึ่งจังหวะก่อนตอบโต้ เลือกสนามที่ควรสู้ และปล่อยสนามที่ไม่คุ้มแรงใจ",
+    palette: ["#173d35", "#6aa18d", "#ecf6f1"],
+    symbol: "blade",
+  },
+  "Direct Resource": {
+    name: "เทพเจี่ยอิน",
+    role: "เทพแห่งความรู้และผู้สนับสนุน",
+    mantra: "คุณไม่ได้ช้า คุณกำลังเก็บรากให้มั่นก่อนแตกใบ",
+    identity: "คุณมีพลังของคนเรียนรู้ลึก ชอบเข้าใจเหตุผล และมักฟื้นตัวได้ดีเมื่อมีพื้นที่ปลอดภัยหรือคนที่ให้คำแนะนำอย่างจริงใจ",
+    power: "ใช้พลังนี้ด้วยการให้เวลาตัวเองเรียน พัก และรับความช่วยเหลือ อย่าฝืนเก่งคนเดียวจนหมดแรง",
+    palette: ["#625b86", "#b2acd6", "#f2efff"],
+    symbol: "book",
+  },
+  "Indirect Resource": {
+    name: "เทพเพียงอิน",
+    role: "เทพแห่งสัญชาตญาณและงานลึก",
+    mantra: "ในความเงียบของคุณ มีคำตอบที่รีบไม่ได้ซ่อนอยู่",
+    identity: "คุณมีเซนส์ละเอียด มองเรื่องซับซ้อนได้ลึก และมักรับรู้อะไรบางอย่างก่อนจะอธิบายเป็นเหตุผลได้ครบ",
+    power: "ใช้พลังนี้ด้วยการจดสิ่งที่รู้สึก แล้วค่อยเช็กกับข้อมูลจริง เพื่อให้สัญชาตญาณกลายเป็นเข็มทิศ ไม่ใช่ความกังวล",
+    palette: ["#2f5f73", "#8bb8c8", "#edf8fb"],
+    symbol: "moon",
+  },
+};
+
+function getPersonalDeityProfile() {
+  const [key, rawScore] = orderedTopTenGods(1)[0] || ["Direct Resource", 60];
+  const profile = deityCardProfiles[key] || deityCardProfiles["Direct Resource"];
+  return { key, score: clampScore(rawScore || 60), ...profile };
+}
+
+function renderDeityCardStudio() {
+  const canvas = document.getElementById("deityCardCanvas");
+  if (!canvas || !state) return;
+  const profile = getPersonalDeityProfile();
+  orderedSetText("deityCardTitle", `${profile.name}: ${profile.role}`);
+  orderedSetText("deityCardIntro", `${profile.identity} วิธีใช้พลังจากเทพองค์นี้คือ ${profile.power}`);
+  drawDeityCardCanvas(canvas, profile);
+}
+
+function drawDeityCardCanvas(canvas, profile = getPersonalDeityProfile()) {
+  const ctx = canvas.getContext("2d");
+  const width = canvas.width;
+  const height = canvas.height;
+  const [main, mid, soft] = profile.palette;
+  ctx.clearRect(0, 0, width, height);
+
+  const bg = ctx.createLinearGradient(0, 0, width, height);
+  bg.addColorStop(0, soft);
+  bg.addColorStop(0.56, "#fffdf8");
+  bg.addColorStop(1, "#f6ead7");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, width, height);
+
+  drawDeityCardGlow(ctx, width, height, main, mid);
+  roundRect(ctx, 72, 72, width - 144, height - 144, 54);
+  ctx.fillStyle = "rgba(255, 253, 248, 0.78)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(120, 92, 42, 0.22)";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  ctx.fillStyle = main;
+  ctx.font = '700 34px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText("ชีวิต BaZi", 118, 142);
+  ctx.fillStyle = "rgba(34, 34, 31, 0.64)";
+  ctx.font = '400 25px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText("Personal Deity Card", 118, 180);
+
+  drawDeityCharacter(ctx, width / 2, 550, profile);
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = main;
+  ctx.font = '700 58px Tahoma, "Noto Sans Thai", Arial';
+  wrapCanvasText(ctx, profile.name, width / 2, 930, 780, 68, 2);
+  ctx.fillStyle = "rgba(34, 34, 31, 0.72)";
+  ctx.font = '700 30px Tahoma, "Noto Sans Thai", Arial';
+  wrapCanvasText(ctx, profile.role, width / 2, 1038, 780, 42, 2);
+
+  ctx.textAlign = "left";
+  drawCardTextBlock(ctx, 136, 1166, 808, "ตัวตนของคุณ", profile.identity, main);
+  drawCardTextBlock(ctx, 136, 1392, 808, "การใช้พลังจากเทพ", profile.power, main);
+
+  roundRect(ctx, 136, 1644, 808, 138, 28);
+  ctx.fillStyle = "rgba(255, 255, 255, 0.68)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(120, 92, 42, 0.16)";
+  ctx.stroke();
+  ctx.fillStyle = main;
+  ctx.font = '700 28px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText("คำจำวันนี้", 172, 1698);
+  ctx.fillStyle = "#22221f";
+  ctx.font = '400 29px Tahoma, "Noto Sans Thai", Arial';
+  wrapCanvasText(ctx, profile.mantra, 172, 1744, 726, 42, 2);
+
+  const name = document.getElementById("clientName")?.value || "คุณ";
+  ctx.textAlign = "center";
+  ctx.fillStyle = "rgba(34, 34, 31, 0.58)";
+  ctx.font = '400 24px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText(`สร้างให้ ${name} · แชร์เป็น Story ได้`, width / 2, 1854);
+}
+
+function drawDeityCardGlow(ctx, width, height, main, mid) {
+  const glow = ctx.createRadialGradient(width * 0.5, 470, 40, width * 0.5, 470, 520);
+  glow.addColorStop(0, hexToRgba(mid, 0.38));
+  glow.addColorStop(0.56, hexToRgba(main, 0.12));
+  glow.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, width, height);
+}
+
+function drawDeityCharacter(ctx, cx, cy, profile) {
+  const [main, mid] = profile.palette;
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  ctx.beginPath();
+  ctx.arc(0, -18, 236, 0, Math.PI * 2);
+  ctx.fillStyle = hexToRgba(mid, 0.2);
+  ctx.fill();
+  ctx.strokeStyle = hexToRgba(main, 0.28);
+  ctx.lineWidth = 4;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(-180, 218);
+  ctx.quadraticCurveTo(0, 88, 180, 218);
+  ctx.lineTo(232, 330);
+  ctx.quadraticCurveTo(0, 390, -232, 330);
+  ctx.closePath();
+  ctx.fillStyle = hexToRgba(main, 0.88);
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(0, 18, 104, 0, Math.PI * 2);
+  ctx.fillStyle = "#f3cda8";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(85, 62, 39, 0.18)";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(-92, -20);
+  ctx.quadraticCurveTo(0, -116, 92, -20);
+  ctx.quadraticCurveTo(52, -70, 0, -62);
+  ctx.quadraticCurveTo(-52, -70, -92, -20);
+  ctx.fillStyle = "#40352d";
+  ctx.fill();
+
+  ctx.fillStyle = "#2f2b26";
+  ctx.beginPath();
+  ctx.arc(-34, 24, 7, 0, Math.PI * 2);
+  ctx.arc(34, 24, 7, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = "#7f5543";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(0, 52, 32, 0.1 * Math.PI, 0.9 * Math.PI);
+  ctx.stroke();
+
+  roundRect(ctx, -92, 176, 184, 92, 26);
+  ctx.fillStyle = "rgba(255, 253, 248, 0.88)";
+  ctx.fill();
+  ctx.strokeStyle = hexToRgba(main, 0.32);
+  ctx.stroke();
+  drawDeitySymbol(ctx, 0, 222, profile.symbol, main);
+
+  ctx.restore();
+}
+
+function drawDeitySymbol(ctx, cx, cy, symbol, color) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineWidth = 8;
+  ctx.lineCap = "round";
+  if (symbol === "spark") {
+    ctx.beginPath(); ctx.moveTo(0, -34); ctx.lineTo(12, -6); ctx.lineTo(42, 0); ctx.lineTo(12, 8); ctx.lineTo(0, 36); ctx.lineTo(-12, 8); ctx.lineTo(-42, 0); ctx.lineTo(-12, -6); ctx.closePath(); ctx.stroke();
+  } else if (symbol === "sun") {
+    ctx.beginPath(); ctx.arc(0, 0, 24, 0, Math.PI * 2); ctx.stroke();
+    for (let i = 0; i < 8; i += 1) { const a = i * Math.PI / 4; ctx.beginPath(); ctx.moveTo(Math.cos(a) * 36, Math.sin(a) * 36); ctx.lineTo(Math.cos(a) * 50, Math.sin(a) * 50); ctx.stroke(); }
+  } else if (symbol === "flame") {
+    ctx.beginPath(); ctx.moveTo(0, -42); ctx.bezierCurveTo(42, 2, 18, 46, 0, 46); ctx.bezierCurveTo(-34, 42, -34, 0, 0, -42); ctx.stroke();
+  } else if (symbol === "coin") {
+    ctx.beginPath(); ctx.arc(0, 0, 42, 0, Math.PI * 2); ctx.stroke(); roundRect(ctx, -15, -15, 30, 30, 4); ctx.stroke();
+  } else if (symbol === "star") {
+    ctx.beginPath();
+    for (let i = 0; i < 5; i += 1) { const a = -Math.PI / 2 + i * Math.PI * 2 / 5; const x = Math.cos(a) * 44; const y = Math.sin(a) * 44; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); const b = a + Math.PI / 5; ctx.lineTo(Math.cos(b) * 18, Math.sin(b) * 18); }
+    ctx.closePath(); ctx.stroke();
+  } else if (symbol === "mountain") {
+    ctx.beginPath(); ctx.moveTo(-48, 36); ctx.lineTo(-14, -22); ctx.lineTo(8, 10); ctx.lineTo(28, -34); ctx.lineTo(54, 36); ctx.stroke();
+  } else if (symbol === "blade") {
+    ctx.beginPath(); ctx.moveTo(0, -48); ctx.lineTo(30, 10); ctx.quadraticCurveTo(0, 48, -30, 10); ctx.closePath(); ctx.stroke();
+  } else if (symbol === "book") {
+    ctx.beginPath(); ctx.moveTo(-46, -32); ctx.quadraticCurveTo(-10, -44, 0, -18); ctx.quadraticCurveTo(10, -44, 46, -32); ctx.lineTo(46, 36); ctx.quadraticCurveTo(12, 24, 0, 46); ctx.quadraticCurveTo(-12, 24, -46, 36); ctx.closePath(); ctx.stroke();
+  } else if (symbol === "moon") {
+    ctx.beginPath(); ctx.arc(12, 0, 42, 0.35 * Math.PI, 1.65 * Math.PI); ctx.quadraticCurveTo(-18, 0, 12, -40); ctx.stroke();
+  } else {
+    ctx.beginPath(); ctx.arc(0, 0, 42, 0, Math.PI * 2); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawCardTextBlock(ctx, x, y, width, label, body, accent) {
+  roundRect(ctx, x, y, width, 176, 28);
+  ctx.fillStyle = "rgba(255, 255, 255, 0.64)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(120, 92, 42, 0.14)";
+  ctx.stroke();
+  ctx.fillStyle = accent;
+  ctx.font = '700 27px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText(label, x + 36, y + 52);
+  ctx.fillStyle = "#22221f";
+  ctx.font = '400 28px Tahoma, "Noto Sans Thai", Arial';
+  wrapCanvasText(ctx, body, x + 36, y + 100, width - 72, 41, 2);
+}
+
+function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 4) {
+  const words = String(text).split(/\s+/).filter(Boolean);
+  let line = "";
+  let lines = 0;
+  for (let index = 0; index < words.length; index += 1) {
+    const testLine = line ? `${line} ${words[index]}` : words[index];
+    if (ctx.measureText(testLine).width > maxWidth && line) {
+      ctx.fillText(line, x, y + lines * lineHeight);
+      lines += 1;
+      line = words[index];
+      if (lines >= maxLines - 1) break;
+    } else {
+      line = testLine;
+    }
+  }
+  if (line && lines < maxLines) ctx.fillText(line, x, y + lines * lineHeight);
+}
+
+function roundRect(ctx, x, y, width, height, radius) {
+  const r = Math.min(radius, width / 2, height / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + width - r, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+  ctx.lineTo(x + width, y + height - r);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+  ctx.lineTo(x + r, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function hexToRgba(hex, alpha) {
+  const clean = String(hex).replace("#", "");
+  const full = clean.length === 3 ? clean.split("").map((char) => char + char).join("") : clean;
+  const num = parseInt(full, 16);
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function canvasToBlob(canvas) {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("สร้างไฟล์ภาพไม่สำเร็จ")), "image/png", 0.95);
+  });
+}
+
+async function createDeityCardFile() {
+  renderDeityCardStudio();
+  const canvas = document.getElementById("deityCardCanvas");
+  const blob = await canvasToBlob(canvas);
+  const fileName = `bazi-deity-card-${Date.now()}.png`;
+  return { blob, file: new File([blob], fileName, { type: "image/png" }), fileName };
+}
+
+async function shareDeityCard() {
+  try {
+    const { blob, file, fileName } = await createDeityCardFile();
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: "การ์ดเทพประจำตัว BaZi", text: "การ์ดเทพประจำตัวจากชีวิต BaZi" });
+      showToast("เปิดหน้าต่างแชร์แล้ว เลือก Instagram หรือ Facebook Stories ได้เลยถ้ามีในเครื่อง");
+      return;
+    }
+    downloadBlob(blob, fileName);
+    showToast("เครื่องนี้ยังแชร์รูปตรงไม่ได้ เลยดาวน์โหลดการ์ด PNG ให้แทน");
+  } catch (error) {
+    if (error?.name === "AbortError") return;
+    showToast("ยังสร้างการ์ดไม่ได้ ลองกดอีกครั้งนะ");
+  }
+}
+
+async function downloadDeityCard() {
+  try {
+    const { blob, fileName } = await createDeityCardFile();
+    downloadBlob(blob, fileName);
+    showToast("ดาวน์โหลดการ์ดเทพเป็น PNG แล้ว");
+  } catch (error) {
+    showToast("ยังดาวน์โหลดการ์ดไม่ได้ ลองกดอีกครั้งนะ");
+  }
+}
+
+function downloadBlob(blob, fileName) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1200);
+}
 function orderedTraitEntries(limit = 5) {
   return Object.entries(state.personality || {})
     .sort((left, right) => right[1] - left[1])
@@ -2807,6 +2980,7 @@ function render() {
   renderElements();
   renderAuspicious();
   renderDailyEnergy();
+  renderDeityCardStudio();
   renderGuardianActions();
   renderLifeAdvice();
   renderInsightStudio();
@@ -3133,29 +3307,6 @@ function renderLuckDetail() {
 
 function renderPlanning() {
   // The 10-year plan now lives inside renderLuckDetail so the section reads as one story.
-}
-function renderPrintReport() {
-  const name = document.getElementById("clientName")?.value || "คุณ";
-  const birthDate = document.getElementById("birthDate")?.value || "-";
-  const birthTime = state.birthTimeUnknown ? "ยังไม่ทราบเวลาเกิด" : (document.getElementById("birthTime")?.value || "-");
-  const birthPlace = document.getElementById("birthPlace")?.value || "-";
-  const masterVoice = getPremiumMasterVoice();
-  const item = orderedCurrentLuck();
-  const focusAnswer = document.getElementById("questionReading")?.innerText || "";
-  const hookText = document.getElementById("hookSummary")?.innerText || "";
-  const energyText = document.getElementById("dailyEnergy")?.innerText || "";
-  orderedSetHtml("printReport", `
-    <section class="print-cover">
-      <h1>BaZi Life Map ของ ${escapeHtml(name)}</h1>
-      <p>วันเกิด ${escapeHtml(birthDate)} · เวลา ${escapeHtml(birthTime)} · สถานที่ ${escapeHtml(birthPlace)}</p>
-    </section>
-    <section class="print-section"><h2>1. คำแนะนำเว็บ</h2><p>อ่านรายงานนี้เป็นเพื่อนคิด ไม่ใช่คำสั่งตายตัว เริ่มจากตัวตน แล้วค่อยดูคำถามเฉพาะเรื่องและวัยจร</p></section>
-    <section class="print-section"><h2>2. ข้อมูลตั้งต้น</h2><div class="print-grid">${printCard("ธาตุหลัก", masterVoice.name, masterVoice.tagline)}${printCard("ธาตุที่ช่วยให้สมดุล", getGuardianElementLabel(), getGuardianElementCopy())}${printCard("พลังชีวิต", getStrengthNarrative(), getStrengthDetail())}${printCard("ธีมดวง", state.chartType, "อ่านจากโครงสร้างเสาและธาตุทั้งหมด")}</div></section>
-    <section class="print-section"><h2>3. รายละเอียดตัวตน</h2><p>${escapeHtml(hookText)}</p><p>${escapeHtml(energyText)}</p><div class="print-grid">${renderPillarPrintCards()}</div><p>${masterVoice.essence}</p></section>
-    <section class="print-section"><h2>4. นิสัย โชค และสิ่งที่มักพบ</h2><p>${document.getElementById("readingCopy")?.innerText || ""}</p><div class="print-grid">${orderedTraitEntries(4).map(([key, value]) => printCard(personalityLabel(key), describeScoreBand(value), personalityMeaning(key))).join("")}</div></section>
-    <section class="print-section"><h2>5. คำถามเฉพาะเรื่อง</h2><p>${escapeHtml(focusAnswer)}</p></section>
-    <section class="print-section"><h2>6. วัยจร 10 ปี</h2><p>${item ? `ช่วงที่เลือก: อายุ ${item.ageRangeLabel} · ${item.chapter.title}` : ""}</p><p>${item ? item.climate : ""}</p><div class="print-grid">${item ? printCard("โอกาสที่น่าใช้", "ทำให้จับต้องได้", item.opportunities) : ""}${item ? printCard("จุดที่ต้องใจเย็น", "อย่ารีบตอบจากแรงกดดัน", item.risks) : ""}${item ? printCard("คำถามไว้ทบทวน", item.chapter.reflectiveQuestion, item.chapter.closing) : ""}</div><h3>ภาพรวมช่วงอื่น</h3><ul>${state.luck.map((luck) => `<li>อายุ ${luck.ageRangeLabel}: ${luck.chapter.title}</li>`).join("")}</ul></section>
-  `);
 }
 // ORDERED_INTERFACE_END
 syncBirthTimeInput();

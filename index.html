@@ -55,9 +55,8 @@
           <div class="section-head">
             <div>
               <div class="section-kicker">2 · ช่องกรอกข้อมูลผู้ดูดวงชะตา</div>
-              <h2>ใส่ข้อมูลเกิด แล้วบันทึกผลอ่านเป็น PDF ได้เลย</h2>
+              <h2>ใส่ข้อมูลเกิด แล้วเปิดแผนที่ชีวิตของคุณได้เลย</h2>
             </div>
-            <button class="primary-action save-pdf-button" id="exportBtn" type="button"><span>PDF</span>เก็บไว้อ่านต่อ</button>
           </div>
 
           <form id="baziForm" class="birth-form">
@@ -114,6 +113,21 @@
           </div>
 
           <div class="daily-energy" id="dailyEnergy" aria-live="polite"></div>
+          <div class="deity-card-studio" id="deity-card">
+            <article class="deity-card-copy">
+              <span class="soft-label">การ์ดเทพประจำตัว</span>
+              <h3 id="deityCardTitle">เทพประจำตัวของคุณ</h3>
+              <p id="deityCardIntro">ระบบจะหยิบเทพสิบองค์ที่เด่นที่สุดในดวงของคุณมาเล่าเป็นการ์ดภาพแนว Story พร้อมภาพตัวละคร ชื่อเทพ ตัวตน และวิธีใช้พลังจากเทพองค์นี้ในชีวิตจริง</p>
+              <div class="deity-card-actions">
+                <button class="primary-action" id="shareDeityCard" type="button">แชร์ลง Story</button>
+                <button class="secondary-link" id="downloadDeityCard" type="button">ดาวน์โหลดการ์ด</button>
+              </div>
+              <small>ถ้าเครื่องไม่รองรับการแชร์รูปโดยตรง เว็บจะบันทึกเป็น PNG ให้ แล้วนำไปลง Instagram หรือ Facebook Stories ได้เลย</small>
+            </article>
+            <div class="deity-card-preview" aria-label="ตัวอย่างการ์ดเทพประจำตัว">
+              <canvas id="deityCardCanvas" width="1080" height="1920"></canvas>
+            </div>
+          </div>
 
           <div class="identity-grid compact-identity-grid">
             <article class="panel wide-panel chart-snapshot-panel">
@@ -200,14 +214,13 @@
             <article class="panel timeline-panel"><div class="timeline" id="luckTimeline"></div></article>
             <article class="panel luck-detail-panel"><div class="luck-detail" id="luckDetail"></div></article>
           </div>
-          <div class="section-bridge final-bridge"><a class="secondary-link" href="#input">แก้ข้อมูลแล้วเปิดแผนที่ใหม่</a><button class="primary-link bridge-print" type="button">เก็บผลอ่านทั้งหมดเป็น PDF</button></div>
+          <div class="section-bridge final-bridge"><a class="secondary-link" href="#input">แก้ข้อมูลแล้วเปิดแผนที่ใหม่</a><a class="primary-link" href="#deity-card">สร้างการ์ดเทพไว้แชร์</a></div>
         </section>
       </main>
     </div>
 
     <div hidden id="popularQuestionButtons"></div>
     <div hidden id="popularQuestionAnswer"></div>
-    <section class="print-report" id="printReport" aria-label="Printable PDF report"></section>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="./app.js"></script>
   </body>
