@@ -2014,7 +2014,7 @@ function renderRadar() {
   ctx.clearRect(0, 0, width, height);
   ctx.strokeStyle = getCss("--line");
   ctx.fillStyle = getCss("--muted");
-  ctx.font = "13px Tahoma, Arial";
+  ctx.font = "13px Noto Sans Thai, Tahoma, Arial";
 
   for (let ring = 1; ring <= 4; ring += 1) {
     drawPolygon(ctx, entries.length, centerX, centerY, (radius / 4) * ring);
@@ -2050,10 +2050,10 @@ function renderRadar() {
     const label = shortPersonalityLabel(key);
     ctx.fillStyle = getCss("--text");
     ctx.textAlign = x < centerX - 8 ? "right" : x > centerX + 8 ? "left" : "center";
-    ctx.font = "13px Tahoma, Arial";
+    ctx.font = "13px Noto Sans Thai, Tahoma, Arial";
     ctx.fillText(label, x, y - 3);
     ctx.fillStyle = getCss("--muted");
-    ctx.font = "11px Tahoma, Arial";
+    ctx.font = "11px Noto Sans Thai, Tahoma, Arial";
     ctx.fillText(`${Math.round(value)}%`, x, y + 13);
   });
 }
@@ -2496,7 +2496,7 @@ function drawDeityCardCanvas(canvas, profile = getPersonalDeityProfile()) {
   const name = document.getElementById("clientName")?.value || "คุณ";
   ctx.textAlign = "center";
   ctx.fillStyle = "rgba(255, 253, 248, 0.82)";
-  ctx.font = '700 24px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 24px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText(`ชีวิต BaZi · สรุปเทพเด่นประจำดวงของ ${name}`, width / 2, 1858);
 }
 
@@ -2562,15 +2562,15 @@ function drawCollectorHeader(ctx, profile, width, main, mid) {
 
   ctx.textAlign = "left";
   ctx.fillStyle = "rgba(255, 253, 248, 0.9)";
-  ctx.font = '700 24px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 24px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText("ชีวิต BaZi", 148, 154);
-  ctx.font = '700 38px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 38px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText("เทพเด่นประจำดวง", 148, 198);
 
   ctx.textAlign = "right";
-  ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 22px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText("อ่านจากเทพสิบองค์", width - 148, 156);
-  ctx.font = '700 30px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 30px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText(getDeityProminence(profile.score), width - 148, 198);
   ctx.restore();
 }
@@ -2590,7 +2590,7 @@ function drawDeitySymbolBadge(ctx, cx, cy, symbol, main, mid, score) {
   drawDeitySymbol(ctx, cx, cy - 12, symbol, main, 0.72);
   ctx.textAlign = "center";
   ctx.fillStyle = main;
-  ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 22px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText(getDeityProminence(score), cx, cy + 56);
   ctx.restore();
 }
@@ -2609,10 +2609,10 @@ function drawCollectorNamePlate(ctx, x, y, width, profile, main, mid) {
   ctx.stroke();
   ctx.textAlign = "left";
   ctx.fillStyle = "#241f18";
-  ctx.font = '700 52px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 52px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText(profile.name, x + 34, y + 58);
   ctx.fillStyle = "rgba(36, 31, 24, 0.78)";
-  ctx.font = '700 25px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 25px Prompt, "Noto Sans Thai", Tahoma, Arial';
   wrapCanvasText(ctx, profile.role, x + 34, y + 100, width - 68, 33, 1);
   ctx.restore();
 }
@@ -2637,10 +2637,10 @@ function drawCollectorStats(ctx, x, y, width, profile, main, mid) {
     ctx.stroke();
     ctx.textAlign = "center";
     ctx.fillStyle = main;
-    ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
+    ctx.font = '700 22px Prompt, "Noto Sans Thai", Tahoma, Arial';
     ctx.fillText(stat.label, sx + itemWidth / 2, y + 42);
     ctx.fillStyle = "#241f18";
-    ctx.font = '700 27px Tahoma, "Noto Sans Thai", Arial';
+    ctx.font = '700 27px Prompt, "Noto Sans Thai", Tahoma, Arial';
     wrapCanvasText(ctx, stat.value, sx + itemWidth / 2, y + 82, itemWidth - 28, 31, 2);
     ctx.fillStyle = hexToRgba(mid, 0.34);
     ctx.beginPath();
@@ -2682,15 +2682,15 @@ function drawCollectorSkillBox(ctx, x, y, width, profile, main, mid) {
   ctx.fill();
   ctx.fillStyle = "#fffdf8";
   ctx.textAlign = "center";
-  ctx.font = '700 23px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 23px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText("แนวทาง", x + 111, y + 57);
 
   ctx.textAlign = "left";
   ctx.fillStyle = main;
-  ctx.font = '700 31px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 31px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText("วิธีใช้พลังนี้ให้เป็นประโยชน์", x + 224, y + 60);
   ctx.fillStyle = "#241f18";
-  ctx.font = '400 29px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '400 29px Prompt, "Noto Sans Thai", Tahoma, Arial';
   wrapCanvasText(ctx, profile.power, x + 34, y + 120, width - 68, 42, 3);
 }
 
@@ -2703,10 +2703,10 @@ function drawCollectorQuote(ctx, x, y, width, profile, main) {
   ctx.stroke();
   ctx.textAlign = "left";
   ctx.fillStyle = "rgba(255, 253, 248, 0.72)";
-  ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 22px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText("คำคมประจำวัน", x + 34, y + 46);
   ctx.fillStyle = "#fffdf8";
-  ctx.font = '700 30px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 30px Prompt, "Noto Sans Thai", Tahoma, Arial';
   wrapCanvasText(ctx, profile.mantra, x + 34, y + 96, width - 68, 38, 2);
 }
 function drawDeityCardGlow(ctx, width, height, main, mid) {
@@ -2858,10 +2858,10 @@ function drawCardTextBlock(ctx, x, y, width, label, body, accent) {
   ctx.strokeStyle = "rgba(120, 92, 42, 0.14)";
   ctx.stroke();
   ctx.fillStyle = accent;
-  ctx.font = '700 27px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '700 27px Prompt, "Noto Sans Thai", Tahoma, Arial';
   ctx.fillText(label, x + 36, y + 52);
   ctx.fillStyle = "#22221f";
-  ctx.font = '400 28px Tahoma, "Noto Sans Thai", Arial';
+  ctx.font = '400 28px Prompt, "Noto Sans Thai", Tahoma, Arial';
   wrapCanvasText(ctx, body, x + 36, y + 100, width - 72, 41, 2);
 }
 
@@ -3582,6 +3582,8 @@ syncBirthTimeInput();
 state = analyzeFromInputs();
 activeLuckIndex = getPresentLuckIndex();
 render();
+
+
 
 
 
