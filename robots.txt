@@ -1,0 +1,4 @@
+﻿User-agent: *
+Allow: /
+Sitemap: https://khatawut6066.github.io/Bazi-analytics/sitemap.xml
+
