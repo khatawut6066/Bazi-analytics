@@ -1,4 +1,4 @@
-const elements = {
+﻿const elements = {
   WOOD: { th: "ไม้", color: "#10b981", supports: "WATER", controls: "METAL" },
   FIRE: { th: "ไฟ", color: "#ef4444", supports: "WOOD", controls: "WATER" },
   EARTH: { th: "ดิน", color: "#f59e0b", supports: "FIRE", controls: "WOOD" },
@@ -2322,6 +2322,7 @@ const deityCardProfiles = {
     power: "ใช้พลังนี้ด้วยการเลือกทีม เลือกเพื่อน และเลือกงานที่ไม่บังคับให้คุณทรยศความเป็นตัวเอง",
     palette: ["#1f6b55", "#8fbf9f", "#fff6df"],
     symbol: "circle",
+    image: "assets/deities/friend.png",
   },
   "Rob Wealth": {
     name: "เทพเกียบไช้",
@@ -2331,6 +2332,7 @@ const deityCardProfiles = {
     power: "ใช้พลังนี้ด้วยการตั้งขอบเขตเรื่องเงิน เวลา และความรับผิดชอบให้ชัด ก่อนใจดีจนตัวเองเหนื่อย",
     palette: ["#c2792b", "#e2b66f", "#fff4df"],
     symbol: "spark",
+    image: "assets/deities/rob-wealth.png",
   },
   "Eating God": {
     name: "เทพเจียะซิ้ง",
@@ -2340,6 +2342,7 @@ const deityCardProfiles = {
     power: "ใช้พลังนี้ด้วยการทำไอเดียให้เห็นเป็นชิ้นงานจริง แม้เริ่มจากเวอร์ชันเล็กก่อนก็พอแล้ว",
     palette: ["#d89a4b", "#f0c98d", "#fff7e8"],
     symbol: "sun",
+    image: "assets/deities/eating-god.png",
   },
   "Hurting Officer": {
     name: "เทพเซียงกัว",
@@ -2349,6 +2352,7 @@ const deityCardProfiles = {
     power: "ใช้พลังนี้ด้วยการเปลี่ยนคำวิจารณ์ให้เป็นข้อเสนอที่ทำต่อได้จริง โดยเฉพาะในห้องประชุมหรือเวลาคุยงานสำคัญ",
     palette: ["#c45f59", "#e7a19c", "#fff0ed"],
     symbol: "flame",
+    image: "assets/deities/hurting-officer.png",
   },
   "Direct Wealth": {
     name: "เทพเจี่ยไช้",
@@ -2358,6 +2362,7 @@ const deityCardProfiles = {
     power: "ใช้พลังนี้ด้วยการจัดเงิน งาน และสัญญาให้เป็นรูปธรรม อย่าปล่อยให้ความเกรงใจทำให้รายละเอียดสำคัญหายไป",
     palette: ["#b98b39", "#e0c27a", "#fff8df"],
     symbol: "coin",
+    image: "assets/deities/direct-wealth.png",
   },
   "Indirect Wealth": {
     name: "เทพเพียงไช้",
@@ -2367,6 +2372,7 @@ const deityCardProfiles = {
     power: "ใช้พลังนี้ด้วยการทดลองเล็ก วัดผลจริง แล้วค่อยเพิ่มน้ำหนัก อย่าให้ความตื่นเต้นพาคุณกระโดดไกลเกินข้อมูลที่มี",
     palette: ["#8b6f3d", "#d6b25f", "#fff3cf"],
     symbol: "star",
+    image: "assets/deities/indirect-wealth.png",
   },
   "Direct Officer": {
     name: "เทพเจี่ยกัว",
@@ -2376,6 +2382,7 @@ const deityCardProfiles = {
     power: "ใช้พลังนี้ด้วยการยืนในบทบาทให้ชัด แต่ไม่ปล่อยให้ตำแหน่งหรือความคาดหวังกลบเสียงข้างในของตัวเอง",
     palette: ["#4c7892", "#9ec3d3", "#edf7fb"],
     symbol: "mountain",
+    image: "assets/deities/direct-officer.png",
   },
   "Seven Killings": {
     name: "เทพชิกสัวะ",
@@ -2385,6 +2392,7 @@ const deityCardProfiles = {
     power: "ใช้พลังนี้ด้วยการหยุดหนึ่งจังหวะก่อนตอบโต้ เลือกสนามที่ควรสู้ และปล่อยสนามที่ไม่คุ้มแรงใจ",
     palette: ["#173d35", "#6aa18d", "#ecf6f1"],
     symbol: "blade",
+    image: "assets/deities/seven-killings.png",
   },
   "Direct Resource": {
     name: "เทพเจี่ยอิน",
@@ -2394,6 +2402,7 @@ const deityCardProfiles = {
     power: "ใช้พลังนี้ด้วยการให้เวลาตัวเองเรียน พัก และรับความช่วยเหลือ อย่าฝืนเก่งคนเดียวจนหมดแรง",
     palette: ["#625b86", "#b2acd6", "#f2efff"],
     symbol: "book",
+    image: "assets/deities/direct-resource.png",
   },
   "Indirect Resource": {
     name: "เทพเพียงอิน",
@@ -2403,22 +2412,33 @@ const deityCardProfiles = {
     power: "ใช้พลังนี้ด้วยการจดสิ่งที่รู้สึก แล้วค่อยเช็กกับข้อมูลจริง เพื่อให้สัญชาตญาณกลายเป็นเข็มทิศ ไม่ใช่ความกังวล",
     palette: ["#2f5f73", "#8bb8c8", "#edf8fb"],
     symbol: "moon",
+    image: "assets/deities/indirect-resource.png",
   },
 };
 
 
-const deityAnimeArtwork = new Image();
-deityAnimeArtwork.decoding = "async";
-deityAnimeArtwork.src = "assets/deity-anime-card-source.png";
-deityAnimeArtwork.addEventListener("load", () => {
-  if (state) renderDeityCardStudio();
-});
+const deityArtworkCache = {};
 
-function ensureDeityArtworkLoaded() {
-  if (deityAnimeArtwork.complete && deityAnimeArtwork.naturalWidth > 0) return Promise.resolve();
+function getDeityArtwork(profile) {
+  const src = profile?.image || "assets/deity-anime-card-source.png";
+  if (!deityArtworkCache[src]) {
+    const image = new Image();
+    image.decoding = "async";
+    image.src = src;
+    image.addEventListener("load", () => {
+      if (state) renderDeityCardStudio();
+    });
+    deityArtworkCache[src] = image;
+  }
+  return deityArtworkCache[src];
+}
+
+function ensureDeityArtworkLoaded(profile = getPersonalDeityProfile()) {
+  const image = getDeityArtwork(profile);
+  if (image.complete && image.naturalWidth > 0) return Promise.resolve();
   return new Promise((resolve) => {
-    deityAnimeArtwork.addEventListener("load", resolve, { once: true });
-    deityAnimeArtwork.addEventListener("error", resolve, { once: true });
+    image.addEventListener("load", resolve, { once: true });
+    image.addEventListener("error", resolve, { once: true });
   });
 }
 function getPersonalDeityProfile() {
@@ -2513,7 +2533,7 @@ function drawDeityArtwork(ctx, x, y, width, height, profile) {
   ctx.save();
   roundRect(ctx, x, y, width, height, 42);
   ctx.clip();
-  const image = deityAnimeArtwork;
+  const image = getDeityArtwork(profile);
   if (image.complete && image.naturalWidth > 0) {
     const srcW = image.naturalWidth;
     const srcH = image.naturalHeight;
@@ -2701,7 +2721,8 @@ function canvasToBlob(canvas) {
 }
 
 async function createDeityCardFile() {
-  await ensureDeityArtworkLoaded();
+  const profile = getPersonalDeityProfile();
+  await ensureDeityArtworkLoaded(profile);
   renderDeityCardStudio();
   const canvas = document.getElementById("deityCardCanvas");
   const blob = await canvasToBlob(canvas);
@@ -3367,3 +3388,7 @@ syncBirthTimeInput();
 state = analyzeFromInputs();
 activeLuckIndex = getPresentLuckIndex();
 render();
+
+
+
+
