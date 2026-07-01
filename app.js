@@ -2681,7 +2681,8 @@ function drawCollectorSkillBox(ctx, x, y, width, profile, main, mid) {
   ctx.fill();
   ctx.fillStyle = "#fffdf8";
   ctx.textAlign = "center";
-  ctx.font = '700 20px Prompt, "Noto Sans Thai", Tahoma, Arial';`r`n  ctx.fillText("แนวทาง", x + 96, y + 51);
+  ctx.font = '700 20px Prompt, "Noto Sans Thai", Tahoma, Arial';
+  ctx.fillText("แนวทาง", x + 96, y + 51);
 
   ctx.textAlign = "left";
   ctx.fillStyle = main;
@@ -3580,6 +3581,7 @@ syncBirthTimeInput();
 state = analyzeFromInputs();
 activeLuckIndex = getPresentLuckIndex();
 render();
+
 
 
 
