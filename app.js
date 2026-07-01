@@ -2464,60 +2464,247 @@ function drawDeityCardCanvas(canvas, profile = getPersonalDeityProfile()) {
   ctx.clearRect(0, 0, width, height);
 
   const bg = ctx.createLinearGradient(0, 0, width, height);
-  bg.addColorStop(0, soft);
-  bg.addColorStop(0.56, "#fffdf8");
-  bg.addColorStop(1, "#f6ead7");
+  bg.addColorStop(0, "#2b2117");
+  bg.addColorStop(0.28, main);
+  bg.addColorStop(0.62, soft);
+  bg.addColorStop(1, "#f8ead2");
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, width, height);
 
   drawDeityCardGlow(ctx, width, height, main, mid);
-  roundRect(ctx, 72, 72, width - 144, height - 144, 54);
-  ctx.fillStyle = "rgba(255, 253, 248, 0.78)";
-  ctx.fill();
-  ctx.strokeStyle = "rgba(120, 92, 42, 0.22)";
-  ctx.lineWidth = 3;
-  ctx.stroke();
+  drawTradingCardFrame(ctx, 52, 46, width - 104, height - 92, profile);
 
-  ctx.fillStyle = main;
-  ctx.font = '700 34px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText("ชีวิต BaZi", 118, 142);
-  ctx.fillStyle = "rgba(34, 34, 31, 0.64)";
-  ctx.font = '400 25px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText("Personal Deity Card", 118, 180);
+  ctx.save();
+  roundRect(ctx, 88, 92, width - 176, height - 184, 62);
+  ctx.clip();
+  drawDeityArtwork(ctx, 88, 92, width - 176, 1324, profile, { framed: false, shade: "collector" });
+  const artFade = ctx.createLinearGradient(0, 1030, 0, 1460);
+  artFade.addColorStop(0, "rgba(0,0,0,0)");
+  artFade.addColorStop(0.72, hexToRgba(main, 0.36));
+  artFade.addColorStop(1, "rgba(22, 18, 14, 0.76)");
+  ctx.fillStyle = artFade;
+  ctx.fillRect(88, 900, width - 176, 520);
+  ctx.restore();
 
-  drawDeityArtwork(ctx, 132, 240, width - 264, 680, profile);
-
-  ctx.textAlign = "center";
-  ctx.fillStyle = main;
-  ctx.font = '700 58px Tahoma, "Noto Sans Thai", Arial';
-  wrapCanvasText(ctx, profile.name, width / 2, 930, 780, 68, 2);
-  ctx.fillStyle = "rgba(34, 34, 31, 0.72)";
-  ctx.font = '700 30px Tahoma, "Noto Sans Thai", Arial';
-  wrapCanvasText(ctx, profile.role, width / 2, 1038, 780, 42, 2);
-
-  ctx.textAlign = "left";
-  drawCardTextBlock(ctx, 136, 1166, 808, "ตัวตนของคุณ", profile.identity, main);
-  drawCardTextBlock(ctx, 136, 1392, 808, "การใช้พลังจากเทพ", profile.power, main);
-
-  roundRect(ctx, 136, 1644, 808, 138, 28);
-  ctx.fillStyle = "rgba(255, 255, 255, 0.68)";
-  ctx.fill();
-  ctx.strokeStyle = "rgba(120, 92, 42, 0.16)";
-  ctx.stroke();
-  ctx.fillStyle = main;
-  ctx.font = '700 28px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText("คำคมประจำวัน", 172, 1698);
-  ctx.fillStyle = "#22221f";
-  ctx.font = '400 29px Tahoma, "Noto Sans Thai", Arial';
-  wrapCanvasText(ctx, profile.mantra, 172, 1744, 726, 42, 2);
+  drawCollectorHeader(ctx, profile, width, main, mid);
+  drawDeitySymbolBadge(ctx, width - 196, 134, profile.symbol, main, mid, profile.score);
+  drawCollectorNamePlate(ctx, 116, 1068, width - 232, profile, main, mid);
+  drawCollectorStats(ctx, 124, 1228, width - 248, profile, main, mid);
+  drawCollectorSkillBox(ctx, 116, 1398, width - 232, profile, main, mid);
+  drawCollectorQuote(ctx, 116, 1668, width - 232, profile, main);
 
   const name = document.getElementById("clientName")?.value || "คุณ";
   ctx.textAlign = "center";
-  ctx.fillStyle = "rgba(34, 34, 31, 0.58)";
-  ctx.font = '400 24px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText(`สร้างให้ ${name} · แชร์เป็น Story ได้`, width / 2, 1854);
+  ctx.fillStyle = "rgba(255, 253, 248, 0.82)";
+  ctx.font = '700 24px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText(`ชีวิต BaZi · การ์ดเทพประจำตัวของ ${name}`, width / 2, 1858);
 }
 
+function drawTradingCardFrame(ctx, x, y, width, height, profile) {
+  const [main, mid] = profile.palette;
+  ctx.save();
+  roundRect(ctx, x, y, width, height, 68);
+  const frame = ctx.createLinearGradient(x, y, x + width, y + height);
+  frame.addColorStop(0, "#fff1b7");
+  frame.addColorStop(0.18, mid);
+  frame.addColorStop(0.48, "#fffdf8");
+  frame.addColorStop(0.72, main);
+  frame.addColorStop(1, "#6e4f22");
+  ctx.fillStyle = frame;
+  ctx.fill();
+
+  roundRect(ctx, x + 18, y + 18, width - 36, height - 36, 54);
+  ctx.fillStyle = "rgba(255, 253, 248, 0.92)";
+  ctx.fill();
+
+  ctx.strokeStyle = "rgba(255, 247, 210, 0.88)";
+  ctx.lineWidth = 7;
+  roundRect(ctx, x + 28, y + 28, width - 56, height - 56, 48);
+  ctx.stroke();
+
+  ctx.strokeStyle = hexToRgba(main, 0.44);
+  ctx.lineWidth = 4;
+  roundRect(ctx, x + 42, y + 42, width - 84, height - 84, 40);
+  ctx.stroke();
+
+  drawCornerOrnaments(ctx, x + 66, y + 66, width - 132, height - 132, profile.symbol, main);
+  ctx.restore();
+}
+
+function drawCornerOrnaments(ctx, x, y, width, height, symbol, color) {
+  const points = [[x, y, 1, 1], [x + width, y, -1, 1], [x, y + height, 1, -1], [x + width, y + height, -1, -1]];
+  points.forEach(([cx, cy, sx, sy]) => {
+    ctx.save();
+    ctx.translate(cx, cy);
+  ctx.scale(scale, scale);
+    ctx.scale(sx, sy);
+    ctx.strokeStyle = hexToRgba(color, 0.38);
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(0, 86);
+    ctx.quadraticCurveTo(18, 28, 86, 0);
+    ctx.stroke();
+    drawDeitySymbol(ctx, 46, 46, symbol, hexToRgba(color, 0.58), 0.42);
+    ctx.restore();
+  });
+}
+
+function drawCollectorHeader(ctx, profile, width, main, mid) {
+  ctx.save();
+  roundRect(ctx, 112, 112, width - 224, 108, 34);
+  const header = ctx.createLinearGradient(112, 112, width - 112, 220);
+  header.addColorStop(0, hexToRgba(main, 0.94));
+  header.addColorStop(1, hexToRgba(mid, 0.82));
+  ctx.fillStyle = header;
+  ctx.fill();
+  ctx.strokeStyle = "rgba(255,255,255,0.5)";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  ctx.textAlign = "left";
+  ctx.fillStyle = "rgba(255, 253, 248, 0.9)";
+  ctx.font = '700 24px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText("ชีวิต BaZi", 148, 154);
+  ctx.font = '700 38px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText("DEITY CARD", 148, 198);
+
+  ctx.textAlign = "right";
+  ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText("PERSONAL ARCANA", width - 148, 156);
+  ctx.font = '700 30px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText(profile.score.toString().padStart(2, "0"), width - 148, 198);
+  ctx.restore();
+}
+
+function drawDeitySymbolBadge(ctx, cx, cy, symbol, main, mid, score) {
+  ctx.save();
+  const glow = ctx.createRadialGradient(cx, cy, 18, cx, cy, 92);
+  glow.addColorStop(0, "rgba(255,255,255,0.95)");
+  glow.addColorStop(1, hexToRgba(mid, 0.34));
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 78, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = hexToRgba(main, 0.72);
+  ctx.lineWidth = 6;
+  ctx.stroke();
+  drawDeitySymbol(ctx, cx, cy - 12, symbol, main, 0.72);
+  ctx.textAlign = "center";
+  ctx.fillStyle = main;
+  ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText(`พลัง ${score}`, cx, cy + 56);
+  ctx.restore();
+}
+
+function drawCollectorNamePlate(ctx, x, y, width, profile, main, mid) {
+  ctx.save();
+  roundRect(ctx, x, y, width, 134, 34);
+  const plate = ctx.createLinearGradient(x, y, x + width, y + 134);
+  plate.addColorStop(0, "rgba(255,255,255,0.92)");
+  plate.addColorStop(0.52, hexToRgba(mid, 0.78));
+  plate.addColorStop(1, hexToRgba(main, 0.9));
+  ctx.fillStyle = plate;
+  ctx.fill();
+  ctx.strokeStyle = "rgba(255,255,255,0.76)";
+  ctx.lineWidth = 4;
+  ctx.stroke();
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#241f18";
+  ctx.font = '700 52px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText(profile.name, x + 34, y + 58);
+  ctx.fillStyle = "rgba(36, 31, 24, 0.78)";
+  ctx.font = '700 25px Tahoma, "Noto Sans Thai", Arial';
+  wrapCanvasText(ctx, profile.role, x + 34, y + 100, width - 68, 33, 1);
+  ctx.restore();
+}
+
+function drawCollectorStats(ctx, x, y, width, profile, main, mid) {
+  const stats = buildDeityCardStats(profile);
+  const gap = 18;
+  const itemWidth = (width - gap * 2) / 3;
+  stats.forEach((stat, index) => {
+    const sx = x + index * (itemWidth + gap);
+    roundRect(ctx, sx, y, itemWidth, 126, 24);
+    ctx.fillStyle = "rgba(255, 253, 248, 0.84)";
+    ctx.fill();
+    ctx.strokeStyle = hexToRgba(main, 0.28);
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.textAlign = "center";
+    ctx.fillStyle = main;
+    ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
+    ctx.fillText(stat.label, sx + itemWidth / 2, y + 42);
+    ctx.fillStyle = "#241f18";
+    ctx.font = '700 34px Tahoma, "Noto Sans Thai", Arial';
+    ctx.fillText(stat.value, sx + itemWidth / 2, y + 87);
+    ctx.fillStyle = hexToRgba(mid, 0.34);
+    ctx.beginPath();
+    ctx.arc(sx + itemWidth - 28, y + 28, 18, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
+
+function buildDeityCardStats(profile) {
+  const map = {
+    Friend: ["แกนใจ", "มั่นคง", "ทีมแท้"],
+    "Rob Wealth": ["แรงฮึด", "สูง", "ทีมไฟ"],
+    "Eating God": ["ผลงาน", "ละมุน", "สุขใจ"],
+    "Hurting Officer": ["ไอเดีย", "คม", "เสียงชัด"],
+    "Direct Wealth": ["ทรัพย์", "เป็นระบบ", "จับต้องได้"],
+    "Indirect Wealth": ["โอกาส", "ไว", "กล้าลอง"],
+    "Direct Officer": ["บารมี", "นิ่ง", "น่าเชื่อ"],
+    "Seven Killings": ["ความกล้า", "เข้ม", "รับแรงชน"],
+    "Direct Resource": ["ปัญญา", "ลึก", "ฟื้นพลัง"],
+    "Indirect Resource": ["เซนส์", "ละเอียด", "มองลึก"],
+  };
+  const values = map[profile.key] || ["พลัง", "เด่น", "พร้อมใช้"];
+  return [
+    { label: "แก่นพลัง", value: values[0] },
+    { label: "โทนเด่น", value: values[1] },
+    { label: "ใช้กับ", value: values[2] },
+  ];
+}
+
+function drawCollectorSkillBox(ctx, x, y, width, profile, main, mid) {
+  roundRect(ctx, x, y, width, 236, 34);
+  ctx.fillStyle = "rgba(255, 253, 248, 0.88)";
+  ctx.fill();
+  ctx.strokeStyle = hexToRgba(main, 0.34);
+  ctx.lineWidth = 4;
+  ctx.stroke();
+
+  roundRect(ctx, x + 24, y + 24, 174, 48, 18);
+  ctx.fillStyle = hexToRgba(main, 0.94);
+  ctx.fill();
+  ctx.fillStyle = "#fffdf8";
+  ctx.textAlign = "center";
+  ctx.font = '700 23px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText("SPECIAL SKILL", x + 111, y + 57);
+
+  ctx.textAlign = "left";
+  ctx.fillStyle = main;
+  ctx.font = '700 31px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText("วิธีใช้พลังจากเทพ", x + 224, y + 60);
+  ctx.fillStyle = "#241f18";
+  ctx.font = '400 29px Tahoma, "Noto Sans Thai", Arial';
+  wrapCanvasText(ctx, profile.power, x + 34, y + 120, width - 68, 42, 3);
+}
+
+function drawCollectorQuote(ctx, x, y, width, profile, main) {
+  roundRect(ctx, x, y, width, 144, 34);
+  ctx.fillStyle = "rgba(31, 29, 24, 0.72)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(255,255,255,0.34)";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.textAlign = "left";
+  ctx.fillStyle = "rgba(255, 253, 248, 0.72)";
+  ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
+  ctx.fillText("คำคมประจำวัน", x + 34, y + 46);
+  ctx.fillStyle = "#fffdf8";
+  ctx.font = '700 30px Tahoma, "Noto Sans Thai", Arial';
+  wrapCanvasText(ctx, profile.mantra, x + 34, y + 96, width - 68, 38, 2);
+}
 function drawDeityCardGlow(ctx, width, height, main, mid) {
   const glow = ctx.createRadialGradient(width * 0.5, 470, 40, width * 0.5, 470, 520);
   glow.addColorStop(0, hexToRgba(mid, 0.38));
@@ -2528,8 +2715,9 @@ function drawDeityCardGlow(ctx, width, height, main, mid) {
 }
 
 
-function drawDeityArtwork(ctx, x, y, width, height, profile) {
+function drawDeityArtwork(ctx, x, y, width, height, profile, options = {}) {
   const [main] = profile.palette;
+  const framed = options.framed !== false;
   ctx.save();
   roundRect(ctx, x, y, width, height, 42);
   ctx.clip();
@@ -2547,28 +2735,31 @@ function drawDeityArtwork(ctx, x, y, width, height, profile) {
       sx = (srcW - sw) / 2;
     } else {
       sh = srcW / targetRatio;
-      sy = Math.max(0, (srcH - sh) * 0.18);
+      sy = Math.max(0, (srcH - sh) * (options.focusY ?? 0.12));
     }
     ctx.drawImage(image, sx, sy, sw, sh, x, y, width, height);
   } else {
     drawDeityCharacter(ctx, x + width / 2, y + height * 0.44, profile);
   }
-  const shade = ctx.createLinearGradient(0, y + height * 0.55, 0, y + height);
+  const shade = ctx.createLinearGradient(0, y + height * (options.shade === "collector" ? 0.46 : 0.55), 0, y + height);
   shade.addColorStop(0, "rgba(255,255,255,0)");
-  shade.addColorStop(1, "rgba(18,52,47,0.42)");
+  shade.addColorStop(1, options.shade === "collector" ? "rgba(20,16,12,0.22)" : "rgba(18,52,47,0.42)");
   ctx.fillStyle = shade;
   ctx.fillRect(x, y, width, height);
   ctx.restore();
 
-  roundRect(ctx, x, y, width, height, 42);
-  ctx.strokeStyle = hexToRgba(main, 0.34);
-  ctx.lineWidth = 4;
-  ctx.stroke();
+  if (framed) {
+    roundRect(ctx, x, y, width, height, 42);
+    ctx.strokeStyle = hexToRgba(main, 0.34);
+    ctx.lineWidth = 4;
+    ctx.stroke();
+  }
 }
 function drawDeityCharacter(ctx, cx, cy, profile) {
   const [main, mid] = profile.palette;
   ctx.save();
   ctx.translate(cx, cy);
+  ctx.scale(scale, scale);
 
   ctx.beginPath();
   ctx.arc(0, -18, 236, 0, Math.PI * 2);
@@ -2623,9 +2814,10 @@ function drawDeityCharacter(ctx, cx, cy, profile) {
   ctx.restore();
 }
 
-function drawDeitySymbol(ctx, cx, cy, symbol, color) {
+function drawDeitySymbol(ctx, cx, cy, symbol, color, scale = 1) {
   ctx.save();
   ctx.translate(cx, cy);
+  ctx.scale(scale, scale);
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
   ctx.lineWidth = 8;
@@ -3388,6 +3580,10 @@ syncBirthTimeInput();
 state = analyzeFromInputs();
 activeLuckIndex = getPresentLuckIndex();
 render();
+
+
+
+
 
 
 
