@@ -2536,7 +2536,6 @@ function drawCornerOrnaments(ctx, x, y, width, height, symbol, color) {
   points.forEach(([cx, cy, sx, sy]) => {
     ctx.save();
     ctx.translate(cx, cy);
-  ctx.scale(scale, scale);
     ctx.scale(sx, sy);
     ctx.strokeStyle = hexToRgba(color, 0.38);
     ctx.lineWidth = 4;
@@ -2759,8 +2758,6 @@ function drawDeityCharacter(ctx, cx, cy, profile) {
   const [main, mid] = profile.palette;
   ctx.save();
   ctx.translate(cx, cy);
-  ctx.scale(scale, scale);
-
   ctx.beginPath();
   ctx.arc(0, -18, 236, 0, Math.PI * 2);
   ctx.fillStyle = hexToRgba(mid, 0.2);
@@ -3580,6 +3577,9 @@ syncBirthTimeInput();
 state = analyzeFromInputs();
 activeLuckIndex = getPresentLuckIndex();
 render();
+
+
+
 
 
 
