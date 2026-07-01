@@ -2497,7 +2497,7 @@ function drawDeityCardCanvas(canvas, profile = getPersonalDeityProfile()) {
   ctx.textAlign = "center";
   ctx.fillStyle = "rgba(255, 253, 248, 0.82)";
   ctx.font = '700 24px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText(`ชีวิต BaZi · การ์ดเทพประจำตัวของ ${name}`, width / 2, 1858);
+  ctx.fillText(`ชีวิต BaZi · สรุปเทพเด่นประจำดวงของ ${name}`, width / 2, 1858);
 }
 
 function drawTradingCardFrame(ctx, x, y, width, height, profile) {
@@ -2565,13 +2565,13 @@ function drawCollectorHeader(ctx, profile, width, main, mid) {
   ctx.font = '700 24px Tahoma, "Noto Sans Thai", Arial';
   ctx.fillText("ชีวิต BaZi", 148, 154);
   ctx.font = '700 38px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText("DEITY CARD", 148, 198);
+  ctx.fillText("เทพเด่นประจำดวง", 148, 198);
 
   ctx.textAlign = "right";
   ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText("PERSONAL ARCANA", width - 148, 156);
+  ctx.fillText("อ่านจากเทพสิบองค์", width - 148, 156);
   ctx.font = '700 30px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText(profile.score.toString().padStart(2, "0"), width - 148, 198);
+  ctx.fillText(getDeityProminence(profile.score), width - 148, 198);
   ctx.restore();
 }
 
@@ -2591,7 +2591,7 @@ function drawDeitySymbolBadge(ctx, cx, cy, symbol, main, mid, score) {
   ctx.textAlign = "center";
   ctx.fillStyle = main;
   ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText(`พลัง ${score}`, cx, cy + 56);
+  ctx.fillText(getDeityProminence(score), cx, cy + 56);
   ctx.restore();
 }
 
@@ -2617,6 +2617,12 @@ function drawCollectorNamePlate(ctx, x, y, width, profile, main, mid) {
   ctx.restore();
 }
 
+function getDeityProminence(score) {
+  if (score >= 72) return "เด่นชัดมาก";
+  if (score >= 58) return "เด่นชัด";
+  if (score >= 42) return "กำลังทำงาน";
+  return "แฝงอยู่";
+}
 function drawCollectorStats(ctx, x, y, width, profile, main, mid) {
   const stats = buildDeityCardStats(profile);
   const gap = 18;
@@ -2634,8 +2640,8 @@ function drawCollectorStats(ctx, x, y, width, profile, main, mid) {
     ctx.font = '700 22px Tahoma, "Noto Sans Thai", Arial';
     ctx.fillText(stat.label, sx + itemWidth / 2, y + 42);
     ctx.fillStyle = "#241f18";
-    ctx.font = '700 34px Tahoma, "Noto Sans Thai", Arial';
-    ctx.fillText(stat.value, sx + itemWidth / 2, y + 87);
+    ctx.font = '700 27px Tahoma, "Noto Sans Thai", Arial';
+    wrapCanvasText(ctx, stat.value, sx + itemWidth / 2, y + 82, itemWidth - 28, 31, 2);
     ctx.fillStyle = hexToRgba(mid, 0.34);
     ctx.beginPath();
     ctx.arc(sx + itemWidth - 28, y + 28, 18, 0, Math.PI * 2);
@@ -2645,25 +2651,24 @@ function drawCollectorStats(ctx, x, y, width, profile, main, mid) {
 
 function buildDeityCardStats(profile) {
   const map = {
-    Friend: ["แกนใจ", "มั่นคง", "ทีมแท้"],
-    "Rob Wealth": ["แรงฮึด", "สูง", "ทีมไฟ"],
-    "Eating God": ["ผลงาน", "ละมุน", "สุขใจ"],
-    "Hurting Officer": ["ไอเดีย", "คม", "เสียงชัด"],
-    "Direct Wealth": ["ทรัพย์", "เป็นระบบ", "จับต้องได้"],
-    "Indirect Wealth": ["โอกาส", "ไว", "กล้าลอง"],
-    "Direct Officer": ["บารมี", "นิ่ง", "น่าเชื่อ"],
-    "Seven Killings": ["ความกล้า", "เข้ม", "รับแรงชน"],
-    "Direct Resource": ["ปัญญา", "ลึก", "ฟื้นพลัง"],
-    "Indirect Resource": ["เซนส์", "ละเอียด", "มองลึก"],
+    Friend: ["ตัวตน", "ความจริงใจ", "ทีมและขอบเขต"],
+    "Rob Wealth": ["แรงผลัก", "กล้าลงมือ", "ทีมและการแข่งขัน"],
+    "Eating God": ["ผลงาน", "ทำให้ง่าย", "ไอเดียที่จับต้องได้"],
+    "Hurting Officer": ["เสียงของคุณ", "คิดต่าง", "การสื่อสารงาน"],
+    "Direct Wealth": ["ทรัพย์ที่ดูแลได้", "เป็นระบบ", "เงิน งาน สัญญา"],
+    "Indirect Wealth": ["โอกาส", "เห็นช่องทางไว", "โปรเจกต์เสริม"],
+    "Direct Officer": ["วินัยและบารมี", "น่าเชื่อถือ", "บทบาทผู้นำ"],
+    "Seven Killings": ["ความกล้า", "รับแรงกดดัน", "การตัดสินใจยาก"],
+    "Direct Resource": ["ความรู้", "ค่อย ๆ สะสม", "การเรียนและพักฟื้น"],
+    "Indirect Resource": ["สัญชาตญาณ", "มองลึก", "งานคิดและงานเดี่ยว"],
   };
-  const values = map[profile.key] || ["พลัง", "เด่น", "พร้อมใช้"];
+  const values = map[profile.key] || ["บทบาท", "เด่นในดวง", "ชีวิตจริง"];
   return [
-    { label: "แก่นพลัง", value: values[0] },
-    { label: "โทนเด่น", value: values[1] },
+    { label: "บทบาท", value: values[0] },
+    { label: "จุดที่เห็นชัด", value: values[1] },
     { label: "ใช้กับ", value: values[2] },
   ];
 }
-
 function drawCollectorSkillBox(ctx, x, y, width, profile, main, mid) {
   roundRect(ctx, x, y, width, 236, 34);
   ctx.fillStyle = "rgba(255, 253, 248, 0.88)";
@@ -2678,12 +2683,12 @@ function drawCollectorSkillBox(ctx, x, y, width, profile, main, mid) {
   ctx.fillStyle = "#fffdf8";
   ctx.textAlign = "center";
   ctx.font = '700 23px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText("SPECIAL SKILL", x + 111, y + 57);
+  ctx.fillText("แนวทาง", x + 111, y + 57);
 
   ctx.textAlign = "left";
   ctx.fillStyle = main;
   ctx.font = '700 31px Tahoma, "Noto Sans Thai", Arial';
-  ctx.fillText("วิธีใช้พลังจากเทพ", x + 224, y + 60);
+  ctx.fillText("วิธีใช้พลังนี้ให้เป็นประโยชน์", x + 224, y + 60);
   ctx.fillStyle = "#241f18";
   ctx.font = '400 29px Tahoma, "Noto Sans Thai", Arial';
   wrapCanvasText(ctx, profile.power, x + 34, y + 120, width - 68, 42, 3);
@@ -3577,6 +3582,10 @@ syncBirthTimeInput();
 state = analyzeFromInputs();
 activeLuckIndex = getPresentLuckIndex();
 render();
+
+
+
+
 
 
 
