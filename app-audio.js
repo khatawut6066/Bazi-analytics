@@ -3121,7 +3121,7 @@ function buildStorySummaryScript() {
   const masterVoice = getPremiumMasterVoice();
   const dominant = getDominantElement();
   const weakest = getWeakestElement();
-  const topTrait = getTopTrait();
+  const topTrait = getTopPersonalityTrait();
   const item = orderedPresentLuck();
   const guardian = getGuardianElementLabel().replace(/<[^>]+>/g, "");
   const dominantLabel = premiumElementLabel(dominant.key).replace(/<[^>]+>/g, "");
@@ -3138,28 +3138,18 @@ function buildStorySummaryScript() {
 
 function typeStoryParagraphs(container, paragraphs) {
   if (storySummaryTimer) window.clearTimeout(storySummaryTimer);
-  container.innerHTML = paragraphs.map(() => `<p></p>`).join("");
+  container.innerHTML = paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
   container.classList.add("is-revealing");
-  const nodes = [...container.querySelectorAll("p")];
-  let paragraphIndex = 0;
-  let charIndex = 0;
-  const writeNext = () => {
-    const text = paragraphs[paragraphIndex] || "";
-    nodes[paragraphIndex].textContent = text.slice(0, charIndex);
-    charIndex += 8;
-    if (charIndex <= text.length + 8) {
-      storySummaryTimer = window.setTimeout(writeNext, 18);
-      return;
-    }
-    paragraphIndex += 1;
-    charIndex = 0;
-    if (paragraphIndex < paragraphs.length) {
-      storySummaryTimer = window.setTimeout(writeNext, 120);
-      return;
-    }
+  storySummaryTimer = window.setTimeout(() => {
     container.classList.remove("is-revealing");
-  };
-  writeNext();
+  }, 700);
+}
+
+function fallbackStorySummaryScript() {
+  return [
+    "ตอนนี้ระบบสรุปชีวิตสะดุดนิดหน่อย แต่ไม่ต้องกังวลนะ ข้อมูลหลักของดวงยังอยู่ครบ ลองกดอ่านอีกครั้งหรือเลื่อนดูหัวข้อถัดไปได้เลย",
+    "ถ้าเสียงยังไม่ดัง อาจเป็นเพราะ browser ยังไม่อนุญาตเสียงอ่านอัตโนมัติ ข้อความบนหน้านี้จึงถูกเปิดให้อ่านก่อน เพื่อไม่ให้คุณต้องรอแบบเงียบ ๆ",
+  ];
 }
 
 function resetStoryVoiceButton(button, statusText = "พร้อมฟังอีกครั้ง") {
@@ -3193,7 +3183,11 @@ function speakStorySummary(paragraphs, button) {
     showToast("เครื่องนี้ยังไม่รองรับเสียงอ่านอัตโนมัติ");
     return;
   }
-  window.speechSynthesis.cancel();
+  try {
+    window.speechSynthesis.cancel();
+  } catch (error) {
+    console.warn("Unable to reset speech synthesis", error);
+  }
   const utterance = new SpeechSynthesisUtterance(paragraphs.join("\n\n"));
   utterance.lang = "th-TH";
   utterance.rate = 0.92;
@@ -3207,9 +3201,19 @@ function speakStorySummary(paragraphs, button) {
   button.querySelector("b").textContent = "⏸";
   button.querySelector("span").textContent = "กำลังอ่านให้ฟัง · กดอีกครั้งเพื่อหยุด";
   if (status) status.textContent = "กำลังอ่านออกเสียง ถ้าไม่ได้ยิน ลองเพิ่มเสียงเครื่องหรืออนุญาตเสียงใน browser";
+  utterance.onstart = () => {
+    if (status) status.textContent = "กำลังอ่านออกเสียงให้ฟังอยู่";
+  };
   utterance.onend = () => resetStoryVoiceButton(button, "อ่านจบแล้ว จะฟังซ้ำก็กดปุ่มนี้ได้เลย");
   utterance.onerror = () => resetStoryVoiceButton(button, "เสียงอ่านสะดุดนิดหน่อย แต่ยังอ่านข้อความบนหน้าได้ครบ");
   window.speechSynthesis.speak(utterance);
+  window.setTimeout(() => {
+    try {
+      window.speechSynthesis.resume?.();
+    } catch (error) {
+      console.warn("Unable to resume speech synthesis", error);
+    }
+  }, 120);
 }
 
 function bindStorySummaryButton() {
@@ -3221,10 +3225,22 @@ function bindStorySummaryButton() {
       stopStoryNarration(button);
       return;
     }
-    const paragraphs = buildStorySummaryScript();
+    let paragraphs = [];
+    try {
+      paragraphs = buildStorySummaryScript();
+    } catch (error) {
+      console.error("Unable to build story summary", error);
+      paragraphs = fallbackStorySummaryScript();
+    }
     output.hidden = false;
     typeStoryParagraphs(output, paragraphs);
-    speakStorySummary(paragraphs, button);
+    try {
+      speakStorySummary(paragraphs, button);
+    } catch (error) {
+      console.error("Unable to start story narration", error);
+      resetStoryVoiceButton(button, "ข้อความเปิดให้อ่านแล้ว แต่เสียงยังไม่เริ่มใน browser นี้");
+      showToast("เปิดข้อความให้อ่านแล้ว แต่เสียงยังไม่เริ่ม");
+    }
   });
 }
 function renderHookSummary() {
