@@ -1434,3 +1434,49 @@ canvas {
 @media (max-width: 720px) {
   .story-voice-status { width: 100%; border-radius: var(--radius); }
 }
+
+.story-voice-actions {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(180px, 0.62fr);
+  gap: 10px;
+  align-items: stretch;
+}
+.story-replay-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 58px;
+  padding: 12px 15px;
+  border: 1px solid rgba(31, 107, 85, 0.24);
+  border-radius: var(--radius);
+  color: var(--accent-dark);
+  background: rgba(255, 253, 248, 0.86);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.72), 0 12px 24px rgba(31,107,85,.08);
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform .18s ease, opacity .18s ease, box-shadow .18s ease;
+}
+.story-replay-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.72), 0 16px 30px rgba(31,107,85,.14);
+}
+.story-replay-button:disabled {
+  cursor: not-allowed;
+  opacity: .52;
+}
+.story-replay-button b {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(31,107,85,.1);
+}
+.story-replay-button span {
+  line-height: 1.35;
+}
+@media (max-width: 720px) {
+  .story-voice-actions { grid-template-columns: 1fr; }
+}

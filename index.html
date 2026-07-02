@@ -270,7 +270,13 @@
     <div hidden id="popularQuestionButtons"></div>
     <div hidden id="popularQuestionAnswer"></div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="./app-audio.js"></script>
+    <script>
+      if ("serviceWorker" in navigator && location.protocol === "https:") {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch(() => undefined);
+        });
+      }
+    </script>    <script src="./app-audio.js"></script>
   </body>
 </html>
 

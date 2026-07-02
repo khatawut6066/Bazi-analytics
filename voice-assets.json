@@ -1,0 +1,31 @@
+﻿{
+  "version": "2026-07-02",
+  "strategy": "free-static-audio-cache",
+  "note": "ไฟล์เสียงสำรองเป็นไฟล์ static ที่ใส่ใน assets/audio แล้ว cache ด้วย service worker ไม่มีค่า API เพิ่ม เติมไฟล์ WAV/MP3 ภาษาไทยใน path ตามรายการนี้เมื่อมีเสียงจริง",
+  "tracks": [
+    {
+      "id": "story-default-th",
+      "title": "เสียงสำรอง: สรุปภาพรวมชีวิต",
+      "src": "assets/audio/story-default-th.mp3",
+      "language": "th-TH",
+      "required": false,
+      "description": "ใช้เป็นเสียงสำรองเมื่อ browser ไม่มี Web Speech API หรืออ่านเสียงไม่ได้"
+    },
+    {
+      "id": "story-growth-th",
+      "title": "เสียงสำรอง: ช่วงฟ้าเปิด",
+      "src": "assets/audio/story-growth-th.mp3",
+      "language": "th-TH",
+      "required": false,
+      "description": "คลิปสำรองสำหรับข้อความแนวช่วงเติบโต"
+    },
+    {
+      "id": "story-resilience-th",
+      "title": "เสียงสำรอง: ช่วงต้องประคองใจ",
+      "src": "assets/audio/story-resilience-th.mp3",
+      "language": "th-TH",
+      "required": false,
+      "description": "คลิปสำรองสำหรับข้อความแนวช่วงเจอบททดสอบ"
+    }
+  ]
+}

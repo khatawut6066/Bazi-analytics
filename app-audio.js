@@ -3115,6 +3115,116 @@ function buildThreeLineHook() {
 
 let storySummaryTimer = null;
 let storySummaryUtterance = null;
+let storyFallbackAudio = null;
+const STORY_NARRATION_STORAGE_KEY = "bazi:last-story-narration:v1";
+const STORY_VOICE_MANIFEST_URL = "./voice-assets.json";
+const STORY_AUDIO_CACHE_NAME = "bazi-story-audio-v1";
+
+function saveStoryNarrationCache(paragraphs) {
+  try {
+    const payload = {
+      savedAt: new Date().toISOString(),
+      page: location.pathname,
+      paragraphs,
+      text: paragraphs.join("\n\n"),
+    };
+    localStorage.setItem(STORY_NARRATION_STORAGE_KEY, JSON.stringify(payload));
+  } catch (error) {
+    console.warn("Unable to save story narration cache", error);
+  }
+}
+
+function getStoryNarrationCache() {
+  try {
+    const raw = localStorage.getItem(STORY_NARRATION_STORAGE_KEY);
+    if (!raw) return null;
+    const payload = JSON.parse(raw);
+    if (!Array.isArray(payload.paragraphs) || !payload.paragraphs.length) return null;
+    return payload;
+  } catch (error) {
+    console.warn("Unable to read story narration cache", error);
+    return null;
+  }
+}
+
+function updateStoryReplayButton() {
+  const replayButton = document.getElementById("storyReplayButton");
+  if (!replayButton) return;
+  replayButton.disabled = !getStoryNarrationCache();
+}
+
+async function loadVoiceAssetManifest() {
+  try {
+    const response = await fetch(STORY_VOICE_MANIFEST_URL, { cache: "no-cache" });
+    if (!response.ok) return [];
+    const manifest = await response.json();
+    return Array.isArray(manifest.tracks) ? manifest.tracks.filter((track) => track?.src) : [];
+  } catch (error) {
+    console.warn("Unable to load voice asset manifest", error);
+    return [];
+  }
+}
+
+async function cacheVoiceFallbackAssets() {
+  if (!("caches" in window)) return [];
+  const tracks = await loadVoiceAssetManifest();
+  const cached = [];
+  const cache = await caches.open(STORY_AUDIO_CACHE_NAME);
+  for (const track of tracks) {
+    try {
+      const response = await fetch(track.src, { cache: "reload" });
+      if (!response.ok) continue;
+      await cache.put(track.src, response.clone());
+      cached.push(track);
+    } catch (error) {
+      console.warn("Unable to cache voice asset", track.src, error);
+    }
+  }
+  return cached;
+}
+
+async function playCachedVoiceFallback(status) {
+  if (!("caches" in window) || typeof Audio === "undefined") return false;
+  const tracks = await loadVoiceAssetManifest();
+  if (!tracks.length) return false;
+  const cache = await caches.open(STORY_AUDIO_CACHE_NAME);
+  for (const track of tracks) {
+    try {
+      let response = await cache.match(track.src);
+      if (!response) {
+        const fresh = await fetch(track.src, { cache: "force-cache" });
+        if (!fresh.ok) continue;
+        await cache.put(track.src, fresh.clone());
+        response = fresh;
+      }
+      const blob = await response.blob();
+      const audioUrl = URL.createObjectURL(blob);
+      if (storyFallbackAudio) storyFallbackAudio.pause();
+      storyFallbackAudio = new Audio(audioUrl);
+      storyFallbackAudio.onended = () => {
+        URL.revokeObjectURL(audioUrl);
+        if (status) status.textContent = "เล่นเสียงสำรองจบแล้ว ข้อความยังเก็บไว้ในเครื่องนี้";
+      };
+      storyFallbackAudio.onerror = () => {
+        URL.revokeObjectURL(audioUrl);
+        if (status) status.textContent = "ไฟล์เสียงสำรองเปิดไม่ได้ แต่ข้อความยังอ่านซ้ำได้";
+      };
+      await storyFallbackAudio.play();
+      if (status) status.textContent = `กำลังเล่นเสียงสำรอง: ${track.title || "บทอ่านที่เก็บไว้"}`;
+      return true;
+    } catch (error) {
+      console.warn("Unable to play cached voice fallback", track.src, error);
+    }
+  }
+  return false;
+}
+
+function stopFallbackAudio() {
+  if (!storyFallbackAudio) return;
+  storyFallbackAudio.pause();
+  storyFallbackAudio.currentTime = 0;
+  storyFallbackAudio = null;
+}
 
 function buildStorySummaryScript() {
   const name = document.getElementById("clientName")?.value || "คุณ";
@@ -3166,6 +3276,7 @@ function stopStoryNarration(button, statusText = "หยุดเสียงเ
   if (storySummaryTimer) window.clearTimeout(storySummaryTimer);
   document.getElementById("storySummaryOutput")?.classList.remove("is-revealing");
   if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  stopFallbackAudio();
   storySummaryUtterance = null;
   resetStoryVoiceButton(button, statusText);
 }
@@ -3179,8 +3290,13 @@ function chooseThaiVoice() {
 function speakStorySummary(paragraphs, button) {
   const status = document.getElementById("storyVoiceStatus");
   if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
-    if (status) status.textContent = "เครื่องนี้ยังไม่รองรับเสียงอ่านอัตโนมัติ แต่ข้อความสรุปเปิดให้อ่านแล้ว";
-    showToast("เครื่องนี้ยังไม่รองรับเสียงอ่านอัตโนมัติ");
+    if (status) status.textContent = "เครื่องนี้ยังไม่รองรับเสียงอ่านอัตโนมัติ กำลังลองเปิดไฟล์เสียงสำรองจาก cache";
+    playCachedVoiceFallback(status).then((played) => {
+      if (!played) {
+        if (status) status.textContent = "ยังไม่มีไฟล์เสียงสำรองใน cache แต่ข้อความถูกเก็บไว้ให้อ่านซ้ำแล้ว";
+        showToast("เครื่องนี้ยังไม่รองรับเสียงอ่าน และยังไม่มีไฟล์เสียงสำรอง");
+      }
+    });
     return;
   }
   try {
@@ -3204,7 +3320,7 @@ function speakStorySummary(paragraphs, button) {
   utterance.onstart = () => {
     if (status) status.textContent = "กำลังอ่านออกเสียงให้ฟังอยู่";
   };
-  utterance.onend = () => resetStoryVoiceButton(button, "อ่านจบแล้ว จะฟังซ้ำก็กดปุ่มนี้ได้เลย");
+  utterance.onend = () => resetStoryVoiceButton(button, "อ่านจบแล้ว ระบบเก็บบทอ่านไว้ในเครื่องนี้ให้เปิดซ้ำได้");
   utterance.onerror = () => resetStoryVoiceButton(button, "เสียงอ่านสะดุดนิดหน่อย แต่ยังอ่านข้อความบนหน้าได้ครบ");
   window.speechSynthesis.speak(utterance);
   window.setTimeout(() => {
@@ -3233,6 +3349,9 @@ function bindStorySummaryButton() {
       paragraphs = fallbackStorySummaryScript();
     }
     output.hidden = false;
+    saveStoryNarrationCache(paragraphs);
+    updateStoryReplayButton();
+    cacheVoiceFallbackAssets();
     typeStoryParagraphs(output, paragraphs);
     try {
       speakStorySummary(paragraphs, button);
@@ -3242,6 +3361,24 @@ function bindStorySummaryButton() {
       showToast("เปิดข้อความให้อ่านแล้ว แต่เสียงยังไม่เริ่ม");
     }
   });
+  const replayButton = document.getElementById("storyReplayButton");
+  replayButton?.addEventListener("click", () => {
+    const cached = getStoryNarrationCache();
+    if (!cached) {
+      showToast("ยังไม่มีบทอ่านล่าสุดให้เปิดซ้ำ");
+      return;
+    }
+    output.hidden = false;
+    typeStoryParagraphs(output, cached.paragraphs);
+    try {
+      speakStorySummary(cached.paragraphs, button);
+    } catch (error) {
+      console.error("Unable to replay story narration", error);
+      playCachedVoiceFallback(document.getElementById("storyVoiceStatus"));
+    }
+  });
+  updateStoryReplayButton();
+  cacheVoiceFallbackAssets();
 }
 function renderHookSummary() {
   const lines = buildThreeLineHook();
@@ -3263,11 +3400,17 @@ function renderHookSummary() {
         <strong>ฟังเรื่องราวชีวิตของคุณใน 1 นาที</strong>
         <p>กดเพื่อให้ระบบเรียบเรียงข้อมูลดิบให้เป็นเรื่องเล่าสั้น ๆ จากพลังในตัวคุณ ไปสู่จังหวะชีวิตจริงที่กำลังเดินอยู่ตอนนี้ พร้อมเสียงอ่านภาษาไทย</p>
       </div>
-      <button class="story-summary-button" id="storySummaryButton" type="button" aria-controls="storySummaryOutput">
-        <b aria-hidden="true">🔊</b>
-        <span>ฟังสรุปชีวิตแบบเล่าเรื่อง พร้อมเสียงอ่าน</span>
-      </button>
-      <div class="story-voice-status" id="storyVoiceStatus">กดปุ่มแล้วเสียงจะเริ่มอ่านจาก browser ของคุณ</div>
+      <div class="story-voice-actions">
+        <button class="story-summary-button" id="storySummaryButton" type="button" aria-controls="storySummaryOutput">
+          <b aria-hidden="true">🔊</b>
+          <span>ฟังสรุปชีวิตแบบเล่าเรื่อง พร้อมเสียงอ่าน</span>
+        </button>
+        <button class="story-replay-button" id="storyReplayButton" type="button" disabled>
+          <b aria-hidden="true">↻</b>
+          <span>เปิดบทอ่านล่าสุดอีกครั้ง</span>
+        </button>
+      </div>
+      <div class="story-voice-status" id="storyVoiceStatus">กดปุ่มแล้วระบบจะอ่านด้วยเสียง browser และเก็บบทอ่านไว้ในเครื่องนี้</div>
       <div class="story-summary-output" id="storySummaryOutput" hidden></div>
     </article>
   `);
