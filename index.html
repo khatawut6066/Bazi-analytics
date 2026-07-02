@@ -269,13 +269,24 @@
 
     <div hidden id="popularQuestionButtons"></div>
     <div hidden id="popularQuestionAnswer"></div>
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script>
-      if ("serviceWorker" in navigator && location.protocol === "https:") {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker.register("./sw.js").catch(() => undefined);
-        });
-      }
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>    <script>
+      (() => {
+        try {
+          localStorage.removeItem("bazi:last-story-narration:v1");
+          if ("caches" in window) {
+            caches.keys().then((keys) => keys
+              .filter((key) => key.startsWith("bazi-static-") || key === "bazi-story-audio-v1")
+              .forEach((key) => caches.delete(key)));
+          }
+          if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.getRegistrations()
+              .then((registrations) => registrations.forEach((registration) => registration.unregister()))
+              .catch(() => undefined);
+          }
+        } catch (error) {
+          console.warn("Unable to clear old reading cache", error);
+        }
+      })();
     </script>    <script src="./app-audio.js"></script>
   </body>
 </html>
