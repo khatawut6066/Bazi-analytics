@@ -3258,7 +3258,7 @@ function typeStoryParagraphs(container, paragraphs) {
 function fallbackStorySummaryScript() {
   return [
     "ตอนนี้ระบบสรุปชีวิตสะดุดนิดหน่อย แต่ไม่ต้องกังวลนะ ข้อมูลหลักของดวงยังอยู่ครบ ลองกดอ่านอีกครั้งหรือเลื่อนดูหัวข้อถัดไปได้เลย",
-    "ถ้าเสียงยังไม่ดัง อาจเป็นเพราะ browser ยังไม่อนุญาตเสียงอ่านอัตโนมัติ ข้อความบนหน้านี้จึงถูกเปิดให้อ่านก่อน เพื่อไม่ให้คุณต้องรอแบบเงียบ ๆ",
+    "บทอ่านนี้ถูกเก็บไว้ในเครื่องนี้ให้เปิดซ้ำได้ในภายหลัง เหมาะกับการกลับมาอ่านตอนมีเวลานิ่ง ๆ โดยไม่ต้องพึ่งเสียงสังเคราะห์ที่ฟังไม่เป็นธรรมชาติ",
   ];
 }
 
@@ -3266,13 +3266,13 @@ function resetStoryVoiceButton(button, statusText = "พร้อมฟังอ
   if (!button) return;
   button.dataset.speaking = "false";
   button.classList.remove("is-speaking");
-  button.querySelector("b").textContent = "🔊";
-  button.querySelector("span").textContent = "ฟังสรุปชีวิตแบบเล่าเรื่อง พร้อมเสียงอ่าน";
+  button.querySelector("b").textContent = "📖";
+  button.querySelector("span").textContent = "อ่านสรุปชีวิตแบบเล่าเรื่อง";
   const status = document.getElementById("storyVoiceStatus");
   if (status) status.textContent = statusText;
 }
 
-function stopStoryNarration(button, statusText = "หยุดเสียงเล่าแล้ว") {
+function stopStoryNarration(button, statusText = "ปิดโหมดอ่านซ้ำแล้ว") {
   if (storySummaryTimer) window.clearTimeout(storySummaryTimer);
   document.getElementById("storySummaryOutput")?.classList.remove("is-revealing");
   if ("speechSynthesis" in window) window.speechSynthesis.cancel();
@@ -3289,47 +3289,8 @@ function chooseThaiVoice() {
 
 function speakStorySummary(paragraphs, button) {
   const status = document.getElementById("storyVoiceStatus");
-  if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
-    if (status) status.textContent = "เครื่องนี้ยังไม่รองรับเสียงอ่านอัตโนมัติ กำลังลองเปิดไฟล์เสียงสำรองจาก cache";
-    playCachedVoiceFallback(status).then((played) => {
-      if (!played) {
-        if (status) status.textContent = "ยังไม่มีไฟล์เสียงสำรองใน cache แต่ข้อความถูกเก็บไว้ให้อ่านซ้ำแล้ว";
-        showToast("เครื่องนี้ยังไม่รองรับเสียงอ่าน และยังไม่มีไฟล์เสียงสำรอง");
-      }
-    });
-    return;
-  }
-  try {
-    window.speechSynthesis.cancel();
-  } catch (error) {
-    console.warn("Unable to reset speech synthesis", error);
-  }
-  const utterance = new SpeechSynthesisUtterance(paragraphs.join("\n\n"));
-  utterance.lang = "th-TH";
-  utterance.rate = 0.92;
-  utterance.pitch = 1.02;
-  utterance.volume = 1;
-  const voice = chooseThaiVoice();
-  if (voice) utterance.voice = voice;
-  storySummaryUtterance = utterance;
-  button.dataset.speaking = "true";
-  button.classList.add("is-speaking");
-  button.querySelector("b").textContent = "⏸";
-  button.querySelector("span").textContent = "กำลังอ่านให้ฟัง · กดอีกครั้งเพื่อหยุด";
-  if (status) status.textContent = "กำลังอ่านออกเสียง ถ้าไม่ได้ยิน ลองเพิ่มเสียงเครื่องหรืออนุญาตเสียงใน browser";
-  utterance.onstart = () => {
-    if (status) status.textContent = "กำลังอ่านออกเสียงให้ฟังอยู่";
-  };
-  utterance.onend = () => resetStoryVoiceButton(button, "อ่านจบแล้ว ระบบเก็บบทอ่านไว้ในเครื่องนี้ให้เปิดซ้ำได้");
-  utterance.onerror = () => resetStoryVoiceButton(button, "เสียงอ่านสะดุดนิดหน่อย แต่ยังอ่านข้อความบนหน้าได้ครบ");
-  window.speechSynthesis.speak(utterance);
-  window.setTimeout(() => {
-    try {
-      window.speechSynthesis.resume?.();
-    } catch (error) {
-      console.warn("Unable to resume speech synthesis", error);
-    }
-  }, 120);
+  if (status) status.textContent = "เปิดบทสรุปให้อ่านแล้ว และเก็บไว้ในเครื่องนี้ให้กลับมาอ่านซ้ำได้";
+  resetStoryVoiceButton(button, "บทอ่านพร้อมแล้ว กดปุ่มเปิดบทอ่านล่าสุดเพื่อกลับมาอ่านซ้ำได้");
 }
 
 function bindStorySummaryButton() {
@@ -3374,7 +3335,7 @@ function bindStorySummaryButton() {
       speakStorySummary(cached.paragraphs, button);
     } catch (error) {
       console.error("Unable to replay story narration", error);
-      playCachedVoiceFallback(document.getElementById("storyVoiceStatus"));
+      resetStoryVoiceButton(button, "เปิดบทอ่านซ้ำแล้ว ไม่มีการใช้เสียงสังเคราะห์");
     }
   });
   updateStoryReplayButton();
@@ -3398,19 +3359,19 @@ function renderHookSummary() {
       <div class="story-summary-copy">
         <span>สรุปพิเศษแบบเล่าเรื่อง</span>
         <strong>ฟังเรื่องราวชีวิตของคุณใน 1 นาที</strong>
-        <p>กดเพื่อให้ระบบเรียบเรียงข้อมูลดิบให้เป็นเรื่องเล่าสั้น ๆ จากพลังในตัวคุณ ไปสู่จังหวะชีวิตจริงที่กำลังเดินอยู่ตอนนี้ พร้อมเสียงอ่านภาษาไทย</p>
+        <p>กดเพื่อให้ระบบเรียบเรียงข้อมูลดิบให้เป็นเรื่องเล่าสั้น ๆ จากพลังในตัวคุณ ไปสู่จังหวะชีวิตจริงที่กำลังเดินอยู่ตอนนี้ แล้วเก็บไว้กลับมาอ่านซ้ำได้</p>
       </div>
       <div class="story-voice-actions">
         <button class="story-summary-button" id="storySummaryButton" type="button" aria-controls="storySummaryOutput">
-          <b aria-hidden="true">🔊</b>
-          <span>ฟังสรุปชีวิตแบบเล่าเรื่อง พร้อมเสียงอ่าน</span>
+          <b aria-hidden="true">📖</b>
+          <span>อ่านสรุปชีวิตแบบเล่าเรื่อง</span>
         </button>
         <button class="story-replay-button" id="storyReplayButton" type="button" disabled>
           <b aria-hidden="true">↻</b>
           <span>เปิดบทอ่านล่าสุดอีกครั้ง</span>
         </button>
       </div>
-      <div class="story-voice-status" id="storyVoiceStatus">กดปุ่มแล้วระบบจะอ่านด้วยเสียง browser และเก็บบทอ่านไว้ในเครื่องนี้</div>
+      <div class="story-voice-status" id="storyVoiceStatus">กดปุ่มแล้วระบบจะเปิดบทสรุปและเก็บไว้ในเครื่องนี้ให้อ่านซ้ำ</div>
       <div class="story-summary-output" id="storySummaryOutput" hidden></div>
     </article>
   `);

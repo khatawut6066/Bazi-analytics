@@ -1423,7 +1423,7 @@ canvas {
   line-height: 1.45;
 }
 .story-voice-status::before {
-  content: "เสียง";
+  content: "อ่าน";
   color: var(--accent);
 }
 @keyframes storyPulse {
