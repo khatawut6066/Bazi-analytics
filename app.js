@@ -3114,6 +3114,7 @@ function buildThreeLineHook() {
 
 
 let storySummaryTimer = null;
+let storySummaryUtterance = null;
 
 function buildStorySummaryScript() {
   const name = document.getElementById("clientName")?.value || "คุณ";
@@ -3135,14 +3136,10 @@ function buildStorySummaryScript() {
   ];
 }
 
-function typeStoryParagraphs(container, paragraphs, button) {
+function typeStoryParagraphs(container, paragraphs) {
   if (storySummaryTimer) window.clearTimeout(storySummaryTimer);
   container.innerHTML = paragraphs.map(() => `<p></p>`).join("");
   container.classList.add("is-revealing");
-  if (button) {
-    button.disabled = true;
-    button.querySelector("span").textContent = "กำลังเล่าเรื่องของคุณ...";
-  }
   const nodes = [...container.querySelectorAll("p")];
   let paragraphIndex = 0;
   let charIndex = 0;
@@ -3160,13 +3157,59 @@ function typeStoryParagraphs(container, paragraphs, button) {
       storySummaryTimer = window.setTimeout(writeNext, 120);
       return;
     }
-    if (button) {
-      button.disabled = false;
-      button.querySelector("span").textContent = "เล่าอีกครั้งแบบช้า ๆ";
-    }
     container.classList.remove("is-revealing");
   };
   writeNext();
+}
+
+function resetStoryVoiceButton(button, statusText = "พร้อมฟังอีกครั้ง") {
+  if (!button) return;
+  button.dataset.speaking = "false";
+  button.classList.remove("is-speaking");
+  button.querySelector("b").textContent = "🔊";
+  button.querySelector("span").textContent = "ฟังสรุปชีวิตแบบเล่าเรื่อง พร้อมเสียงอ่าน";
+  const status = document.getElementById("storyVoiceStatus");
+  if (status) status.textContent = statusText;
+}
+
+function stopStoryNarration(button, statusText = "หยุดเสียงเล่าแล้ว") {
+  if (storySummaryTimer) window.clearTimeout(storySummaryTimer);
+  document.getElementById("storySummaryOutput")?.classList.remove("is-revealing");
+  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  storySummaryUtterance = null;
+  resetStoryVoiceButton(button, statusText);
+}
+
+function chooseThaiVoice() {
+  if (!("speechSynthesis" in window)) return null;
+  const voices = window.speechSynthesis.getVoices?.() || [];
+  return voices.find((voice) => /th|thai/i.test(`${voice.lang} ${voice.name}`)) || voices.find((voice) => /Google|Microsoft/i.test(voice.name)) || voices[0] || null;
+}
+
+function speakStorySummary(paragraphs, button) {
+  const status = document.getElementById("storyVoiceStatus");
+  if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
+    if (status) status.textContent = "เครื่องนี้ยังไม่รองรับเสียงอ่านอัตโนมัติ แต่ข้อความสรุปเปิดให้อ่านแล้ว";
+    showToast("เครื่องนี้ยังไม่รองรับเสียงอ่านอัตโนมัติ");
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(paragraphs.join("\n\n"));
+  utterance.lang = "th-TH";
+  utterance.rate = 0.92;
+  utterance.pitch = 1.02;
+  utterance.volume = 1;
+  const voice = chooseThaiVoice();
+  if (voice) utterance.voice = voice;
+  storySummaryUtterance = utterance;
+  button.dataset.speaking = "true";
+  button.classList.add("is-speaking");
+  button.querySelector("b").textContent = "⏸";
+  button.querySelector("span").textContent = "กำลังอ่านให้ฟัง · กดอีกครั้งเพื่อหยุด";
+  if (status) status.textContent = "กำลังอ่านออกเสียง ถ้าไม่ได้ยิน ลองเพิ่มเสียงเครื่องหรืออนุญาตเสียงใน browser";
+  utterance.onend = () => resetStoryVoiceButton(button, "อ่านจบแล้ว จะฟังซ้ำก็กดปุ่มนี้ได้เลย");
+  utterance.onerror = () => resetStoryVoiceButton(button, "เสียงอ่านสะดุดนิดหน่อย แต่ยังอ่านข้อความบนหน้าได้ครบ");
+  window.speechSynthesis.speak(utterance);
 }
 
 function bindStorySummaryButton() {
@@ -3174,8 +3217,14 @@ function bindStorySummaryButton() {
   const output = document.getElementById("storySummaryOutput");
   if (!button || !output) return;
   button.addEventListener("click", () => {
+    if (button.dataset.speaking === "true") {
+      stopStoryNarration(button);
+      return;
+    }
+    const paragraphs = buildStorySummaryScript();
     output.hidden = false;
-    typeStoryParagraphs(output, buildStorySummaryScript(), button);
+    typeStoryParagraphs(output, paragraphs);
+    speakStorySummary(paragraphs, button);
   });
 }
 function renderHookSummary() {
@@ -3196,12 +3245,13 @@ function renderHookSummary() {
       <div class="story-summary-copy">
         <span>สรุปพิเศษแบบเล่าเรื่อง</span>
         <strong>ฟังเรื่องราวชีวิตของคุณใน 1 นาที</strong>
-        <p>กดเพื่อให้ระบบเรียบเรียงข้อมูลดิบให้เป็นเรื่องเล่าสั้น ๆ จากพลังในตัวคุณ ไปสู่จังหวะชีวิตจริงที่กำลังเดินอยู่ตอนนี้</p>
+        <p>กดเพื่อให้ระบบเรียบเรียงข้อมูลดิบให้เป็นเรื่องเล่าสั้น ๆ จากพลังในตัวคุณ ไปสู่จังหวะชีวิตจริงที่กำลังเดินอยู่ตอนนี้ พร้อมเสียงอ่านภาษาไทย</p>
       </div>
       <button class="story-summary-button" id="storySummaryButton" type="button" aria-controls="storySummaryOutput">
-        <b aria-hidden="true">📖</b>
-        <span>คลิกอ่านสรุปชีวิตคุณ: จากพลังธาตุสู่เส้นทางจริง</span>
+        <b aria-hidden="true">🔊</b>
+        <span>ฟังสรุปชีวิตแบบเล่าเรื่อง พร้อมเสียงอ่าน</span>
       </button>
+      <div class="story-voice-status" id="storyVoiceStatus">กดปุ่มแล้วเสียงจะเริ่มอ่านจาก browser ของคุณ</div>
       <div class="story-summary-output" id="storySummaryOutput" hidden></div>
     </article>
   `);

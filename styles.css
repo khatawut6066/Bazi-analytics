@@ -1398,3 +1398,39 @@ canvas {
   .story-summary-panel { grid-template-columns: 1fr; }
   .story-summary-button { width: 100%; max-width: none; }
 }
+
+.story-summary-button.is-speaking {
+  background: linear-gradient(135deg, #7b4b17, #c2792b 58%, #1f6b55);
+  box-shadow: 0 20px 42px rgba(194, 121, 43, 0.24);
+}
+.story-summary-button.is-speaking b {
+  animation: storyPulse 1.1s ease-in-out infinite;
+}
+.story-voice-status {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 8px 11px;
+  border: 1px solid rgba(31, 107, 85, 0.16);
+  border-radius: 999px;
+  color: var(--muted);
+  background: rgba(237, 246, 243, 0.68);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+.story-voice-status::before {
+  content: "เสียง";
+  color: var(--accent);
+}
+@keyframes storyPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@media (max-width: 720px) {
+  .story-voice-status { width: 100%; border-radius: var(--radius); }
+}
