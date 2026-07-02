@@ -3112,6 +3112,72 @@ function buildThreeLineHook() {
   ];
 }
 
+
+let storySummaryTimer = null;
+
+function buildStorySummaryScript() {
+  const name = document.getElementById("clientName")?.value || "คุณ";
+  const masterVoice = getPremiumMasterVoice();
+  const dominant = getDominantElement();
+  const weakest = getWeakestElement();
+  const topTrait = getTopTrait();
+  const item = orderedPresentLuck();
+  const guardian = getGuardianElementLabel().replace(/<[^>]+>/g, "");
+  const dominantLabel = premiumElementLabel(dominant.key).replace(/<[^>]+>/g, "");
+  const weakestLabel = premiumElementLabel(weakest.key).replace(/<[^>]+>/g, "");
+  const chapter = item?.chapter?.title || "บทที่ชีวิตกำลังค่อย ๆ เปิดให้เห็นทางของตัวเอง";
+  const ageText = item?.ageRangeLabel ? `ในช่วงอายุ ${item.ageRangeLabel}` : "ในช่วงเวลานี้";
+
+  return [
+    `${name} มีจังหวะชีวิตที่คล้าย ${masterVoice.image} ภายนอกอาจดูนิ่งหรือปรับตัวเก่ง แต่ข้างในมีความต้องการเติบโตในแบบที่ไม่ต้องฝืนตัวเองมากเกินไป เมื่ออยู่ในพื้นที่ที่ใช่ คุณจะค่อย ๆ เปิดเสน่ห์ ความคิด และแรงสร้างสรรค์ออกมาอย่างเป็นธรรมชาติ`,
+    `พลังที่เห็นชัดตอนนี้คือ ${dominantLabel} จึงทำให้คุณรับมือกับเรื่อง ${elementArchetypes[dominant.key]} ได้ดี จุดแข็งนี้มักออกมาในสถานการณ์จริง เช่น ตอนต้องจัดลำดับงาน คุยกับคนสำคัญ หรือเลือกว่าจะให้พลังกับเรื่องไหนก่อน แต่จุดที่ควรดูแลคือ ${weakestLabel} เพราะถ้าปล่อยให้ชีวิตรีบเกินไป ใจอาจเหนื่อยก่อนที่ผลลัพธ์จะมาถึง`,
+    `${ageText} ชีวิตกำลังเล่าบทที่ชื่อว่า “${chapter}” แก่นของช่วงนี้ไม่ใช่การรีบพิสูจน์ทุกอย่าง แต่คือการเลือกทางที่ทำให้ ${topTrait.label} ถูกใช้ให้จับต้องได้มากขึ้น ถ้าจะเริ่มจากก้าวเล็ก ๆ ให้ใช้ ${guardian} เป็นเข็มทิศ แล้วถามตัวเองว่า เรื่องนี้ทำให้ใจนิ่งขึ้น เห็นทางชัดขึ้น และยังเหลือแรงให้ชีวิตส่วนตัวอยู่ไหม`,
+  ];
+}
+
+function typeStoryParagraphs(container, paragraphs, button) {
+  if (storySummaryTimer) window.clearTimeout(storySummaryTimer);
+  container.innerHTML = paragraphs.map(() => `<p></p>`).join("");
+  container.classList.add("is-revealing");
+  if (button) {
+    button.disabled = true;
+    button.querySelector("span").textContent = "กำลังเล่าเรื่องของคุณ...";
+  }
+  const nodes = [...container.querySelectorAll("p")];
+  let paragraphIndex = 0;
+  let charIndex = 0;
+  const writeNext = () => {
+    const text = paragraphs[paragraphIndex] || "";
+    nodes[paragraphIndex].textContent = text.slice(0, charIndex);
+    charIndex += 8;
+    if (charIndex <= text.length + 8) {
+      storySummaryTimer = window.setTimeout(writeNext, 18);
+      return;
+    }
+    paragraphIndex += 1;
+    charIndex = 0;
+    if (paragraphIndex < paragraphs.length) {
+      storySummaryTimer = window.setTimeout(writeNext, 120);
+      return;
+    }
+    if (button) {
+      button.disabled = false;
+      button.querySelector("span").textContent = "เล่าอีกครั้งแบบช้า ๆ";
+    }
+    container.classList.remove("is-revealing");
+  };
+  writeNext();
+}
+
+function bindStorySummaryButton() {
+  const button = document.getElementById("storySummaryButton");
+  const output = document.getElementById("storySummaryOutput");
+  if (!button || !output) return;
+  button.addEventListener("click", () => {
+    output.hidden = false;
+    typeStoryParagraphs(output, buildStorySummaryScript(), button);
+  });
+}
 function renderHookSummary() {
   const lines = buildThreeLineHook();
   orderedSetHtml("hookSummary", `
@@ -3126,7 +3192,20 @@ function renderHookSummary() {
         <p>${line.copy}</p>
       </article>
     `).join("")}
+    <article class="story-summary-panel">
+      <div class="story-summary-copy">
+        <span>สรุปพิเศษแบบเล่าเรื่อง</span>
+        <strong>ฟังเรื่องราวชีวิตของคุณใน 1 นาที</strong>
+        <p>กดเพื่อให้ระบบเรียบเรียงข้อมูลดิบให้เป็นเรื่องเล่าสั้น ๆ จากพลังในตัวคุณ ไปสู่จังหวะชีวิตจริงที่กำลังเดินอยู่ตอนนี้</p>
+      </div>
+      <button class="story-summary-button" id="storySummaryButton" type="button" aria-controls="storySummaryOutput">
+        <b aria-hidden="true">📖</b>
+        <span>คลิกอ่านสรุปชีวิตคุณ: จากพลังธาตุสู่เส้นทางจริง</span>
+      </button>
+      <div class="story-summary-output" id="storySummaryOutput" hidden></div>
+    </article>
   `);
+  bindStorySummaryButton();
 }
 
 function buildHospitalityEnergyGuide() {
